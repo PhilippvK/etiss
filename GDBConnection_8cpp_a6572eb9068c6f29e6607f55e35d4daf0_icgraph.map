@@ -1,0 +1,12 @@
+<map id="PacketProtocol_findUE" name="PacketProtocol_findUE">
+<area shape="rect" id="node2" href="$GDBConnection_8cpp.html#aa038d1d4b0f985e4bfda1fbf4b4bf2c7" title="PacketProtocol_findResponse" alt="" coords="228,21,439,47"/>
+<area shape="rect" id="node9" href="$GDBConnection_8cpp.html#a1cd4fd6295c013cc7a119e7726917e97" title="PacketProtocol_getPacket\lStart" alt="" coords="239,72,428,113"/>
+<area shape="rect" id="node10" href="$classetiss_1_1plugin_1_1gdb_1_1PacketProtocol.html#a9bfacf5954fabcf35438d3ba5b160540" title="etiss::plugin::gdb\l::PacketProtocol::tryReadPacket" alt="" coords="220,137,447,179"/>
+<area shape="rect" id="node3" href="$classetiss_1_1plugin_1_1gdb_1_1PacketProtocol.html#a197b158da05621146982c6275867b063" title="etiss::plugin::gdb\l::PacketProtocol::snd" alt="" coords="517,28,674,69"/>
+<area shape="rect" id="node4" href="$classetiss_1_1plugin_1_1gdb_1_1PacketProtocol.html#a7ebfd4afe2d4d7f708c86468a48bc6ae" title="etiss::plugin::gdb\l::PacketProtocol::available" alt="" coords="744,105,939,147"/>
+<area shape="rect" id="node6" href="$classetiss_1_1plugin_1_1gdb_1_1Server.html#ae641aef3a8187459a89c40a473d6ab0a" title="etiss::plugin::gdb\l::Server::handlePacket" alt="" coords="1189,92,1356,133"/>
+<area shape="rect" id="node7" href="$classetiss_1_1plugin_1_1gdb_1_1Server.html#af2d20da879692be332064d7e082f2833" title="etiss::plugin::gdb\l::Server::preInstructionCallback" alt="" coords="1404,5,1631,47"/>
+<area shape="rect" id="node5" href="$classetiss_1_1plugin_1_1gdb_1_1PacketProtocol.html#a47a5284b39fbee7259d6d55163e400aa" title="etiss::plugin::gdb\l::PacketProtocol::rcv" alt="" coords="987,104,1141,145"/>
+<area shape="rect" id="node8" href="$classetiss_1_1plugin_1_1gdb_1_1Server.html#a0b42a227476616e0e6b7788661a1bd14" title="called before a block and may act in the same way as a block " alt="" coords="1451,92,1584,133"/>
+<area shape="rect" id="node11" href="$classetiss_1_1plugin_1_1gdb_1_1PacketProtocol.html#aa4855c1c4e0dbdb68cf32f459094b5a1" title="etiss::plugin::gdb\l::PacketProtocol::_available" alt="" coords="495,108,696,149"/>
+</map>

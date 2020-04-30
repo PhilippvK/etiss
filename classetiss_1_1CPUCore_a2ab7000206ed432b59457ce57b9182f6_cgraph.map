@@ -1,0 +1,47 @@
+<map id="etiss::CPUCore::execute" name="etiss::CPUCore::execute">
+<area shape="rect" id="node2" href="$classetiss_1_1CPUCore.html#a3abad91e823939228f7db1596e040c19" title="Start the simulation of the CPU core for the system model. " alt="" coords="232,996,411,1023"/>
+<area shape="rect" id="node39" href="$namespaceetiss.html#af59cc5db7ebb8232109dff7b49be389f" title="wraps a etiss::System in a ETISS_System structure. " alt="" coords="275,1503,368,1529"/>
+<area shape="rect" id="node3" href="$namespaceetiss.html#abea8444fc010e2490f2486e2ededde88" title="Get reference of the global ETISS configuration object. " alt="" coords="1089,869,1171,896"/>
+<area shape="rect" id="node4" href="$namespaceetiss.html#afd320e98bf6a5e2c0d8ffde5dd28dd35" title="write log message at the given level. " alt="" coords="1336,869,1417,896"/>
+<area shape="rect" id="node5" href="$namespaceetiss.html#a5d23a51a17c09f1b863c601d4454f99b" title="conversion of type T to std::string. " alt="" coords="1513,271,1625,297"/>
+<area shape="rect" id="node7" href="$CPUCore_8cpp.html#ac2530ba9f6c6c641f64cbabfededd5fb" title="small helper function to handle exceptions. " alt="" coords="459,144,691,171"/>
+<area shape="rect" id="node13" href="$c_2etiss_2jit_2System_8h.html#ae3603796aa7a9923ff821d6d6ac14a3c" title="ETISS_System_isvalid" alt="" coords="493,971,657,997"/>
+<area shape="rect" id="node14" href="$classetiss_1_1Translation.html#a8a71d620ec906f57f2f2dfc4c6565bd8" title="CALL THIS function NOT getBlock(...) since getBlock will not check next/branch references. " alt="" coords="509,37,641,78"/>
+<area shape="rect" id="node15" href="$group__ETISS__Frontend.html#ga03edc9a6d65e4853824c46ba162e9f4c" title="Get the default JIT implementation. " alt="" coords="501,1249,648,1276"/>
+<area shape="rect" id="node17" href="$classetiss_1_1Plugin.html#aedc9f2597aff23049e720d7d7397f637" title="etiss::Plugin::getPluginName" alt="" coords="470,1148,679,1175"/>
+<area shape="rect" id="node19" href="$classetiss_1_1Translation.html#ac02e73b182ab60738e243911d823919e" title="etiss::Translation\l::init" alt="" coords="509,570,641,611"/>
+<area shape="rect" id="node31" href="$CPUCore_8cpp.html#ac5dbba2d75187157f2e3b1aedde816fa" title="generates test code to check alignment of structures in the just in time compiler ..." alt="" coords="497,1021,653,1048"/>
+<area shape="rect" id="node38" href="$CPUCore_8cpp.html#ae51fb769d341f02e0d1e4990e73eaee6" title="generates and compiles test code for the just in time compiler to check size of basic types ..." alt="" coords="515,1072,634,1099"/>
+<area shape="rect" id="node6" href="$namespaceetiss.html#a160483ffeeb252cc1140206d2248c3a9" title="etiss::split" alt="" coords="1673,271,1763,297"/>
+<area shape="rect" id="node8" href="$classetiss_1_1CPUArch.html#af7f949bf98cf21778e678ce64c7d16a7" title="translate/process exceptions that occur at runtime " alt="" coords="739,119,972,145"/>
+<area shape="rect" id="node9" href="$classetiss_1_1Translation.html#a629d9a57865196c13a6d12a3ca35e281" title="etiss::Translation\l::unloadBlocks" alt="" coords="789,53,921,94"/>
+<area shape="rect" id="node10" href="$classetiss_1_1BlockLink.html#a1ced1f1fce9298dc04ed67a0a7c9013d" title="change the value of a BlockLink pointer. " alt="" coords="1031,5,1229,32"/>
+<area shape="rect" id="node12" href="$classetiss_1_1BlockLink.html#a5d75299063f1f299496b7d8dd1c2b72a" title="decrease reference count to a BlockLink and delete the instance if no other references exist ..." alt="" coords="1039,60,1221,87"/>
+<area shape="rect" id="node11" href="$classetiss_1_1BlockLink.html#ab471983345198083ff7087ab886c5de4" title="increase reference count to a BlockLink " alt="" coords="1288,5,1465,32"/>
+<area shape="rect" id="node16" href="$group__ETISS__Frontend.html#gaa5e8c6d44d5e6b27cb4384e60c557283" title="Get a present JIT plug&#45;in by name. " alt="" coords="1081,1249,1179,1276"/>
+<area shape="rect" id="node18" href="$classetiss_1_1Plugin.html#a20e7dc624add4ebea9c4ec052bc2838c" title="etiss::Plugin::_getPluginName" alt="" coords="747,1224,963,1251"/>
+<area shape="rect" id="node20" href="$classetiss_1_1CPUArch.html#afef2dfd20d2938ddfebbfdec931b97ad" title="returns the name of this architecture. " alt="" coords="763,636,948,663"/>
+<area shape="rect" id="node21" href="$classetiss_1_1Plugin.html#a3363a09962310ceb9e1bafefa10b15d7" title="etiss::Plugin::getTranslation\lPlugin" alt="" coords="755,687,956,729"/>
+<area shape="rect" id="node22" href="$classetiss_1_1TranslationPlugin.html#ad35e0ee4d19fe3977b436f9a357c5718" title="called to get the handle that is available in translated code via getPoinerCode(). [default: this] " alt="" coords="769,753,941,794"/>
+<area shape="rect" id="node23" href="$classetiss_1_1TranslationPlugin.html#a69308a8f7a1bff3115038e20802f631e" title="called to add instructions to the instruction set " alt="" coords="769,322,941,363"/>
+<area shape="rect" id="node24" href="$classetiss_1_1TranslationPlugin.html#a330795165b5b1c4f5ed83b45e9f93e13" title="called after all instructions have been added to allow last changes " alt="" coords="769,387,941,429"/>
+<area shape="rect" id="node25" href="$classetiss_1_1instr_1_1ModedInstructionSet.html#a11e34354ba3d04d12d322c5ca454f0ff" title="etiss::instr::ModedInstruction\lSet::compile" alt="" coords="750,570,961,611"/>
+<area shape="rect" id="node27" href="$namespaceetiss.html#ad10f6255918242d6792fed63a2dd7f0f" title="etiss::call_initCodeBlock_ul" alt="" coords="755,453,955,480"/>
+<area shape="rect" id="node29" href="$namespaceetiss.html#aee33012f7eee57858b610543b0686c22" title="etiss::call_finalizeCode\lBlock_ul" alt="" coords="770,505,941,546"/>
+<area shape="rect" id="node26" href="$classetiss_1_1instr_1_1VariableInstructionSet.html#aa1565f073ad9d25111e059d9885bc4f8" title="etiss::instr::VariableInstruction\lSet::compile" alt="" coords="1020,662,1240,703"/>
+<area shape="rect" id="node28" href="$classetiss_1_1TranslationPlugin.html#a2aadada06ec498ac2b0805c55731257a" title="called before instructions are translated for the code block " alt="" coords="1044,443,1216,485"/>
+<area shape="rect" id="node30" href="$classetiss_1_1TranslationPlugin.html#a3b06657eceef18ce843ac3fd5c934c39" title="called after all instructions have been translated for the code block " alt="" coords="1044,509,1216,550"/>
+<area shape="rect" id="node32" href="$classetiss_1_1JIT.html#a8b0a1d20d5360cdce438defe1a72585b" title="clean up handled returned by etiss::JIT::translate " alt="" coords="800,971,911,997"/>
+<area shape="rect" id="node33" href="$classetiss_1_1JIT.html#a16474107f2b37e6eca1af57d4d99ae8a" title="returns a function pointer to a compiled function from the handle returned by etiss::JIT::translate ..." alt="" coords="776,1021,935,1048"/>
+<area shape="rect" id="node34" href="$namespaceetiss.html#a168c0e84fcf327b17c974b8d630195d2" title="Get ETISS JIT files path. " alt="" coords="804,1072,907,1099"/>
+<area shape="rect" id="node37" href="$classetiss_1_1JIT.html#a0bed1055834c403f6e201b5dc262df49" title="translate C code to executable code and return a handle/pointer that identifies the compilation resul..." alt="" coords="784,1123,927,1149"/>
+<area shape="rect" id="node35" href="$namespaceetiss.html#ac13036cc1551f0b79ff2a933b940b6c7" title="evaluates the endianness of the current build as a constexpr. " alt="" coords="1052,1047,1208,1073"/>
+<area shape="rect" id="node36" href="$namespaceetiss.html#a761a0deca67e861a7993543b22fd7ca8" title="Get ETISS installation directory. " alt="" coords="1070,1097,1190,1124"/>
+<area shape="rect" id="node40" href="$System_8cpp.html#a36be1c748d8b8d235e9d7139ca8055ae" title="system_call_dbg_read" alt="" coords="491,1579,658,1605"/>
+<area shape="rect" id="node41" href="$System_8cpp.html#ae4ef331abfdb73d3450204661151c384" title="system_call_dbg_write" alt="" coords="489,1629,660,1656"/>
+<area shape="rect" id="node42" href="$System_8cpp.html#a8fa863740ddeeaac5e61fef184f6f8e8" title="system_call_dread" alt="" coords="503,1680,647,1707"/>
+<area shape="rect" id="node43" href="$System_8cpp.html#a7513122b7fd44d34e692566b696f9e2c" title="system_call_dwrite" alt="" coords="501,1376,649,1403"/>
+<area shape="rect" id="node44" href="$System_8cpp.html#a6936afb2086e15653852c7143e44aa12" title="system_call_iread" alt="" coords="505,1427,645,1453"/>
+<area shape="rect" id="node45" href="$System_8cpp.html#aedf5d86652f8ed248466d8b84886bf9a" title="system_call_iwrite" alt="" coords="503,1477,647,1504"/>
+<area shape="rect" id="node46" href="$System_8cpp.html#a34156976ca73ad8384a0811962961841" title="system_call_syncTime" alt="" coords="489,1528,660,1555"/>
+</map>
