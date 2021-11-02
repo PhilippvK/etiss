@@ -149,6 +149,16 @@ class CPUArchDefaultPlugins
             @return may be 0
     */
     virtual void deleteTimer(etiss::Plugin *timer);
+    /**
+            @brief create a simple default clint implementaion instance for this architecture.
+            @return may be 0
+    */
+    virtual etiss::Plugin *newClint(ETISS_CPU *cpu);
+    /**
+            @brief delete clint instance
+            @return may be 0
+    */
+    virtual void deleteClint(etiss::Plugin *clint);
 };
 
 /**

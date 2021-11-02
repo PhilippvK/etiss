@@ -221,6 +221,19 @@ class CPUCore : public VirtualStructSupport, public etiss::ToString
     }
 
     /**
+     * @brief Enable or disable the clint of the CPU.
+     *
+     * @note Has no effect if the architecture does not support a clint.
+     *
+     * @param on true to enable the clint / false to disable the clint
+     */
+    inline void setClint(bool on)
+    {
+        std::lock_guard<std::mutex> lock(mu_);
+        clint_enabled_ = on;
+    }
+
+    /**
      * @brief Adds a plug-in to the core simulator.
      *
      * @details See the different plug-in classes, for information on how the
@@ -382,6 +395,7 @@ class CPUCore : public VirtualStructSupport, public etiss::ToString
     etiss::InterruptVector *intvector_;  /// cpu interrupt vector derived from cpu_ and allocated by arch_
     InterruptVectorWrapper *intwrapper_; /// wrapped interrupt vector to allow interrupt listening
     bool timer_enabled_; /// if true the a timer plugin allocated by arch_ will be added in CPUCore::execute
+    bool clint_enabled_; /// if true the a clint plugin allocated by arch_ will be added in CPUCore::execute
     std::shared_ptr<etiss::JIT>
         jit_;       /// JIT instance to use. may be 0 (etiss::getDefaultJIT() will be used in that case)
     std::mutex mu_; /// mutex to lock the configuration of this cpu core. etiss::CPUCore::execution holds this lock

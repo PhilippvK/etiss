@@ -48,5 +48,7 @@ ADD_LIBRARY(${PROJECT_NAME} SHARED
     RISCVArchLib.cpp
     RISCVArchSpecificImp.h
     RISCVGDBCore.h
+    RISCVClint.cpp
+    RISCVClint.h
 )
 ETISSPluginArch(${PROJECT_NAME})

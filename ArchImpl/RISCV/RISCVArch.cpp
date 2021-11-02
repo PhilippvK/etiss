@@ -225,6 +225,17 @@ etiss::plugin::gdb::GDBCore & RISCVArch::getGDBCore()
 	return gdbcore_;
 }
 
+// Manually added
+etiss::Plugin *RISCVArch::newClint(ETISS_CPU *cpu)
+{
+    return (etiss::Plugin *)new RISCVClint();
+}
+
+// Manually added
+void RISCVArch::deleteClint(etiss::Plugin *clint)
+{
+   delete clint;
+}
 static const char * const reg_name[] =
 {
 	"X0", 

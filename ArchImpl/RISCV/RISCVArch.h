@@ -52,6 +52,8 @@
 #include "etiss/CPUArch.h"
 #include "etiss/Instruction.h"
 #include "etiss/InterruptVector.h"
+// Manually added
+#include "RISCVClint.h"
 
 #include <map>
 
@@ -127,6 +129,12 @@ class RISCVArch : public etiss::CPUArch
             @see RISCVGDBCore.h for implementation of GDBcore
     */
     virtual etiss::plugin::gdb::GDBCore &getGDBCore();
+
+    // Manually added
+    etiss::Plugin *newClint(ETISS_CPU *cpu);
+
+    // Manually added
+    void deleteClint(etiss::Plugin *clint);
 
   private:
     std::set<std::string> listenerSupportedRegisters_;
