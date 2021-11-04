@@ -106,8 +106,10 @@ int main(int argc, const char *argv[])
 
     // disable timer plugin
     cpu->setTimer(false);
-    // disable clint plugin
+    // enable clint plugin
     cpu->setClint(true);
+    // enable uart plugin
+    cpu->setUart(true);
 
     // reset CPU with a manual start address
     cpu->reset(&sa);
