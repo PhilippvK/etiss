@@ -44,6 +44,14 @@
 #include "Encoding.h"
 #include "etiss/CPUArch.h"
 
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <errno.h>
+
 static etiss_int32 iread(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss_uint32 length)
 {
     RISCVUartSystem *lsys = ((RISCVUartSystem *)handle);
@@ -58,47 +66,65 @@ static etiss_int32 iwrite(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss
     return sys->iwrite(sys->handle, cpu, addr, buffer, length);
 }
 
-etiss_int32 dread(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss_uint8 *buffer, etiss_uint32 length)
+// TODO: fxixnduplicate declarartions by using classes
+etiss_int32 dread_(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss_uint8 *buffer, etiss_uint32 length)
 {
     RISCVUartSystem *lsys = ((RISCVUartSystem *)handle);
-    char *regs = t = lsys->this_->regs_;
-    // TODO: force length=1?
+    char *regs = lsys->this_->regs_;
+    // TODO: force length=1? and addr%4=0
     switch (addr & 0xfffffffc)
     {
-    case UART_REG_RBR:
-    case UART_REG_DLL:
-        if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB) {
-            memcpy(buffer, regs[UART_IDX_DLL] + (addr & 0x3), length);
-        } else {
-            // TODO: move to helper function
-            char data; // ???
-            regs[UART_IDX_RBR] = data;
-            regs[UART_IDX_LSR] = 0x61; // TODO: make more readable?
-            lsys->this->send_interrupt_ = true;
-            memcpy(buffer, regs[UART_IDX_RBR] + (addr & 0x3), length);
+    case UART_REG_RBR: // or UART_REG_DLL
+        if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
+        {
+            printf("READ DLL\n");
+            *buffer = regs[UART_IDX_DLL];
+        }
+        else
+        {
+            // regs[UART_IDX_RBR] = 0;
+            printf("READ RBR\n");
+            regs[UART_IDX_LSR] &= ~UART_MASK_LSR_DR;
+            *buffer = regs[UART_IDX_RBR];
         }
         break;
-    case UART_REG_IER:
-    case UART_REG_DLM:
-        if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB) {
-            memcpy(buffer, regs[UART_IDX_DLM] + (addr & 0x3), length);
-        } else {
-            memcpy(buffer, regs[UART_IDX_IER] + (addr & 0x3), length);
+    case UART_REG_IER: // or UART_REG_DLM:
+        if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
+        {
+            printf("READ DLM\n");
+            regs[UART_IDX_LSR] &= ~UART_MASK_LSR_DR; // why?
+            *buffer = regs[UART_IDX_DLM];
+        }
+        else
+        {
+            printf("READ IER\n");
+            *buffer = regs[UART_IDX_IER];
+            // TODO: handle interrupt enable
         }
         break;
     case UART_REG_IIR:
-        memcpy(buffer, regs[UART_IDX_IIR] + (addr & 0x3), length);
+        printf("READ IIR\n");
+        *buffer = regs[UART_IDX_IIR];
         break;
     case UART_REG_LCR:
-        memcpy(buffer, regs[UART_IDX_LCR] + (addr & 0x3), length);
+        printf("READ LCR\n");
+        *buffer = regs[UART_IDX_LCR];
+        break;
     case UART_REG_MCR:
-        memcpy(buffer, regs[UART_IDX_MCR] + (addr & 0x3), length);
+        printf("READ MCR\n");
+        *buffer = regs[UART_IDX_MCR];
+        break;
     case UART_REG_LSR:
-        memcpy(buffer, regs[UART_IDX_LSR] + (addr & 0x3), length);
+        printf("READ LSR\n");
+        *buffer = regs[UART_IDX_LSR];
+        break;
     case UART_REG_MSR:
-        memcpy(buffer, regs[UART_IDX_MSR] + (addr & 0x3), length);
+        printf("READ MSR\n");
+        *buffer = regs[UART_IDX_MSR];
+        break;
     case UART_REG_SCR:
-        memcpy(buffer, regs[UART_IDX_SCR] + (addr & 0x3), length);
+        printf("READ SCR\n");
+        *buffer = regs[UART_IDX_SCR];
         break;
     default:
         ETISS_System *sys = lsys->orig;
@@ -110,37 +136,58 @@ etiss_int32 dread(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss_uint8 *
 static etiss_int32 dwrite(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss_uint8 *buffer, etiss_uint32 length)
 {
     RISCVUartSystem *lsys = ((RISCVUartSystem *)handle);
+    char *regs = lsys->this_->regs_;
     switch (addr & 0xfffffffc)
     {
-    case UART_REG_THR:
-    case UART_REG_DLL:
-        if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB) {
-            memcpy(regs[UART_IDX_DLL] + (addr & 0x3), buffer, length);
-        } else {
-            memcpy(regs[UART_IDX_THR] + (addr & 0x3), buffer, length);
+    case UART_REG_THR: // or UART_REG_DLL
+        if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
+        {
+            printf("WRITE DLL\n");
+            regs[UART_IDX_DLL] = *buffer;
+        }
+        else
+        {
+            printf("WRITE THR\n");
+            regs[UART_IDX_THR] = *buffer;
+            regs[UART_IDX_LSR] &= ~UART_MASK_LSR_THRE;
         }
         break;
-    case UART_REG_IER:
-    case UART_REG_DLM:
-        if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB) {
-            memcpy(regs[UART_IDX_DLM] + (addr & 0x3), buffer, length);
-        } else {
-            memcpy(regs[UART_IDX_IER] + (addr & 0x3), buffer, length);
+    case UART_REG_IER: // or UART_REG_DLM
+        if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
+        {
+            printf("WRITE DLM\n");
+            regs[UART_IDX_DLM] = *buffer;
+        }
+        else
+        {
+            printf("WRITE IER\n");
+            regs[UART_IDX_IER] = *buffer;
         }
         break;
-    case UART_REG_FCR:
-        memcpy(regs[UART_IDX_FCR] + (addr & 0x3), buffer, length);
+    case UART_REG_FCR: // unused
+        printf("WRITE FCR\n");
+        regs[UART_IDX_FCR] = *buffer;
+        // TODO: handle clears
         break;
     case UART_REG_LCR:
-        memcpy(regs[UART_IDX_LCR] + (addr & 0x3), buffer, length);
+        printf("WRITE LCR\n");
+        regs[UART_IDX_LCR] = *buffer;
+        break;
     case UART_REG_MCR:
-        memcpy(regs[UART_IDX_MCR] + (addr & 0x3), buffer, length);
+        printf("WRITE MCR\n");
+        regs[UART_IDX_MCR] = *buffer;
+        break;
     case UART_REG_LSR:
-        memcpy(regs[UART_IDX_LSR] + (addr & 0x3), buffer, length);
+        printf("WRITE LSR\n");
+        regs[UART_IDX_LSR] = *buffer;
+        break;
     case UART_REG_MSR:
-        memcpy(regs[UART_IDX_MSR] + (addr & 0x3), buffer, length);
+        printf("WRITE MSR\n");
+        regs[UART_IDX_MSR] = *buffer;
+        break;
     case UART_REG_SCR:
-        memcpy(regs[UART_IDX_SCR] + (addr & 0x3), buffer, length);
+        printf("WRITE SCR\n");
+        regs[UART_IDX_SCR] = *buffer;
         break;
     default:
         ETISS_System *sys = lsys->orig;
@@ -152,21 +199,60 @@ static etiss_int32 dwrite(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss
 static etiss_int32 dbg_read(void *handle, etiss_uint64 addr, etiss_uint8 *buffer, etiss_uint32 length)
 {
     RISCVUartSystem *lsys = ((RISCVUartSystem *)handle);
-    char *mtime_buf;
+    char *regs = lsys->this_->regs_;
     switch (addr & 0xfffffffc)
     {
-    case MTIMELO_ADDR:
-        printf("DBG_READ MTIMELO\n");
-        mtime_buf = (char *)(&(lsys->this_->mtimelo_));
-        memcpy(buffer, mtime_buf + (addr & 0x3), length);
+    case UART_REG_RBR: // or UART_REG_DLL
+        if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
+        {
+            printf("READ DLL\n");
+            *buffer = regs[UART_IDX_DLL];
+        }
+        else
+        {
+            // regs[UART_IDX_RBR] = 0;
+            printf("READ RBR\n");
+            regs[UART_IDX_LSR] &= ~UART_MASK_LSR_DR;
+            *buffer = regs[UART_IDX_RBR];
+        }
         break;
-    case MTIMEHI_ADDR:
-        printf("DBG_READ MTIMEHI\n");
-        mtime_buf = (char *)(&(lsys->this_->mtimehi_));
-        memcpy(buffer, mtime_buf + (addr & 0x3), length);
+    case UART_REG_IER: // or UART_REG_DLM:
+        if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
+        {
+            printf("READ DLM\n");
+            regs[UART_IDX_LSR] &= ~UART_MASK_LSR_DR; // why?
+            *buffer = regs[UART_IDX_DLM];
+        }
+        else
+        {
+            printf("READ IER\n");
+            *buffer = regs[UART_IDX_IER];
+            // TODO: handle interrupt enable
+        }
         break;
-    case MTIMECMPLO_ADDR:
-    case MTIMECMPHI_ADDR:
+    case UART_REG_IIR:
+        printf("READ IIR\n");
+        *buffer = regs[UART_IDX_IIR];
+        break;
+    case UART_REG_LCR:
+        printf("READ LCR\n");
+        *buffer = regs[UART_IDX_LCR];
+        break;
+    case UART_REG_MCR:
+        printf("READ MCR\n");
+        *buffer = regs[UART_IDX_MCR];
+        break;
+    case UART_REG_LSR:
+        printf("READ LSR\n");
+        *buffer = regs[UART_IDX_LSR];
+        break;
+    case UART_REG_MSR:
+        printf("READ MSR\n");
+        *buffer = regs[UART_IDX_MSR];
+        break;
+    case UART_REG_SCR:
+        printf("READ SCR\n");
+        *buffer = regs[UART_IDX_SCR];
         break;
     default:
         ETISS_System *sys = lsys->orig;
@@ -178,23 +264,58 @@ static etiss_int32 dbg_read(void *handle, etiss_uint64 addr, etiss_uint8 *buffer
 static etiss_int32 dbg_write(void *handle, etiss_uint64 addr, etiss_uint8 *buffer, etiss_uint32 length)
 {
     RISCVUartSystem *lsys = ((RISCVUartSystem *)handle);
+    char *regs = lsys->this_->regs_;
     switch (addr & 0xfffffffc)
     {
-    case MTIMELO_ADDR:
-        printf("DWRITE MTIMELO\n");
-        memcpy(lsys->this_->mtimelo_buf_ + (addr & 0x3), buffer, length);
+    case UART_REG_THR: // or UART_REG_DLL
+        if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
+        {
+            printf("WRITE DLL\n");
+            regs[UART_IDX_DLL] = *buffer;
+        }
+        else
+        {
+            printf("WRITE THR\n");
+            regs[UART_IDX_THR] = *buffer;
+            regs[UART_IDX_LSR] &= ~UART_MASK_LSR_THRE;
+        }
         break;
-    case MTIMEHI_ADDR:
-        printf("DWRITE MTIMEHI\n");
-        memcpy(lsys->this_->mtimehi_buf_ + (addr & 0x3), buffer, length);
+    case UART_REG_IER: // or UART_REG_DLM
+        if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
+        {
+            printf("WRITE DLM\n");
+            regs[UART_IDX_DLM] = *buffer;
+        }
+        else
+        {
+            printf("WRITE IER\n");
+            regs[UART_IDX_IER] = *buffer;
+        }
         break;
-    case MTIMECMPLO_ADDR:
-        printf("DBG_WRITE MTIMECMPLO\n");
-        memcpy(lsys->this_->mtimecmplo_buf_ + (addr & 0x3), buffer, length);
+    case UART_REG_FCR: // unused
+        printf("WRITE FCR\n");
+        regs[UART_IDX_FCR] = *buffer;
+        // TODO: handle clears
         break;
-    case MTIMECMPHI_ADDR:
-        printf("DBG_WRITE MTIMECMPHI\n");
-        memcpy(lsys->this_->mtimecmphi_buf_ + (addr & 0x3), buffer, length);
+    case UART_REG_LCR:
+        printf("WRITE LCR\n");
+        regs[UART_IDX_LCR] = *buffer;
+        break;
+    case UART_REG_MCR:
+        printf("WRITE MCR\n");
+        regs[UART_IDX_MCR] = *buffer;
+        break;
+    case UART_REG_LSR:
+        printf("WRITE LSR\n");
+        regs[UART_IDX_LSR] = *buffer;
+        break;
+    case UART_REG_MSR:
+        printf("WRITE MSR\n");
+        regs[UART_IDX_MSR] = *buffer;
+        break;
+    case UART_REG_SCR:
+        printf("WRITE SCR\n");
+        regs[UART_IDX_SCR] = *buffer;
         break;
     default:
         ETISS_System *sys = lsys->orig;
@@ -212,75 +333,140 @@ static void syncTime(void *handle, ETISS_CPU *cpu)
 
 RISCVUart::RISCVUart()
     //: clint_enabled_(false)
-    : clint_enabled_(true)
-    , mtimecmplo_(0)
-    , mtimecmphi_(0)
-    , mtimelo_(0)
-    , mtimehi_(0)
+    : uart_enabled_(true)
 {
-    memset(mtimelo_buf_, 0, 4);
-    memset(mtimehi_buf_, 0, 4);
-    memset(mtimecmplo_buf_, 0, 4);
-    memset(mtimecmphi_buf_, 0, 4);
+    //memset(regs_, 0, 12);
+    regs_[UART_IDX_RBR] = 0;
+    regs_[UART_IDX_DLL] = 0;
+    regs_[UART_IDX_THR] = 0;
+    regs_[UART_IDX_DLM] = 0;
+    regs_[UART_IDX_IER] = 0;
+    regs_[UART_IDX_IIR] = 1;
+    regs_[UART_IDX_FCR] = 0;
+    regs_[UART_IDX_LCR] = 0;
+    regs_[UART_IDX_MCR] = 0;
+    regs_[UART_IDX_LSR] = 0x60;
+    regs_[UART_IDX_MSR] = 0;
+    regs_[UART_IDX_SCR] = 0;
+
+    int n;
+    struct stat attribute;
+    struct stat attribute2;
+
+    // Setup OUT fifo
+    if ((mkfifo(FIFOOUT, S_IRUSR | S_IWUSR)) == -1)
+    {
+        printf("ERROR: Could not create OUT fifo!\n");
+        exit(EXIT_FAILURE);
+        /* FIFO already exists? */
+        // if(errno != EEXIST){
+        //    // TODO
+        //}
+    }
+    if (stat(FIFOOUT, &attribute) == -1)
+    {
+        printf("ERROR: Could not stat OUT fifo!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    if (fd_fifo_out_ == 0)
+    {
+        if ((fd_fifo_out_ = open(FIFOOUT, O_RDWR)) == -1)
+        {
+            printf("ERROR: Could not open OUT fifo!\n");
+            // perror ("open()");
+            exit(EXIT_FAILURE);
+        }
+    }
+    //const char *p = "Hello FIFOOUT!";
+
+    //n = write(fd_fifo_out_, p, strlen(p));
+    //if (n) {
+        // TODO
+    //}
+
+    // Setup IN fifo
+    if ((mkfifo(FIFOIN, S_IRUSR | S_IWUSR)) == -1)
+    {
+        printf("ERROR: Could not create IN fifo!\n");
+        exit(EXIT_FAILURE);
+        /* FIFO already exists? */
+        // if(errno != EEXIST){
+        //    // TODO
+        //}
+    }
+    if (stat(FIFOIN, &attribute2) == -1)
+    {
+        printf("ERROR: Could not stat IN fifo!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    if ((fd_fifo_in_ = open(FIFOIN, O_RDWR | O_NONBLOCK)) == -1)
+    {
+        // perror ("open()");
+        printf("ERROR: Could not open IN fifo!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    //unsigned char *ptr;
+    //n = read(fd_fifo_in_, ptr, 1);
+    //printf("Read: %c\n", *ptr);
+    //return n;
 }
+
+// TODO: destructor to close fifos? -> unwrap?
 
 etiss::int32 RISCVUart::execute()
 {
-    static const uint64_t _OVERFLOW_ = 0x0FFFFFFFF;
-    static const uint64_t rtcPeriod_ps = 30517578; //~32.768kHz
-    static uint64_t rtcCounter_ps = 0;
+    
     bool irq = false;
+    static size_t wait = 0;
 
-    int cpu_cycle_time = ((ETISS_CPU *)riscvcpu)->cpuCycleTime_ps;
-    long cpu_time = ((ETISS_CPU *)riscvcpu)->cpuTime_ps;
-    //mtime_overflow_ = (new_mtime < mtime_) ? true : false;
-    //mtime_ = new_mtime;
-
-    if (mtimecmplo_buf_[0] || mtimecmphi_buf_[0]) {
-        mtimelo_ = *((etiss::uint32 *)mtimelo_buf_);
-        mtimehi_ = *((etiss::uint32 *)mtimehi_buf_);
-        mtimecmplo_ = *((etiss::uint32 *)mtimecmplo_buf_);
-        mtimecmphi_ = *((etiss::uint32 *)mtimecmphi_buf_);
-
-        // Setting a compare value automatically enabled the clint
-        if (!clint_enabled_) {
-            clint_enabled_ = true;
-        }
-
-        rtcCounter_ps += cpu_cycle_time;
-	      if (rtcCounter_ps >= rtcPeriod_ps) {
-		        //(*irq_out_)[1] = 0;
-	          mtimelo_ = mtimelo_ + 1;
-	          if (mtimelo_ >= _OVERFLOW_) {
-	              mtimelo_ = 0;
-	              mtimehi_ = mtimehi_ + 1;
-	              if (mtimehi_ >= _OVERFLOW_) {
-	                  mtimehi_ = 0;
-	              }
-	          }
-
-	          uint64_t tmp1 = 0, tmp2 = 0;
-	          tmp1 = ((uint64_t)mtimelo_) | ((uint64_t)mtimehi_ << 32);
-	          tmp2 = ((uint64_t)mtimecmplo_) | ((uint64_t)mtimecmphi_ << 32);
-
-	          if (tmp1 >= tmp2) {
-	          	  irq = true;
-	          }
-
-            rtcCounter_ps = 0;
-  	    }
-    }
-
-    *((etiss::uint32 *)mtimelo_buf_) = mtimelo_;
-    *((etiss::uint32 *)mtimehi_buf_) = mtimehi_;
-
-    if (!clint_enabled_) {
+    if (!uart_enabled_)
+    {
         return etiss::RETURNCODE::NOERROR;
-    } else if (irq) {
-        printf("cpu_cycle_time=%d, cpu_time=%ld\n",cpu_cycle_time,cpu_time);
+    }
+    else
+    {   
+        // Read
+        unsigned char c;
+        int n;
+        if (wait) {
+            //printf("W (%ld)\n", wait);
+            wait--;
+        } else {
+            n = read(fd_fifo_in_, &c, 1);
+            if (n == 1) {
+                printf("Read: %d (%c)\n", c, c);
+                regs_[UART_IDX_RBR] = c;
+                regs_[UART_IDX_LSR] |= UART_MASK_LSR_DR;
+                // todo: IF INterrupts enabled
+                irq = true;
+                //wait = 10000;
+                wait = 10000;
+                //-> 2500?
+                // TODO:use mtime instead as there could be 39* the delay
+            }
+        }
+        
+
+        // Write
+        if (!(regs_[UART_IDX_LSR] & UART_MASK_LSR_THRE)) { // if not empty
+            c = regs_[UART_IDX_THR];
+            printf("Write: %d (%c)\n", c, c);
+            n = write(fd_fifo_out_, &c, 1);
+            regs_[UART_IDX_THR] = 0;
+            regs_[UART_IDX_LSR] |= UART_MASK_LSR_THRE;
+        }
+    
+    //return n;
+        //printf("cpu_cycle_time=%d, cpu_time=%ld\n", cpu_cycle_time, cpu_time);
         //(riscvcpu->CSR[CSR_MIP]) |= MIP_MSIP;
-        (riscvcpu->CSR[CSR_MIP]) |= MIP_MTIP;
-        return etiss::RETURNCODE::INTERRUPT;
+        if (irq) {
+            //printf("Trigger IRQ\n");
+            (riscvcpu->CSR[CSR_MIP]) |= MIP_MSIP;
+            return etiss::RETURNCODE::INTERRUPT;
+        }
     }
 
     return etiss::RETURNCODE::NOERROR;
@@ -293,7 +479,7 @@ ETISS_System *RISCVUart::wrap(ETISS_CPU *cpu, ETISS_System *system)
 
     ret->sys.iread = &iread;
     ret->sys.iwrite = &iwrite;
-    ret->sys.dread = &dread;
+    ret->sys.dread = &dread_;
     ret->sys.dwrite = &dwrite;
     ret->sys.dbg_read = &dbg_read;
     ret->sys.dbg_write = &dbg_write;

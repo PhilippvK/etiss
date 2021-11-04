@@ -40,8 +40,8 @@
 
 */
 
-#ifndef ETISS_RISCVArch_RISCVCLINT_H_
-#define ETISS_RISCVArch_RISCVCLINT_H_
+#ifndef ETISS_RISCVArch_RISCVUART_H_
+#define ETISS_RISCVArch_RISCVUART_H_
 
 #include "Encoding.h"
 #include "RISCV.h"
@@ -81,14 +81,17 @@
 #define UART_REG_SCR ( UART_BASE_ADDR + 0x1C) // Scratch Register
 #define UART_IDX_SCR 11
 
-#define UART_MASK_LCR_DLAB 1<<7 	//DLAB bit in LCR reg
-#define UART_MASK_IER_ERBFI 1 	//ERBFI bit in IER reg
-#define UART_MASK_IER_ETBEI 1<<1 	//ETBEI bit in IER reg
-#define UART_MASK_LSR_PE 1<<2 	//PE bit in LSR reg
-#define UART_MASK_LSR_THRE 1<<5 	//THRE bit in LSR reg
-#define UART_MASK_LSR_DR 1	 	//DR bit in LSR reg
+#define UART_MASK_LCR_DLAB 1<<7 	// DLAB bit in LCR reg
+#define UART_MASK_IER_ERBFI 1 	// ERBFI bit in IER reg
+#define UART_MASK_IER_ETBEI 1<<1 	// ETBEI bit in IER reg
+#define UART_MASK_LSR_PE 1<<2 	// PE bit in LSR reg
+#define UART_MASK_LSR_THRE 1<<5 	// THRE bit in LSR reg
+#define UART_MASK_LSR_DR 1	 	// DR bit in LSR reg
 
 #define UART_FIFO_DEPTH 64 // UNUSED
+
+static const char* FIFOIN = ".tmp/uartdevicefifoin";
+static const char* FIFOOUT = ".tmp/uartdevicefifoout";
 
 class RISCVUart;
 
@@ -117,13 +120,9 @@ class RISCVUart : public etiss::CoroutinePlugin, public etiss::SystemWrapperPlug
 
     ETISS_System *unwrap(ETISS_CPU *cpu, ETISS_System *system);
 
-    bool clint_enabled_;
-    etiss::uint64 mtimecmplo_;
-    etiss::uint64 mtimecmphi_;
-    etiss::uint64 mtimelo_;
-    etiss::uint64 mtimehi_;
-    etiss::uint64 mtimecmp_;
+    bool uart_enabled_;
     char regs_[12];
+    int fd_fifo_out_ = 0, fd_fifo_in_ = 0;
 
   protected:
     virtual std::string _getPluginName() const { return std::string("RISCV-V CLINT"); }

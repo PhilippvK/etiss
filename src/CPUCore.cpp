@@ -147,6 +147,7 @@ CPUCore::CPUCore(std::shared_ptr<etiss::CPUArch> arch)
     arch_->resetCPU(cpu_, 0);
     timer_enabled_ = true;
     clint_enabled_ = true;
+    uart_enabled_ = true;
     bcc_ = 1;
     exception_skip_count_ = 0;
     blockCacheLimit_ = -1;
@@ -589,6 +590,26 @@ etiss::int32 CPUCore::execute(ETISS_System &_system)
             plugins.push_back(std::shared_ptr<etiss::Plugin>(clintInstance, [local_arch](etiss::Plugin *p) {
                 etiss::log(etiss::INFO, "Delete CLINT Plugin.");
                 local_arch->deleteClint(p);
+            }));
+        }
+    }
+
+    // add default UART plugin from arch
+    if (uart_enabled_)
+    {
+        Plugin *uartInstance = arch_->newUart(cpu_);
+        if (!uartInstance)
+        {
+            etiss::log(etiss::ERROR, "ERROR: default uart requested but not supported by architecture");
+            return RETURNCODE::GENERALERROR;
+        }
+        else
+        {
+            etiss::log(etiss::INFO, "Add UART Plugin: " + uartInstance->getPluginName());
+            auto local_arch = arch_;
+            plugins.push_back(std::shared_ptr<etiss::Plugin>(uartInstance, [local_arch](etiss::Plugin *p) {
+                etiss::log(etiss::INFO, "Delete UART Plugin.");
+                local_arch->deleteUart(p);
             }));
         }
     }

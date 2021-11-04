@@ -71,6 +71,11 @@ etiss::Plugin *CPUArchDefaultPlugins::newClint(ETISS_CPU *cpu)
     return 0;
 }
 
+etiss::Plugin *CPUArchDefaultPlugins::newUart(ETISS_CPU *cpu)
+{ // disfunctional implementation
+    return 0;
+}
+
 void CPUArchDefaultPlugins::deleteTimer(etiss::Plugin *timer)
 { // disfunctional implementation
     delete timer;
@@ -79,6 +84,11 @@ void CPUArchDefaultPlugins::deleteTimer(etiss::Plugin *timer)
 void CPUArchDefaultPlugins::deleteClint(etiss::Plugin *clint)
 { // disfunctional implementation
     delete clint;
+}
+
+void CPUArchDefaultPlugins::deleteUart(etiss::Plugin *uart)
+{ // disfunctional implementation
+    delete uart;
 }
 
 CPUArch::CPUArch(std::string archname) : archname_(archname)

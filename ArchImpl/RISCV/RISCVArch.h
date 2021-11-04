@@ -54,6 +54,8 @@
 #include "etiss/InterruptVector.h"
 // Manually added
 #include "RISCVClint.h"
+// Manually added
+#include "RISCVUart.h"
 
 #include <map>
 
@@ -135,6 +137,12 @@ class RISCVArch : public etiss::CPUArch
 
     // Manually added
     void deleteClint(etiss::Plugin *clint);
+
+    // Manually added
+    etiss::Plugin *newUart(ETISS_CPU *cpu);
+
+    // Manually added
+    void deleteUart(etiss::Plugin *uart);
 
   private:
     std::set<std::string> listenerSupportedRegisters_;

@@ -159,6 +159,16 @@ class CPUArchDefaultPlugins
             @return may be 0
     */
     virtual void deleteClint(etiss::Plugin *clint);
+        /**
+            @brief create a simple default uart implementaion instance for this architecture.
+            @return may be 0
+    */
+    virtual etiss::Plugin *newUart(ETISS_CPU *cpu);
+    /**
+            @brief delete uart instance
+            @return may be 0
+    */
+    virtual void deleteUart(etiss::Plugin *uart);
 };
 
 /**

@@ -233,6 +233,19 @@ class CPUCore : public VirtualStructSupport, public etiss::ToString
         clint_enabled_ = on;
     }
 
+        /**
+     * @brief Enable or disable the uart of the CPU.
+     *
+     * @note Has no effect if the architecture does not support a uart.
+     *
+     * @param on true to enable the uart / false to disable the uart
+     */
+    inline void setUart(bool on)
+    {
+        std::lock_guard<std::mutex> lock(mu_);
+        uart_enabled_ = on;
+    }
+
     /**
      * @brief Adds a plug-in to the core simulator.
      *
@@ -396,6 +409,7 @@ class CPUCore : public VirtualStructSupport, public etiss::ToString
     InterruptVectorWrapper *intwrapper_; /// wrapped interrupt vector to allow interrupt listening
     bool timer_enabled_; /// if true the a timer plugin allocated by arch_ will be added in CPUCore::execute
     bool clint_enabled_; /// if true the a clint plugin allocated by arch_ will be added in CPUCore::execute
+    bool uart_enabled_; /// if true the a uart plugin allocated by arch_ will be added in CPUCore::execute
     std::shared_ptr<etiss::JIT>
         jit_;       /// JIT instance to use. may be 0 (etiss::getDefaultJIT() will be used in that case)
     std::mutex mu_; /// mutex to lock the configuration of this cpu core. etiss::CPUCore::execution holds this lock
