@@ -86,6 +86,7 @@ class RISCVClint : public etiss::CoroutinePlugin, public etiss::SystemWrapperPlu
     etiss::uint64 mtimelo_;
     etiss::uint64 mtimehi_;
     etiss::uint64 mtimecmp_;
+    etiss::uint64 old_cycles_;
     char mtimelo_buf_[4];
     char mtimehi_buf_[4];
     char mtimecmplo_buf_[4];

@@ -195,6 +195,10 @@ etiss::int32 RISCVClint::execute()
     static uint64_t rtcCounter_ps = 0;
     bool irq = false;
 
+    etiss::uint64 cycles = ((ETISS_CPU *)riscvcpu)->cpuTime_ps / ((ETISS_CPU *)riscvcpu)->cpuCycleTime_ps;
+    etiss::uint64 delta_cycles = cycles - old_cycles_;
+    old_cycles_ = cycles;
+
     int cpu_cycle_time = ((ETISS_CPU *)riscvcpu)->cpuCycleTime_ps;
     long cpu_time = ((ETISS_CPU *)riscvcpu)->cpuTime_ps;
     //mtime_overflow_ = (new_mtime < mtime_) ? true : false;
@@ -211,7 +215,7 @@ etiss::int32 RISCVClint::execute()
             clint_enabled_ = true;
         }
 
-        rtcCounter_ps += cpu_cycle_time;
+        rtcCounter_ps += cpu_cycle_time * delta_cycles;
 	      if (rtcCounter_ps >= rtcPeriod_ps) {
 		        //(*irq_out_)[1] = 0;
 	          mtimelo_ = mtimelo_ + 1;
@@ -241,7 +245,7 @@ etiss::int32 RISCVClint::execute()
     if (!clint_enabled_) {
         return etiss::RETURNCODE::NOERROR;
     } else if (irq) {
-        printf("cpu_cycle_time=%d, cpu_time=%ld\n",cpu_cycle_time,cpu_time);
+        //printf("cpu_cycle_time=%d, cpu_time=%ld\n",cpu_cycle_time,cpu_time);
         //(riscvcpu->CSR[CSR_MIP]) |= MIP_MSIP;
         (riscvcpu->CSR[CSR_MIP]) |= MIP_MTIP;
         return etiss::RETURNCODE::INTERRUPT;
