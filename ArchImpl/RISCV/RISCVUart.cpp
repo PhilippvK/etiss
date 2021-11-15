@@ -428,12 +428,20 @@ etiss::int32 RISCVUart::execute()
     }
     else
     {   
+        const etiss::uint64 baud_rate = 115200;
+        const etiss::uint64 bytes_per_second = baud_rate/(8+1);
+        const etiss::uint64 ps_per_byte = 1000000000000/bytes_per_second;
+        etiss::uint64 cycles_per_byte = ps_per_byte / ((ETISS_CPU *)riscvcpu)->cpuCycleTime_ps;
+        etiss::uint64 cycles = ((ETISS_CPU *)riscvcpu)->cpuTime_ps / ((ETISS_CPU *)riscvcpu)->cpuCycleTime_ps;
+        etiss::uint64 delta_cycles = cycles - old_cycles_;
+        old_cycles_ = cycles;
+
         // Read
         unsigned char c;
         int n;
         if (wait) {
             //printf("W (%ld)\n", wait);
-            wait--;
+            wait = delta_cycles > wait ? 0 : wait - delta_cycles;
         } else {
             n = read(fd_fifo_in_, &c, 1);
             if (n == 1) {
@@ -442,8 +450,7 @@ etiss::int32 RISCVUart::execute()
                 regs_[UART_IDX_LSR] |= UART_MASK_LSR_DR;
                 // todo: IF INterrupts enabled
                 irq = true;
-                //wait = 10000;
-                wait = 10000;
+                wait = cycles_per_byte;
                 //-> 2500?
                 // TODO:use mtime instead as there could be 39* the delay
             }

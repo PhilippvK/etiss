@@ -123,6 +123,7 @@ class RISCVUart : public etiss::CoroutinePlugin, public etiss::SystemWrapperPlug
     bool uart_enabled_;
     char regs_[12];
     int fd_fifo_out_ = 0, fd_fifo_in_ = 0;
+    etiss::uint64 old_cycles_;
 
   protected:
     virtual std::string _getPluginName() const { return std::string("RISCV-V CLINT"); }
