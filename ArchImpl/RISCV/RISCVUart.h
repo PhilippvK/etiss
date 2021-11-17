@@ -126,7 +126,7 @@ class RISCVUart : public etiss::CoroutinePlugin, public etiss::SystemWrapperPlug
     etiss::uint64 old_cycles_;
 
   protected:
-    virtual std::string _getPluginName() const { return std::string("RISCV-V CLINT"); }
+    virtual std::string _getPluginName() const { return std::string("RISCV-V PLIC"); }
 
   private:
     RISCV *riscvcpu;
