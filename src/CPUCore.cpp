@@ -148,6 +148,7 @@ CPUCore::CPUCore(std::shared_ptr<etiss::CPUArch> arch)
     timer_enabled_ = true;
     clint_enabled_ = true;
     uart_enabled_ = true;
+    plic_enabled_ = true;
     bcc_ = 1;
     exception_skip_count_ = 0;
     blockCacheLimit_ = -1;
@@ -610,6 +611,26 @@ etiss::int32 CPUCore::execute(ETISS_System &_system)
             plugins.push_back(std::shared_ptr<etiss::Plugin>(uartInstance, [local_arch](etiss::Plugin *p) {
                 etiss::log(etiss::INFO, "Delete UART Plugin.");
                 local_arch->deleteUart(p);
+            }));
+        }
+    }
+
+    // add default PLIC plugin from arch
+    if (plic_enabled_)
+    {
+        Plugin *plicInstance = arch_->newPlic(cpu_);
+        if (!plicInstance)
+        {
+            etiss::log(etiss::ERROR, "ERROR: default plic requested but not supported by architecture");
+            return RETURNCODE::GENERALERROR;
+        }
+        else
+        {
+            etiss::log(etiss::INFO, "Add PLIC Plugin: " + plicInstance->getPluginName());
+            auto local_arch = arch_;
+            plugins.push_back(std::shared_ptr<etiss::Plugin>(plicInstance, [local_arch](etiss::Plugin *p) {
+                etiss::log(etiss::INFO, "Delete PLIC Plugin.");
+                local_arch->deletePlic(p);
             }));
         }
     }

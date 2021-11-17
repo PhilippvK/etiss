@@ -155,6 +155,11 @@ class CPUArchDefaultPlugins
     */
     virtual etiss::Plugin *newClint(ETISS_CPU *cpu);
     /**
+            @brief create a simple default plic implementaion instance for this architecture.
+            @return may be 0
+    */
+    virtual etiss::Plugin *newPlic(ETISS_CPU *cpu);
+    /**
             @brief delete clint instance
             @return may be 0
     */
@@ -169,6 +174,11 @@ class CPUArchDefaultPlugins
             @return may be 0
     */
     virtual void deleteUart(etiss::Plugin *uart);
+    /**
+            @brief delete plic instance
+            @return may be 0
+    */
+    virtual void deletePlic(etiss::Plugin *plic);
 };
 
 /**

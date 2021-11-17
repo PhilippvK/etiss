@@ -110,6 +110,8 @@ int main(int argc, const char *argv[])
     cpu->setClint(true);
     // enable uart plugin
     cpu->setUart(true);
+    // enable uart plugin
+    cpu->setPlic(true);
 
     // reset CPU with a manual start address
     cpu->reset(&sa);

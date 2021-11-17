@@ -178,6 +178,7 @@
 #define CSR_MCAUSE 0x342
 #define CSR_MTVAL 0x343
 #define CSR_MIP 0x344
+#define CSR_EXT_INTERRUPT_LINES_31_0 0x7c0 // FIXME: this is a very ugly workaround! Maybe it at least helps for debugging and triggering fake interrupts
 
 #define CAUSE_MISALIGNED_FETCH 0x0
 #define CAUSE_FETCH_ACCESS 0x1

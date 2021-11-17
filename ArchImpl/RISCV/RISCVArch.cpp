@@ -249,6 +249,18 @@ void RISCVArch::deleteUart(etiss::Plugin *uart)
    delete uart;
 }
 
+// Manually added
+etiss::Plugin *RISCVArch::newPlic(ETISS_CPU *cpu)
+{
+    return (etiss::Plugin *)new RISCVPlic();
+}
+
+// Manually added
+void RISCVArch::deletePlic(etiss::Plugin *plic)
+{
+   delete plic;
+}
+
 static const char * const reg_name[] =
 {
 	"X0", 

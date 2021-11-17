@@ -56,6 +56,8 @@
 #include "RISCVClint.h"
 // Manually added
 #include "RISCVUart.h"
+// Manually added
+#include "RISCVPlic.h"
 
 #include <map>
 
@@ -143,6 +145,12 @@ class RISCVArch : public etiss::CPUArch
 
     // Manually added
     void deleteUart(etiss::Plugin *uart);
+
+    // Manually added
+    etiss::Plugin *newPlic(ETISS_CPU *cpu);
+
+    // Manually added
+    void deletePlic(etiss::Plugin *plic);
 
   private:
     std::set<std::string> listenerSupportedRegisters_;

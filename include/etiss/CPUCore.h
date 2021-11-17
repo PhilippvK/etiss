@@ -233,6 +233,19 @@ class CPUCore : public VirtualStructSupport, public etiss::ToString
         clint_enabled_ = on;
     }
 
+    /**
+     * @brief Enable or disable the plic of the CPU.
+     *
+     * @note Has no effect if the architecture does not support a plic.
+     *
+     * @param on true to enable the plic / false to disable the plic
+     */
+    inline void setPlic(bool on)
+    {
+        std::lock_guard<std::mutex> lock(mu_);
+        plic_enabled_ = on;
+    }
+
         /**
      * @brief Enable or disable the uart of the CPU.
      *
@@ -410,6 +423,7 @@ class CPUCore : public VirtualStructSupport, public etiss::ToString
     bool timer_enabled_; /// if true the a timer plugin allocated by arch_ will be added in CPUCore::execute
     bool clint_enabled_; /// if true the a clint plugin allocated by arch_ will be added in CPUCore::execute
     bool uart_enabled_; /// if true the a uart plugin allocated by arch_ will be added in CPUCore::execute
+    bool plic_enabled_; /// if true the a plic plugin allocated by arch_ will be added in CPUCore::execute
     std::shared_ptr<etiss::JIT>
         jit_;       /// JIT instance to use. may be 0 (etiss::getDefaultJIT() will be used in that case)
     std::mutex mu_; /// mutex to lock the configuration of this cpu core. etiss::CPUCore::execution holds this lock
