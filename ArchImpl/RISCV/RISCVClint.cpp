@@ -200,7 +200,7 @@ etiss::int32 RISCVClint::execute()
     old_cycles_ = cycles;
 
     int cpu_cycle_time = ((ETISS_CPU *)riscvcpu)->cpuCycleTime_ps;
-    long cpu_time = ((ETISS_CPU *)riscvcpu)->cpuTime_ps;
+    //long cpu_time = ((ETISS_CPU *)riscvcpu)->cpuTime_ps;
     //mtime_overflow_ = (new_mtime < mtime_) ? true : false;
     //mtime_ = new_mtime;
 
