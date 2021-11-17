@@ -349,7 +349,7 @@ RISCVUart::RISCVUart()
     regs_[UART_IDX_MSR] = 0;
     regs_[UART_IDX_SCR] = 0;
 
-    int n;
+    //int n;
     struct stat attribute;
     struct stat attribute2;
 
