@@ -189,7 +189,7 @@ etiss::int32 RISCVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
         {
             std::stringstream msg;
             msg << "Interrupt handling is globally disabled. Interrupt line is still pending." << std::endl;
-            etiss::log(etiss::INFO, msg.str());
+            etiss::log(etiss::VERBOSE, msg.str());
             handledCause = etiss::RETURNCODE::NOERROR;
             break;
         }
