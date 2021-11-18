@@ -53,6 +53,9 @@
 #define MTIMECMPLO_ADDR CLINT_BASE_ADDR + 0x4000
 #define MTIMECMPHI_ADDR MTIMECMPLO_ADDR + 4
 
+// TODO: move this somewhere else
+#define PLIC_LINE_ID_CLINT  (6)
+
 class RISCVClint;
 
 struct RISCVClintSystem
