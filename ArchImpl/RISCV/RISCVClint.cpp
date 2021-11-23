@@ -217,7 +217,6 @@ etiss::int32 RISCVClint::execute()
 
         rtcCounter_ps += cpu_cycle_time * delta_cycles;
 	      if (rtcCounter_ps >= rtcPeriod_ps) {
-              riscvcpu->CSR[CSR_EXT_INTERRUPT_LINES_31_0] &= ~(0x1 << PLIC_LINE_ID_CLINT);
 		        //(*irq_out_)[1] = 0;
 	          mtimelo_ = mtimelo_ + 1;
 	          if (mtimelo_ >= _OVERFLOW_) {
@@ -248,12 +247,10 @@ etiss::int32 RISCVClint::execute()
     } else if (irq) {
         // FIXME: Currently we only set IRQ flag if machine timer interrupt is enabled
         // This may not be standard conform, but this reduces a lot of spam in the verbose log
-        /*if (riscvcpu->CSR[CSR_MIE] & MIP_MTIP) {
+        if (riscvcpu->CSR[CSR_MIE] & MIP_MTIP) {
             (riscvcpu->CSR[CSR_MIP]) |= MIP_MTIP;
             return etiss::RETURNCODE::INTERRUPT;
-        }*/
-        // NEW APPROACH:
-        riscvcpu->CSR[CSR_EXT_INTERRUPT_LINES_31_0] |= (0x1 << PLIC_LINE_ID_CLINT);
+        }
     }
 
     return etiss::RETURNCODE::NOERROR;

@@ -422,12 +422,6 @@ etiss::int32 RISCVUart::execute()
     bool irq = false;
     static size_t wait = 0;
 
-    if (riscvcpu->CSR[CSR_EXT_INTERRUPT_LINES_31_0] & (0x1 << PLIC_LINE_ID_UART))
-    {
-        // Make sure we get a new edge triggered interrupt for the PLIC
-        riscvcpu->CSR[CSR_EXT_INTERRUPT_LINES_31_0] &= ~(0x1 << PLIC_LINE_ID_UART);
-    }
-
     if (!uart_enabled_)
     {
         return etiss::RETURNCODE::NOERROR;
@@ -484,12 +478,10 @@ etiss::int32 RISCVUart::execute()
             //printf("Trigger IRQ\n");
             // FIXME: Currently we only set IRQ flag if machine external interrupt is enabled
             // This may not be standard conform, but this reduces a lot of spam in the verbose log
-            /*if (riscvcpu->CSR[CSR_MIE] & MIP_MEIP) {
+            if (riscvcpu->CSR[CSR_MIE] & MIP_MEIP) {
                 (riscvcpu->CSR[CSR_MIP]) |= MIP_MEIP;
                 return etiss::RETURNCODE::INTERRUPT;
-            }*/
-            // NEW APPROACH
-            riscvcpu->CSR[CSR_EXT_INTERRUPT_LINES_31_0] |= (0x1 << PLIC_LINE_ID_UART);
+            }
         }
     }
 

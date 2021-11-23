@@ -49,9 +49,6 @@
 
 #define UART_BASE_ADDR 0x10000000 // TODO: check for conflicts
 
-// TODO: move this somewhere else
-#define PLIC_LINE_ID_UART (1)
-
 #define UART_REG_RBR ( UART_BASE_ADDR + 0x00) // Receiver Buffer Register (Read Only, DLAB=0)
 #define UART_IDX_RBR 0
 #define UART_REG_THR ( UART_BASE_ADDR + 0x00) // Transmitter Holding Register (Write Only, DLAB=0)
