@@ -90,20 +90,20 @@ static etiss_int32 dwrite(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss
     switch (addr & 0xfffffffc)
     {
     case MTIMELO_ADDR:
-        //printf("DWRITE MTIMELO\n");
+        printf("DWRITE MTIMELO\n");
         memcpy(lsys->this_->mtimelo_buf_ + (addr & 0x3), buffer, length);
         break;
     case MTIMEHI_ADDR:
-        //printf("DWRITE MTIMEHI\n");
+        printf("DWRITE MTIMEHI\n");
         memcpy(lsys->this_->mtimehi_buf_ + (addr & 0x3), buffer, length);
         break;
         break;
     case MTIMECMPLO_ADDR:
-        //printf("DWRITE MTIMECMPLO\n");
+        printf("DWRITE MTIMECMPLO\n");
         memcpy(lsys->this_->mtimecmplo_buf_ + (addr & 0x3), buffer, length);
         break;
     case MTIMECMPHI_ADDR:
-        //printf("DWRITE MTIMECMPHI\n");
+        printf("DWRITE MTIMECMPHI\n");
         memcpy(lsys->this_->mtimecmphi_buf_ + (addr & 0x3), buffer, length);
         break;
     default:
