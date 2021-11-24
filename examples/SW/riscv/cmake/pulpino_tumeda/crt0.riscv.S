@@ -98,6 +98,21 @@ main_entry:
   /* if program exits call exit routine from library */
   jal  x1, exit
 
+/* ========================================== [ MTIP handler ] === */
+ISR_MTIP_ASM:
+  addi x2, x2, -EXCEPTION_STACK_SIZE
+  sw x1, 0x5C(x2)
+  jal x1, store_regs
+  la x1, end_except
+  jal x0, ISR_MTIP
+
+/* ========================================== [ MEIP handler ] === */
+ISR_MEIP_ASM:
+  addi x2, x2, -EXCEPTION_STACK_SIZE
+  sw x1, 0x5C(x2)
+  jal x1, store_regs
+  la x1, end_except
+  jal x0, ISR_MEIP
 
 /* ========================================== [ I2C handler ] === */
 ISR_I2C_ASM:
@@ -106,14 +121,6 @@ ISR_I2C_ASM:
   jal x1, store_regs
   la x1, end_except
   jal x0, ISR_I2C
-
-/* ========================================== [ CLINT handler ] === */
-ISR_CLINT_ASM:
-  addi x2, x2, -EXCEPTION_STACK_SIZE
-  sw x1, 0x5C(x2)
-  jal x1, store_regs
-  la x1, end_except
-  jal x0, ISR_CLINT
 
 /* ========================================== [ UART handler ] === */
 ISR_UART_ASM:
@@ -287,31 +294,27 @@ _fini:
   // external interrupts are handled by the same callback
   // until compiler supports IRQ routines
   .org 0x00
+  //jal x0, default_handler
   jal x0, exception_handler // 0: exception handler
-  //.rept 22
+  nop                 	    // 1: ssip
+  nop                 	    // 2: hsip
+  nop                 	    // 3: msip
+  nop                       // 4: reserved
+  nop                 	    // 5: stip
+  nop                 	    // 6: htip
+  jal x0, ISR_MTIP_ASM 	    // 7: mtip
+  nop                       // 8: reserved
+  nop                 	    // 9: seip
+  nop                 	    // 10: heip
+  jal x0, ISR_MEIP_ASM 	    // 11: meip
+  //jal x0, ISR_MEIP 	    // 11: meip
+  nop                 	    // 12: cop?
+  nop                 	    // 13: host?
+  nop                 	    // 14: reserved
+  nop                 	    // 15: reserved
+  .rept 7
   nop                       // unused
-  nop                       // unused
-  jal x0, ISR_UART_ASM      // ?
-  nop                       // unused
-  nop                       // unused
-  nop                       // unused
-  jal x0, ISR_CLINT_ASM     // ?
-  nop                       // unused
-  nop                       // unused
-  nop                       // unused
-  nop                       // unused
-  nop                       // unused
-  nop                       // unused
-  nop                       // unused
-  nop                       // unused
-  nop                       // unused
-  nop                       // unused
-  nop                       // unused
-  nop                       // unused
-  nop                       // unused
-  nop                       // unused
-  nop                       // unused
-  //.endr
+  .endr
 
   jal x0, ISR_I2C_ASM 	    // 23: i2c
   jal x0, ISR_UART_ASM 	    // 24: uart
