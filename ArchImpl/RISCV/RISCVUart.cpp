@@ -77,13 +77,13 @@ etiss_int32 dread_(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss_uint8 
     case UART_REG_RBR: // or UART_REG_DLL
         if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
         {
-            printf("READ DLL\n");
+            //printf("READ DLL\n");
             *buffer = regs[UART_IDX_DLL];
         }
         else
         {
             // regs[UART_IDX_RBR] = 0;
-            printf("READ RBR\n");
+            //printf("READ RBR\n");
             regs[UART_IDX_LSR] &= ~UART_MASK_LSR_DR;
             *buffer = regs[UART_IDX_RBR];
         }
@@ -91,39 +91,39 @@ etiss_int32 dread_(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss_uint8 
     case UART_REG_IER: // or UART_REG_DLM:
         if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
         {
-            printf("READ DLM\n");
-            regs[UART_IDX_LSR] &= ~UART_MASK_LSR_DR; // why?
+            //printf("READ DLM\n");
+            //regs[UART_IDX_LSR] &= ~UART_MASK_LSR_DR; // why?
             *buffer = regs[UART_IDX_DLM];
         }
         else
         {
-            printf("READ IER\n");
+            //printf("READ IER\n");
             *buffer = regs[UART_IDX_IER];
             // TODO: handle interrupt enable
         }
         break;
     case UART_REG_IIR:
-        printf("READ IIR\n");
+        //printf("READ IIR\n");
         *buffer = regs[UART_IDX_IIR];
         break;
     case UART_REG_LCR:
-        printf("READ LCR\n");
+        //printf("READ LCR\n");
         *buffer = regs[UART_IDX_LCR];
         break;
     case UART_REG_MCR:
-        printf("READ MCR\n");
+        //printf("READ MCR\n");
         *buffer = regs[UART_IDX_MCR];
         break;
     case UART_REG_LSR:
-        printf("READ LSR\n");
+        //printf("READ LSR\n");
         *buffer = regs[UART_IDX_LSR];
         break;
     case UART_REG_MSR:
-        printf("READ MSR\n");
+        //printf("READ MSR\n");
         *buffer = regs[UART_IDX_MSR];
         break;
     case UART_REG_SCR:
-        printf("READ SCR\n");
+        //printf("READ SCR\n");
         *buffer = regs[UART_IDX_SCR];
         break;
     default:
@@ -142,12 +142,12 @@ static etiss_int32 dwrite(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss
     case UART_REG_THR: // or UART_REG_DLL
         if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
         {
-            printf("WRITE DLL\n");
+            //printf("WRITE DLL\n");
             regs[UART_IDX_DLL] = *buffer;
         }
         else
         {
-            printf("WRITE THR\n");
+            //printf("WRITE THR\n");
             regs[UART_IDX_THR] = *buffer;
             regs[UART_IDX_LSR] &= ~UART_MASK_LSR_THRE;
         }
@@ -155,38 +155,38 @@ static etiss_int32 dwrite(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss
     case UART_REG_IER: // or UART_REG_DLM
         if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
         {
-            printf("WRITE DLM\n");
+            //printf("WRITE DLM\n");
             regs[UART_IDX_DLM] = *buffer;
         }
         else
         {
-            printf("WRITE IER\n");
+            //printf("WRITE IER\n");
             regs[UART_IDX_IER] = *buffer;
         }
         break;
     case UART_REG_FCR: // unused
-        printf("WRITE FCR\n");
+        //printf("WRITE FCR\n");
         regs[UART_IDX_FCR] = *buffer;
         // TODO: handle clears
         break;
     case UART_REG_LCR:
-        printf("WRITE LCR\n");
+        //printf("WRITE LCR\n");
         regs[UART_IDX_LCR] = *buffer;
         break;
     case UART_REG_MCR:
-        printf("WRITE MCR\n");
+        //printf("WRITE MCR\n");
         regs[UART_IDX_MCR] = *buffer;
         break;
     case UART_REG_LSR:
-        printf("WRITE LSR\n");
+        //printf("WRITE LSR\n");
         regs[UART_IDX_LSR] = *buffer;
         break;
     case UART_REG_MSR:
-        printf("WRITE MSR\n");
+        //printf("WRITE MSR\n");
         regs[UART_IDX_MSR] = *buffer;
         break;
     case UART_REG_SCR:
-        printf("WRITE SCR\n");
+        //printf("WRITE SCR\n");
         regs[UART_IDX_SCR] = *buffer;
         break;
     default:
@@ -205,13 +205,13 @@ static etiss_int32 dbg_read(void *handle, etiss_uint64 addr, etiss_uint8 *buffer
     case UART_REG_RBR: // or UART_REG_DLL
         if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
         {
-            printf("READ DLL\n");
+            //printf("READ DLL\n");
             *buffer = regs[UART_IDX_DLL];
         }
         else
         {
             // regs[UART_IDX_RBR] = 0;
-            printf("READ RBR\n");
+            //printf("READ RBR\n");
             regs[UART_IDX_LSR] &= ~UART_MASK_LSR_DR;
             *buffer = regs[UART_IDX_RBR];
         }
@@ -219,39 +219,39 @@ static etiss_int32 dbg_read(void *handle, etiss_uint64 addr, etiss_uint8 *buffer
     case UART_REG_IER: // or UART_REG_DLM:
         if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
         {
-            printf("READ DLM\n");
-            regs[UART_IDX_LSR] &= ~UART_MASK_LSR_DR; // why?
+            //printf("READ DLM\n");
+            //regs[UART_IDX_LSR] &= ~UART_MASK_LSR_DR; // why?
             *buffer = regs[UART_IDX_DLM];
         }
         else
         {
-            printf("READ IER\n");
+            //printf("READ IER\n");
             *buffer = regs[UART_IDX_IER];
             // TODO: handle interrupt enable
         }
         break;
     case UART_REG_IIR:
-        printf("READ IIR\n");
+        //printf("READ IIR\n");
         *buffer = regs[UART_IDX_IIR];
         break;
     case UART_REG_LCR:
-        printf("READ LCR\n");
+        //printf("READ LCR\n");
         *buffer = regs[UART_IDX_LCR];
         break;
     case UART_REG_MCR:
-        printf("READ MCR\n");
+        //printf("READ MCR\n");
         *buffer = regs[UART_IDX_MCR];
         break;
     case UART_REG_LSR:
-        printf("READ LSR\n");
+        //printf("READ LSR\n");
         *buffer = regs[UART_IDX_LSR];
         break;
     case UART_REG_MSR:
-        printf("READ MSR\n");
+        //printf("READ MSR\n");
         *buffer = regs[UART_IDX_MSR];
         break;
     case UART_REG_SCR:
-        printf("READ SCR\n");
+        //printf("READ SCR\n");
         *buffer = regs[UART_IDX_SCR];
         break;
     default:
@@ -270,12 +270,12 @@ static etiss_int32 dbg_write(void *handle, etiss_uint64 addr, etiss_uint8 *buffe
     case UART_REG_THR: // or UART_REG_DLL
         if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
         {
-            printf("WRITE DLL\n");
+            //printf("WRITE DLL\n");
             regs[UART_IDX_DLL] = *buffer;
         }
         else
         {
-            printf("WRITE THR\n");
+            //printf("WRITE THR\n");
             regs[UART_IDX_THR] = *buffer;
             regs[UART_IDX_LSR] &= ~UART_MASK_LSR_THRE;
         }
@@ -283,38 +283,38 @@ static etiss_int32 dbg_write(void *handle, etiss_uint64 addr, etiss_uint8 *buffe
     case UART_REG_IER: // or UART_REG_DLM
         if (regs[UART_IDX_LCR] & UART_MASK_LCR_DLAB)
         {
-            printf("WRITE DLM\n");
+            //printf("WRITE DLM\n");
             regs[UART_IDX_DLM] = *buffer;
         }
         else
         {
-            printf("WRITE IER\n");
+            //printf("WRITE IER\n");
             regs[UART_IDX_IER] = *buffer;
         }
         break;
     case UART_REG_FCR: // unused
-        printf("WRITE FCR\n");
+        //printf("WRITE FCR\n");
         regs[UART_IDX_FCR] = *buffer;
         // TODO: handle clears
         break;
     case UART_REG_LCR:
-        printf("WRITE LCR\n");
+        //printf("WRITE LCR\n");
         regs[UART_IDX_LCR] = *buffer;
         break;
     case UART_REG_MCR:
-        printf("WRITE MCR\n");
+        //printf("WRITE MCR\n");
         regs[UART_IDX_MCR] = *buffer;
         break;
     case UART_REG_LSR:
-        printf("WRITE LSR\n");
+        //printf("WRITE LSR\n");
         regs[UART_IDX_LSR] = *buffer;
         break;
     case UART_REG_MSR:
-        printf("WRITE MSR\n");
+        //printf("WRITE MSR\n");
         regs[UART_IDX_MSR] = *buffer;
         break;
     case UART_REG_SCR:
-        printf("WRITE SCR\n");
+        //printf("WRITE SCR\n");
         regs[UART_IDX_SCR] = *buffer;
         break;
     default:
@@ -448,7 +448,7 @@ etiss::int32 RISCVUart::execute()
             {
                 n = read(fd_fifo_in_, &c, 1);
                 if (n == 1) {
-                    printf("Read: %d (%c)\n", c, c);
+                    //printf("\nRead: %d (%c)\n", c, c);
                     regs_[UART_IDX_RBR] = c;
                     regs_[UART_IDX_LSR] |= UART_MASK_LSR_DR;
                     // todo: IF INterrupts enabled
@@ -465,7 +465,7 @@ etiss::int32 RISCVUart::execute()
         // Write
         if (!(regs_[UART_IDX_LSR] & UART_MASK_LSR_THRE)) { // if not empty
             c = regs_[UART_IDX_THR];
-            printf("Write: %d (%c)\n", c, c);
+            //printf("Write: %d (%c)\n", c, c);
             n = write(fd_fifo_out_, &c, 1);
             regs_[UART_IDX_THR] = 0;
             regs_[UART_IDX_LSR] |= UART_MASK_LSR_THRE;
