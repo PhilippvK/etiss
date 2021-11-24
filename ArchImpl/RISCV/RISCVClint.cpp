@@ -247,10 +247,10 @@ etiss::int32 RISCVClint::execute()
     } else if (irq) {
         // FIXME: Currently we only set IRQ flag if machine timer interrupt is enabled
         // This may not be standard conform, but this reduces a lot of spam in the verbose log
-        if (riscvcpu->CSR[CSR_MIE] & MIP_MTIP) {
-            (riscvcpu->CSR[CSR_MIP]) |= MIP_MTIP;
-            return etiss::RETURNCODE::INTERRUPT;
-        }
+        // if (riscvcpu->CSR[CSR_MIE] & MIP_MTIP) {
+        //     (riscvcpu->CSR[CSR_MIP]) |= MIP_MTIP;
+        //     return etiss::RETURNCODE::INTERRUPT;
+        // }
     }
 
     return etiss::RETURNCODE::NOERROR;
