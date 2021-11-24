@@ -441,7 +441,8 @@ etiss::int32 RISCVUart::execute()
         int n;
         if (wait) {
             //printf("W (%ld)\n", wait);
-            wait = delta_cycles > wait ? 0 : wait - delta_cycles;
+            //wait = delta_cycles > wait ? 0 : wait - delta_cycles;
+            // TODO: this is a workaround?
         } else {
             // WORKAROUND as long we have no receive fifo: only read new chars if the buffer is empty.
             if (!(regs_[UART_IDX_LSR] & UART_MASK_LSR_DR))
@@ -453,10 +454,15 @@ etiss::int32 RISCVUart::execute()
                     regs_[UART_IDX_LSR] |= UART_MASK_LSR_DR;
                     // todo: IF INterrupts enabled
                     irq = true;
-                    wait = cycles_per_byte;
+                    //wait = cycles_per_byte;
                     //-> 2500?
                     // TODO:use mtime instead as there could be 39* the delay
                 }
+            } else {
+                /*if (riscvcpu->CSR[CSR_MIE] & MIP_MEIP) {
+                    (riscvcpu->CSR[CSR_MIP]) |= MIP_MEIP;
+                    return etiss::RETURNCODE::INTERRUPT;
+                }*/
             }
             
         }
