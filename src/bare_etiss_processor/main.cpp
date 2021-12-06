@@ -104,14 +104,14 @@ int main(int argc, const char *argv[])
         etiss::log(etiss::FATALERROR, "  Failed to create CPU core!");
     }
 
-    // disable timer plugin
-    cpu->setTimer(false);
+    // Configure peripherals/plugins
+    cpu->setTimer(etiss::cfg().get<bool>("timer.enabled", false));
     // enable clint plugin
-    cpu->setClint(true);
+    cpu->setClint(etiss::cfg().get<bool>("clint.enabled", false));
     // enable uart plugin
-    cpu->setUart(true);
+    cpu->setUart(etiss::cfg().get<bool>("uart.enabled", false));
     // enable uart plugin
-    cpu->setPlic(true);
+    cpu->setPlic(etiss::cfg().get<bool>("plic.enabled", false));
 
     // reset CPU with a manual start address
     cpu->reset(&sa);

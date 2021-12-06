@@ -23,7 +23,11 @@ if [ "$#" -lt 1 ]; then
         "  v        Set ETISS output to verbose\n" \
         "  trace    Trace memory accesses\n" \
         "  gcc      Use GCC as JIT instead of TCC\n" \
-        "  llvm     Use LLVM as JIT instead of TCC\n"
+        "  llvm     Use LLVM as JIT instead of TCC\n" \
+        "  timer    Enable timer peripheral\n" \
+        "  clint    Enable clint peripheral\n" \
+        "  plic     Enable plic peripheral\n" \
+        "  uart     Enable uart peripheral\n"
     exit 1
 fi
 TARGETSW_PATH_ELF=$1
@@ -37,6 +41,10 @@ CMD_OPTIONS=""
 
 USE_GDB=0
 USE_TGDB=0
+USE_TIMER=0
+USE_CLINT=0
+USE_PLIC=0
+USE_UART=0
 DO_NOT_ATTACH=0
 ENABLE_DMI="true"
 LOG_PC="false"
@@ -68,6 +76,14 @@ do
         JIT="TCCJIT"
     elif [ "$arg" = "llvm" ]; then
         JIT="LLVMJIT"
+    elif [ "$arg" = "timer" ]; then
+        USE_TIMER=1
+    elif [ "$arg" = "clint" ]; then
+        USE_CLINT=1
+    elif [ "$arg" = "plic" ]; then
+        USE_PLIC=1
+    elif [ "$arg" = "uart" ]; then
+        USE_UART=1
     elif [ "$arg" = "vp" ]; then
         VP_EXE="$2"
         shift
@@ -84,6 +100,18 @@ echo -e "jit.type=${JIT}" >> $DYN_INI
 echo -e "\n[BoolConfigurations]\n" >> $DYN_INI
 echo -e "etiss.enable_dmi=${ENABLE_DMI}" >> $DYN_INI
 echo -e "etiss.log_pc=${LOG_PC}" >> $DYN_INI
+if [ "${USE_TIMER}" -eq 1 ]; then
+    echo -e "timer.enabled=true" >> $DYN_INI
+fi
+if [ "${USE_CLINT}" -eq 1 ]; then
+    echo -e "clint.enabled=true" >> $DYN_INI
+fi
+if [ "${USE_PLIC}" -eq 1 ]; then
+    echo -e "plic.enabled=true" >> $DYN_INI
+fi
+if [ "${USE_UART}" -eq 1 ]; then
+    echo -e "uart.enabled=true" >> $DYN_INI
+fi
 
 if [ "${DO_TRACE}" -eq 1 ]; then
     echo -e "simple_mem_system.print_dbus_access=true" >> $DYN_INI
@@ -98,6 +126,12 @@ echo -e "simple_mem_system.memseg_length_00=0x00080000" >> $DYN_INI
 
 echo -e "simple_mem_system.memseg_origin_01=0x00080000" >> $DYN_INI
 echo -e "simple_mem_system.memseg_length_01=0x00080000" >> $DYN_INI
+
+
+# Preprocessing for uart peripheral
+if [ "${USE_UART}" -eq 1 ]; then
+    mkdir -p .tmp
+fi
 
 # Call
 ARGS="-i${ETISS_DIR}/examples/base.ini -i${DYN_INI} ${CMD_OPTIONS}"
