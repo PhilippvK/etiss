@@ -80,6 +80,8 @@ static inline void int_enable(void) {
 //declearing all interrupt handelrs
 //these functions can be redefined by users
 
+void ISR_MTIP (void);	// 7: mtip
+void ISR_MEIP (void);	// 11: meip
 void ISR_I2C (void);	// 23: i2c
 void ISR_UART (void);	// 23: i2c
 void ISR_GPIO (void); 	// 25: gpio

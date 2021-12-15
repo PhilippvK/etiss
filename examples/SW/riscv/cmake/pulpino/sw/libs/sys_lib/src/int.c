@@ -18,6 +18,14 @@
 //defining all interrupt handelrs
 //these functions can be redefined by users
 
+// 7: mtip
+__attribute__ ((weak))
+void ISR_MTIP (void){ for(;;); }
+
+// 11: meip
+__attribute__ ((weak))
+void ISR_MEIP (void){ for(;;); }
+
 // 23: i2c
 __attribute__ ((weak))
 void ISR_I2C (void){ for(;;); }	
