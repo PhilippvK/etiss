@@ -3,4 +3,5 @@ MACRO(InstallJitLib TARGET_NAME)
 ENDMACRO()
 
 ADD_SUBDIRECTORY(softfloat)
+ADD_SUBDIRECTORY(softvector)
 ADD_SUBDIRECTORY(resources)
