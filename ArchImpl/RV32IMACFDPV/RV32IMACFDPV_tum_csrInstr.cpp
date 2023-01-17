@@ -45,19 +45,22 @@ csr += R_csr_0.read(ba) << 0;
 		partInit.code() = std::string("//CSRRW\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 xrs1 = *((RV32IMACFDPV*)cpu)->X[" + std::to_string(rs1 % 32U) + "];\n";
+partInit.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4U) + "U;\n";
+partInit.code() += "etiss_uint32 xrs1 = *((RV32IMACFDPV*)cpu)->X[" + std::to_string(rs1 % 32U) + "U];\n";
 if ((rd % 32U) != 0U) {
-partInit.code() += "etiss_uint32 xrd = csr_read(cpu, system, plugin_pointers, " + std::to_string(csr) + ");\n";
-partInit.code() += "csr_write(cpu, system, plugin_pointers, " + std::to_string(csr) + ", xrs1);\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string(rd % 32) + "] = xrd;\n";
-} else {
-partInit.code() += "csr_write(cpu, system, plugin_pointers, " + std::to_string(csr) + ", xrs1);\n";
+partInit.code() += "etiss_uint32 xrd = csr_read(cpu, system, plugin_pointers, " + std::to_string(csr) + "U);\n";
+partInit.code() += "csr_write(cpu, system, plugin_pointers, " + std::to_string(csr) + "U, xrs1);\n";
+partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string(rd % 32U) + "U] = xrd;\n";
 }
+else {
+partInit.code() += "csr_write(cpu, system, plugin_pointers, " + std::to_string(csr) + "U, xrs1);\n";
+}
+partInit.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+partInit.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getRegisterDependencies().add(reg_name[rs1 % 32U], 32);
-		partInit.getAffectedRegisters().add(reg_name[rd % 32], 32);
+		partInit.getAffectedRegisters().add(reg_name[rd % 32U], 32);
 		partInit.getAffectedRegisters().add("instructionPointer", 32);
 
 		return true;
@@ -117,19 +120,21 @@ csr += R_csr_0.read(ba) << 0;
 		partInit.code() = std::string("//CSRRS\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 xrd = csr_read(cpu, system, plugin_pointers, " + std::to_string(csr) + ");\n";
-partInit.code() += "etiss_uint32 xrs1 = *((RV32IMACFDPV*)cpu)->X[" + std::to_string(rs1 % 32U) + "];\n";
+partInit.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4U) + "U;\n";
+partInit.code() += "etiss_uint32 xrd = csr_read(cpu, system, plugin_pointers, " + std::to_string(csr) + "U);\n";
+partInit.code() += "etiss_uint32 xrs1 = *((RV32IMACFDPV*)cpu)->X[" + std::to_string(rs1 % 32U) + "U];\n";
 if (rs1 != 0U) {
-partInit.code() += "csr_write(cpu, system, plugin_pointers, " + std::to_string(csr) + ", xrd | xrs1);\n";
+partInit.code() += "csr_write(cpu, system, plugin_pointers, " + std::to_string(csr) + "U, xrd | xrs1);\n";
 }
 if ((rd % 32U) != 0U) {
-partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string(rd % 32) + "] = xrd;\n";
+partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string(rd % 32U) + "U] = xrd;\n";
 }
+partInit.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+partInit.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getRegisterDependencies().add(reg_name[rs1 % 32U], 32);
-		partInit.getAffectedRegisters().add(reg_name[rd % 32], 32);
+		partInit.getAffectedRegisters().add(reg_name[rd % 32U], 32);
 		partInit.getAffectedRegisters().add("instructionPointer", 32);
 
 		return true;
@@ -189,19 +194,21 @@ csr += R_csr_0.read(ba) << 0;
 		partInit.code() = std::string("//CSRRC\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 xrd = csr_read(cpu, system, plugin_pointers, " + std::to_string(csr) + ");\n";
-partInit.code() += "etiss_uint32 xrs1 = *((RV32IMACFDPV*)cpu)->X[" + std::to_string(rs1 % 32U) + "];\n";
+partInit.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4U) + "U;\n";
+partInit.code() += "etiss_uint32 xrd = csr_read(cpu, system, plugin_pointers, " + std::to_string(csr) + "U);\n";
+partInit.code() += "etiss_uint32 xrs1 = *((RV32IMACFDPV*)cpu)->X[" + std::to_string(rs1 % 32U) + "U];\n";
 if (rs1 != 0U) {
-partInit.code() += "csr_write(cpu, system, plugin_pointers, " + std::to_string(csr) + ", xrd & ~(xrs1));\n";
+partInit.code() += "csr_write(cpu, system, plugin_pointers, " + std::to_string(csr) + "U, xrd & ~(xrs1));\n";
 }
 if ((rd % 32U) != 0U) {
-partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string(rd % 32) + "] = xrd;\n";
+partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string(rd % 32U) + "U] = xrd;\n";
 }
+partInit.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+partInit.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getRegisterDependencies().add(reg_name[rs1 % 32U], 32);
-		partInit.getAffectedRegisters().add(reg_name[rd % 32], 32);
+		partInit.getAffectedRegisters().add(reg_name[rd % 32U], 32);
 		partInit.getAffectedRegisters().add("instructionPointer", 32);
 
 		return true;
@@ -261,15 +268,17 @@ csr += R_csr_0.read(ba) << 0;
 		partInit.code() = std::string("//CSRRWI\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 xrd = csr_read(cpu, system, plugin_pointers, " + std::to_string(csr) + ");\n";
-partInit.code() += "csr_write(cpu, system, plugin_pointers, " + std::to_string(csr) + ", " + std::to_string((etiss_uint32)(zimm)) + ");\n";
+partInit.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4U) + "U;\n";
+partInit.code() += "etiss_uint32 xrd = csr_read(cpu, system, plugin_pointers, " + std::to_string(csr) + "U);\n";
+partInit.code() += "csr_write(cpu, system, plugin_pointers, " + std::to_string(csr) + "U, " + std::to_string((etiss_uint32)(zimm)) + "U);\n";
 if ((rd % 32U) != 0U) {
-partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string(rd % 32) + "] = xrd;\n";
+partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string(rd % 32U) + "U] = xrd;\n";
 }
+partInit.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+partInit.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 
-		partInit.getAffectedRegisters().add(reg_name[rd % 32], 32);
+		partInit.getAffectedRegisters().add(reg_name[rd % 32U], 32);
 		partInit.getAffectedRegisters().add("instructionPointer", 32);
 
 		return true;
@@ -329,17 +338,19 @@ csr += R_csr_0.read(ba) << 0;
 		partInit.code() = std::string("//CSRRSI\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 xrd = csr_read(cpu, system, plugin_pointers, " + std::to_string(csr) + ");\n";
+partInit.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4U) + "U;\n";
+partInit.code() += "etiss_uint32 xrd = csr_read(cpu, system, plugin_pointers, " + std::to_string(csr) + "U);\n";
 if (zimm != 0U) {
-partInit.code() += "csr_write(cpu, system, plugin_pointers, " + std::to_string(csr) + ", xrd | " + std::to_string((etiss_uint32)(zimm)) + ");\n";
+partInit.code() += "csr_write(cpu, system, plugin_pointers, " + std::to_string(csr) + "U, xrd | " + std::to_string((etiss_uint32)(zimm)) + "U);\n";
 }
 if ((rd % 32U) != 0U) {
-partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string(rd % 32) + "] = xrd;\n";
+partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string(rd % 32U) + "U] = xrd;\n";
 }
+partInit.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+partInit.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 
-		partInit.getAffectedRegisters().add(reg_name[rd % 32], 32);
+		partInit.getAffectedRegisters().add(reg_name[rd % 32U], 32);
 		partInit.getAffectedRegisters().add("instructionPointer", 32);
 
 		return true;
@@ -399,17 +410,19 @@ csr += R_csr_0.read(ba) << 0;
 		partInit.code() = std::string("//CSRRCI\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 xrd = csr_read(cpu, system, plugin_pointers, " + std::to_string(csr) + ");\n";
+partInit.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4U) + "U;\n";
+partInit.code() += "etiss_uint32 xrd = csr_read(cpu, system, plugin_pointers, " + std::to_string(csr) + "U);\n";
 if (zimm != 0U) {
-partInit.code() += "csr_write(cpu, system, plugin_pointers, " + std::to_string(csr) + ", xrd & " + std::to_string(~(((etiss_uint32)(zimm)))) + ");\n";
+partInit.code() += "csr_write(cpu, system, plugin_pointers, " + std::to_string(csr) + "U, xrd & " + std::to_string(~(((etiss_uint32)(zimm)))) + "U);\n";
 }
 if ((rd % 32U) != 0U) {
-partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string(rd % 32) + "] = xrd;\n";
+partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string(rd % 32U) + "U] = xrd;\n";
 }
+partInit.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+partInit.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 
-		partInit.getAffectedRegisters().add(reg_name[rd % 32], 32);
+		partInit.getAffectedRegisters().add(reg_name[rd % 32U], 32);
 		partInit.getAffectedRegisters().add("instructionPointer", 32);
 
 		return true;

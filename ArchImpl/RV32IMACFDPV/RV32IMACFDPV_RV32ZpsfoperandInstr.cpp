@@ -45,16 +45,18 @@ rs2 += R_rs2_0.read(ba) << 0;
 		partInit.code() = std::string("//ADD64\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_int64 rs1_val_hi = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs1) >> (1U)) & 15) * 2U + 1U) + "];\n";
-partInit.code() += "etiss_uint32 rs1_val_lo = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs1) >> (1U)) & 15) * 2U) + "];\n";
+partInit.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4U) + "U;\n";
+partInit.code() += "etiss_int64 rs1_val_hi = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs1) >> (1U)) & 15) * 2U + 1U) + "U];\n";
+partInit.code() += "etiss_uint32 rs1_val_lo = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs1) >> (1U)) & 15) * 2U) + "U];\n";
 partInit.code() += "etiss_int64 rs1_val = (((rs1_val_hi) << 32) | (rs1_val_lo));\n";
-partInit.code() += "etiss_int64 rs2_val_hi = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs2) >> (1U)) & 15) * 2U + 1U) + "];\n";
-partInit.code() += "etiss_uint32 rs2_val_lo = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs2) >> (1U)) & 15) * 2U) + "];\n";
+partInit.code() += "etiss_int64 rs2_val_hi = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs2) >> (1U)) & 15) * 2U + 1U) + "U];\n";
+partInit.code() += "etiss_uint32 rs2_val_lo = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs2) >> (1U)) & 15) * 2U) + "U];\n";
 partInit.code() += "etiss_int64 rs2_val = (((rs2_val_hi) << 32) | (rs2_val_lo));\n";
 partInit.code() += "etiss_int64 sum = rs1_val + rs2_val;\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rd) >> (1U)) & 15) * 2U + 1U) + "] = (((sum) >> (32U)) & 4294967295);\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rd) >> (1U)) & 15) * 2U) + "] = (((sum) >> (0U)) & 4294967295);\n";
+partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rd) >> (1U)) & 15) * 2U + 1U) + "U] = (((sum) >> (32U)) & 4294967295);\n";
+partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rd) >> (1U)) & 15) * 2U) + "U] = (((sum) >> (0U)) & 4294967295);\n";
+partInit.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+partInit.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getRegisterDependencies().add(reg_name[(((rs1) >> (1U)) & 15) * 2U], 32);
@@ -122,16 +124,18 @@ rs2 += R_rs2_0.read(ba) << 0;
 		partInit.code() = std::string("//SUB64\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_int64 rs1_val_hi = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs1) >> (1U)) & 15) * 2U + 1U) + "];\n";
-partInit.code() += "etiss_int32 rs1_val_lo = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs1) >> (1U)) & 15) * 2U) + "];\n";
+partInit.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4U) + "U;\n";
+partInit.code() += "etiss_int64 rs1_val_hi = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs1) >> (1U)) & 15) * 2U + 1U) + "U];\n";
+partInit.code() += "etiss_int32 rs1_val_lo = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs1) >> (1U)) & 15) * 2U) + "U];\n";
 partInit.code() += "etiss_int64 rs1_val = (((rs1_val_hi) << 32) | (rs1_val_lo));\n";
-partInit.code() += "etiss_int64 rs2_val_hi = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs2) >> (1U)) & 15) * 2U + 1U) + "];\n";
-partInit.code() += "etiss_int32 rs2_val_lo = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs2) >> (1U)) & 15) * 2U) + "];\n";
+partInit.code() += "etiss_int64 rs2_val_hi = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs2) >> (1U)) & 15) * 2U + 1U) + "U];\n";
+partInit.code() += "etiss_int32 rs2_val_lo = *((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rs2) >> (1U)) & 15) * 2U) + "U];\n";
 partInit.code() += "etiss_int64 rs2_val = (((rs2_val_hi) << 32) | (rs2_val_lo));\n";
 partInit.code() += "etiss_int64 sum = rs1_val - rs2_val;\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rd) >> (1U)) & 15) * 2U + 1U) + "] = (((sum) >> (32U)) & 4294967295);\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rd) >> (1U)) & 15) * 2U) + "] = (((sum) >> (0U)) & 4294967295);\n";
+partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rd) >> (1U)) & 15) * 2U + 1U) + "U] = (((sum) >> (32U)) & 4294967295);\n";
+partInit.code() += "*((RV32IMACFDPV*)cpu)->X[" + std::to_string((((rd) >> (1U)) & 15) * 2U) + "U] = (((sum) >> (0U)) & 4294967295);\n";
+partInit.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+partInit.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getRegisterDependencies().add(reg_name[(((rs1) >> (1U)) & 15) * 2U], 32);

@@ -14,11 +14,11 @@ using namespace etiss;
 using namespace etiss::instr;
 
 
-// URET ------------------------------------------------------------------------
-static InstructionDefinition uret_ (
+// MRET ------------------------------------------------------------------------
+static InstructionDefinition mret_ (
 	ISA32_RV32IMACFDPV,
-	"uret",
-	(uint32_t) 0x200073,
+	"mret",
+	(uint32_t) 0x30200073,
 	(uint32_t) 0xffffffff,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
@@ -33,16 +33,28 @@ static InstructionDefinition uret_ (
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
 
-		partInit.code() = std::string("//URET\n");
+		partInit.code() = std::string("//MRET\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[3088U] = 0U;\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[0U] = *((RV32IMACFDPV*)cpu)->CSR[0U] ^ ((*((RV32IMACFDPV*)cpu)->CSR[0U] & 16U) >> 4U) ^ (*((RV32IMACFDPV*)cpu)->CSR[0U] & 1U);\n";
-partInit.code() += "cpu->instructionPointer = *((RV32IMACFDPV*)cpu)->CSR[65U];\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[768U] = *((RV32IMACFDPV*)cpu)->CSR[0U];\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[256U] = *((RV32IMACFDPV*)cpu)->CSR[0U];\n";
-partInit.code() += "return ((RV32IMACFDPV*)cpu)->exception;\n";
+partInit.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4U) + "U;\n";
+partInit.code() += "if (((RV32IMACFDPV*)cpu)->PRIV < 3) {\n";
+partInit.code() += "cpu->exception = 0; raise(cpu, system, plugin_pointers, 0U, 2);\n";
+partInit.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+partInit.code() += "}\n";
+partInit.code() += "cpu->nextPc = *((RV32IMACFDPV*)cpu)->CSR[833];\n";
+partInit.code() += "etiss_uint32 s = *((RV32IMACFDPV*)cpu)->CSR[768];\n";
+partInit.code() += "etiss_uint32 prev_prv = get_field(s, 6144);\n";
+partInit.code() += "if (prev_prv != 3) {\n";
+partInit.code() += "s = set_field(s, 131072, 0U);\n";
+partInit.code() += "}\n";
+partInit.code() += "s = set_field(s, 8, get_field(s, 128));\n";
+partInit.code() += "s = set_field(s, 128, 1U);\n";
+partInit.code() += "s = set_field(s, 6144, (extension_enabled(cpu, system, plugin_pointers, 85U)) ? (0) : (3));\n";
+partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[768] = s;\n";
+partInit.code() += "((RV32IMACFDPV*)cpu)->PRIV = (prev_prv) & 0x7;\n";
+partInit.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+partInit.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+partInit.code() += "return cpu->exception;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getAffectedRegisters().add("instructionPointer", 32);
@@ -58,7 +70,7 @@ partInit.code() += "return ((RV32IMACFDPV*)cpu)->exception;\n";
 
 		std::stringstream ss;
 // -----------------------------------------------------------------------------
-ss << "uret" << " # " << ba << (" []");
+ss << "mret" << " # " << ba << (" []");
 // -----------------------------------------------------------------------------
 		return ss.str();
 	}
@@ -86,14 +98,22 @@ static InstructionDefinition sret_ (
 		partInit.code() = std::string("//SRET\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[3088U] = (*((RV32IMACFDPV*)cpu)->CSR[256U] & 256U) >> 8U;\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[256U] = *((RV32IMACFDPV*)cpu)->CSR[256U] ^ (*((RV32IMACFDPV*)cpu)->CSR[256U] & 256U);\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[256U] = *((RV32IMACFDPV*)cpu)->CSR[256U] ^ ((*((RV32IMACFDPV*)cpu)->CSR[256U] & 32U) >> 4U) ^ (*((RV32IMACFDPV*)cpu)->CSR[256U] & 2U);\n";
-partInit.code() += "cpu->instructionPointer = *((RV32IMACFDPV*)cpu)->CSR[321U];\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[768U] = *((RV32IMACFDPV*)cpu)->CSR[256U];\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[0U] = *((RV32IMACFDPV*)cpu)->CSR[256U];\n";
-partInit.code() += "return ((RV32IMACFDPV*)cpu)->exception;\n";
+partInit.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4U) + "U;\n";
+partInit.code() += "if (((RV32IMACFDPV*)cpu)->PRIV < ((get_field(*((RV32IMACFDPV*)cpu)->CSR[768], 4194304)) ? (3) : (1))) {\n";
+partInit.code() += "cpu->exception = 0; raise(cpu, system, plugin_pointers, 0U, 2);\n";
+partInit.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+partInit.code() += "}\n";
+partInit.code() += "cpu->nextPc = *((RV32IMACFDPV*)cpu)->CSR[321];\n";
+partInit.code() += "etiss_uint32 s = *((RV32IMACFDPV*)cpu)->CSR[256];\n";
+partInit.code() += "etiss_uint32 prev_prv = get_field(s, 256);\n";
+partInit.code() += "s = set_field(s, 2, get_field(s, 32));\n";
+partInit.code() += "s = set_field(s, 32, 1U);\n";
+partInit.code() += "s = set_field(s, 256, 0);\n";
+partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[768] = s;\n";
+partInit.code() += "((RV32IMACFDPV*)cpu)->PRIV = (prev_prv) & 0x7;\n";
+partInit.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+partInit.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+partInit.code() += "return cpu->exception;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getAffectedRegisters().add("instructionPointer", 32);
@@ -110,57 +130,6 @@ partInit.code() += "return ((RV32IMACFDPV*)cpu)->exception;\n";
 		std::stringstream ss;
 // -----------------------------------------------------------------------------
 ss << "sret" << " # " << ba << (" []");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// MRET ------------------------------------------------------------------------
-static InstructionDefinition mret_ (
-	ISA32_RV32IMACFDPV,
-	"mret",
-	(uint32_t) 0x30200073,
-	(uint32_t) 0xffffffff,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
-
-		partInit.code() = std::string("//MRET\n");
-
-// -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[3088U] = (*((RV32IMACFDPV*)cpu)->CSR[768U] & 6144U) >> 11U;\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[768U] = *((RV32IMACFDPV*)cpu)->CSR[768U] ^ (*((RV32IMACFDPV*)cpu)->CSR[768U] & 6144U);\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[768U] = *((RV32IMACFDPV*)cpu)->CSR[768U] ^ ((*((RV32IMACFDPV*)cpu)->CSR[768U] & 128U) >> 4U) ^ (*((RV32IMACFDPV*)cpu)->CSR[768U] & 8U);\n";
-partInit.code() += "cpu->instructionPointer = *((RV32IMACFDPV*)cpu)->CSR[833U];\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[0U] = *((RV32IMACFDPV*)cpu)->CSR[768U];\n";
-partInit.code() += "*((RV32IMACFDPV*)cpu)->CSR[256U] = *((RV32IMACFDPV*)cpu)->CSR[768U];\n";
-partInit.code() += "return ((RV32IMACFDPV*)cpu)->exception;\n";
-// -----------------------------------------------------------------------------
-
-		partInit.getAffectedRegisters().add("instructionPointer", 32);
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "mret" << " # " << ba << (" []");
 // -----------------------------------------------------------------------------
 		return ss.str();
 	}
