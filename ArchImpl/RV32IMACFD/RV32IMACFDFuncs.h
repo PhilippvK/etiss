@@ -1,5 +1,5 @@
 /**
- * Generated on Tue, 21 Jun 2022 11:35:14 +0200.
+ * Generated on Wed, 15 Mar 2023 14:25:21 +0100.
  *
  * This file contains the function macros for the RV32IMACFD core architecture.
  */
@@ -15,9 +15,41 @@
 #endif
 
 
-#ifndef ETISS_ARCH_STATIC_FN_ONLY
-static inline void raise(etiss_int32 irq, etiss_int32 mcause);
-#endif
+static inline etiss_int32 raise(ETISS_CPU * const cpu, ETISS_System * const system, void * const * const plugin_pointers, etiss_int32 irq, etiss_int32 mcause)
+{
+if (irq != 0U) {
+return -9;
+} else {
+if (mcause == 0 || mcause == 1) {
+return -7;
+}
+if (mcause == 2) {
+return -11;
+}
+if (mcause == 3) {
+return 2147483648;
+}
+if (mcause == 4 || mcause == 5) {
+return -5;
+}
+if (mcause == 6 || mcause == 7) {
+return -6;
+}
+if (mcause == 8 || mcause == 9 || mcause == 10 || mcause == 11) {
+return -17;
+}
+if (mcause == 12 || mcause == 20) {
+return -13;
+}
+if (mcause == 13 || mcause == 21) {
+return -14;
+}
+if (mcause == 15 || mcause == 23) {
+return -15;
+}
+return -11;
+}
+}
 
 #ifndef ETISS_ARCH_STATIC_FN_ONLY
 static inline void leave(etiss_int32 priv_lvl);

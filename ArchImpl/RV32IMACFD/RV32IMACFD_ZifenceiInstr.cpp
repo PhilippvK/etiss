@@ -1,5 +1,5 @@
 /**
- * Generated on Tue, 01 Mar 2022 12:43:46 +0100.
+ * Generated on Wed, 15 Mar 2023 14:25:21 +0100.
  *
  * This file contains the instruction behavior models of the Zifencei
  * instruction set for the RV32IMACFD core architecture.
@@ -28,13 +28,13 @@ static InstructionDefinition fence_i_rd_rs1_imm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
-etiss_uint32 rd = 0;
+etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
-etiss_uint32 rs1 = 0;
+etiss_uint8 rs1 = 0;
 static BitArrayRange R_rs1_0(19, 15);
 rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint32 imm = 0;
+etiss_uint16 imm = 0;
 static BitArrayRange R_imm_0(31, 20);
 imm += R_imm_0.read(ba) << 0;
 
@@ -45,10 +45,10 @@ imm += R_imm_0.read(ba) << 0;
 		partInit.code() = std::string("//FENCE_I\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "exception = ETISS_RETURNCODE_RELOADBLOCKS;\n";
+partInit.code() += "((RV32IMACFD*)cpu)->exception = ETISS_RETURNCODE_RELOADBLOCKS;\n";
 partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
 partInit.code() += "((RV32IMACFD*)cpu)->FENCE[" + std::to_string(1) + "] = " + std::to_string(imm) + ";\n";
-partInit.code() += "return exception;\n";
+partInit.code() += "return ((RV32IMACFD*)cpu)->exception;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getAffectedRegisters().add("instructionPointer", 32);
@@ -59,13 +59,13 @@ partInit.code() += "return exception;\n";
 	[] (BitArray & ba, Instruction & instr)
 	{
 // -----------------------------------------------------------------------------
-etiss_uint32 rd = 0;
+etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
-etiss_uint32 rs1 = 0;
+etiss_uint8 rs1 = 0;
 static BitArrayRange R_rs1_0(19, 15);
 rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint32 imm = 0;
+etiss_uint16 imm = 0;
 static BitArrayRange R_imm_0(31, 20);
 imm += R_imm_0.read(ba) << 0;
 

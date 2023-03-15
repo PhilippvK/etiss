@@ -1,5 +1,5 @@
 /**
- * Generated on Tue, 01 Mar 2022 00:20:25 +0100.
+ * Generated on Wed, 15 Mar 2023 14:25:21 +0100.
  *
  * This file contains the registers for the RV32IMACFD core architecture.
  */
@@ -15,6 +15,8 @@ extern "C" {
 #pragma pack(push, 1)
 struct RV32IMACFD {
 	ETISS_CPU cpu; // original cpu struct must be defined as the first field of the new structure. this allows to cast X * to ETISS_CPU * and vice vers
+	etiss_uint32 exception;
+	etiss_uint32 exception_pending;
 	etiss_uint32 ZERO;
 	etiss_uint32 RA;
 	etiss_uint32 SP;
