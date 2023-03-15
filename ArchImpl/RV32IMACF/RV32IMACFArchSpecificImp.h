@@ -55,6 +55,43 @@ protected:
 	}
 };
 
+class FloatRegField_RV32IMACF : public etiss::VirtualStruct::Field{
+private:
+	const unsigned gprid_;
+public:
+	FloatRegField_RV32IMACF(etiss::VirtualStruct & parent,unsigned gprid)
+		: Field(parent,
+			std::string("F")+etiss::toString(gprid),
+			std::string("F")+etiss::toString(gprid),
+			R|W,
+			4
+		),
+		gprid_(gprid)
+	{}
+
+	FloatRegField_RV32IMACF(etiss::VirtualStruct & parent, std::string name, unsigned gprid)
+		: Field(parent,
+			name,
+			name,
+			R|W,
+			4
+		),
+		gprid_(gprid)
+	{}
+
+	virtual ~FloatRegField_RV32IMACF(){}
+
+protected:
+	virtual uint64_t _read() const {
+		return (uint64_t) *((RV32IMACF*)parent_.structure_)->X[gprid_];
+	}
+
+	virtual void _write(uint64_t val) {
+		etiss::log(etiss::VERBOSE, "write to ETISS cpu state", name_, val);
+		*((RV32IMACF*)parent_.structure_)->X[gprid_] = (etiss_uint32) val;
+	}
+};
+
 class pcField_RV32IMACF : public etiss::VirtualStruct::Field{
 public:
 	pcField_RV32IMACF(etiss::VirtualStruct & parent)
