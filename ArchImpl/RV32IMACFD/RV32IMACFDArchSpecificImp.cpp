@@ -1,5 +1,5 @@
 /**
- * Generated on Thu, 24 Feb 2022 17:15:20 +0100.
+ * Generated on Sun, 29 Oct 2023 22:27:54 +0100.
  *
  * This file contains the architecture specific implementation for the RV32IMACFD
  * core architecture.
@@ -34,9 +34,8 @@ extern "C" {
 */
 etiss::int32 RV32IMACFDArch::handleException(etiss::int32 cause, ETISS_CPU * cpu)
 {
-    translate_exc_code(cpu, nullptr, nullptr, cause);
+	translate_exc_code(cpu, nullptr, nullptr, cause);
 	cpu->instructionPointer = cpu->nextPc;
-
 	return 0;
 }
 
@@ -347,7 +346,7 @@ etiss::InterruptVector * RV32IMACFDArch::createInterruptVector(ETISS_CPU * cpu)
 	if (cpu == 0)
 		return 0;
 
-	std::vector<etiss::uint32 *> vec;
+  	std::vector<etiss::uint32 *> vec;
 	std::vector<etiss::uint32 *> mask;
 
 	vec.push_back(&((RV32IMACFD*)cpu)->MIE);

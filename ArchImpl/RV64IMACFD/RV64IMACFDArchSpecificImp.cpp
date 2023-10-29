@@ -1,5 +1,5 @@
 /**
- * Generated on Thu, 24 Feb 2022 17:15:20 +0100.
+ * Generated on Sun, 29 Oct 2023 22:27:54 +0100.
  *
  * This file contains the architecture specific implementation for the RV64IMACFD
  * core architecture.
@@ -17,6 +17,7 @@
 extern "C" {
 #include "RV64IMACFDFuncs.h"
 }
+
 /**
 	@brief This function will be called automatically in order to handling exceptions such as interrupt, system call, illegal instructions
 
@@ -35,7 +36,6 @@ etiss::int32 RV64IMACFDArch::handleException(etiss::int32 cause, ETISS_CPU * cpu
 {
 	translate_exc_code(cpu, nullptr, nullptr, cause);
 	cpu->instructionPointer = cpu->nextPc;
-
 	return 0;
 }
 
@@ -97,12 +97,12 @@ void RV64IMACFDArch::initInstrSet(etiss::instr::ModedInstructionSet & mis) const
 	if (!ok)
 		etiss::log(etiss::FATALERROR,"Failed to add instructions for RV64IMACFDISA");
 
-	etiss::instr::VariableInstructionSet *vis = mis.get(1);
+    etiss::instr::VariableInstructionSet *vis = mis.get(1);
 
-	using namespace etiss;
-	using namespace etiss::instr;
+    using namespace etiss;
+    using namespace etiss::instr;
 
-	vis->get(32)->getInvalid().addCallback(
+    	vis->get(32)->getInvalid().addCallback(
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -346,7 +346,7 @@ etiss::InterruptVector * RV64IMACFDArch::createInterruptVector(ETISS_CPU * cpu)
 	if (cpu == 0)
 		return 0;
 
-	std::vector<etiss::uint64 *> vec;
+  	std::vector<etiss::uint64 *> vec;
 	std::vector<etiss::uint64 *> mask;
 
 	vec.push_back(&((RV64IMACFD*)cpu)->MIE);
