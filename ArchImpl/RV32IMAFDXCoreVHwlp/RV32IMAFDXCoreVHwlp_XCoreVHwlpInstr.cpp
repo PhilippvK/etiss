@@ -1,5 +1,5 @@
 /**
- * Generated on Wed, 15 Nov 2023 16:34:15 +0100.
+ * Generated on Wed, 15 Nov 2023 17:01:22 +0100.
  *
  * This file contains the instruction behavior models of the XCoreVHwlp
  * instruction set for the RV32IMAFDXCoreVHwlp core architecture.
@@ -1175,6 +1175,9 @@ cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_1 = " + std::to_string((etiss
 cp.code() += "} // block\n";
 } // block
 } // conditional
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_1 > 0ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
 cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_1 < ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 + 8ULL) { // conditional\n";
 { // block
 cp.code() += "{ // block\n";
@@ -1184,6 +1187,9 @@ cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "} // conditional\n";
@@ -1407,6 +1413,9 @@ cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_1 = *((RV32IMAFDXCoreVHwlp*)c
 cp.code() += "} // block\n";
 } // block
 } // conditional
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_1 > 0ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
 cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_1 < ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 + 8ULL) { // conditional\n";
 { // block
 cp.code() += "{ // block\n";
@@ -1416,6 +1425,9 @@ cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "} // conditional\n";
