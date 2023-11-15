@@ -1,5 +1,5 @@
 /**
- * Generated on Sun, 29 Oct 2023 22:27:54 +0100.
+ * Generated on Wed, 15 Nov 2023 16:00:01 +0100.
  *
  * This file contains the instruction behavior models of the XCoreVMem
  * instruction set for the RV32IMAFDXCoreVHwlp core architecture.
@@ -48,26 +48,7 @@ imm12 += R_imm12_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -96,7 +77,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -194,26 +194,7 @@ imm12 += R_imm12_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -242,7 +223,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -340,26 +340,7 @@ imm12 += R_imm12_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -388,7 +369,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -486,26 +486,7 @@ imm12 += R_imm12_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -534,7 +515,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -632,26 +632,7 @@ imm12 += R_imm12_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -680,7 +661,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -778,26 +778,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -826,7 +807,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -924,26 +924,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -972,7 +953,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1070,26 +1070,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1118,7 +1099,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1216,26 +1216,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1264,7 +1245,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1362,26 +1362,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1410,7 +1391,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1508,26 +1508,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1556,7 +1537,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1653,26 +1653,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1701,7 +1682,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1798,26 +1798,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1846,7 +1827,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1943,26 +1943,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1991,7 +1972,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2088,26 +2088,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2136,7 +2117,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2235,26 +2235,7 @@ imm12 += R_imm12_5.read(ba) << 5;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2283,7 +2264,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2382,26 +2382,7 @@ imm12 += R_imm12_5.read(ba) << 5;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2430,7 +2411,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2529,26 +2529,7 @@ imm12 += R_imm12_5.read(ba) << 5;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2577,7 +2558,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2674,26 +2674,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2722,7 +2703,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2817,26 +2817,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2865,7 +2846,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2960,26 +2960,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3008,7 +2989,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3103,26 +3103,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3151,7 +3132,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3245,26 +3245,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3293,7 +3274,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3387,26 +3387,7 @@ rs2 += R_rs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // procedure
-cp.code() += "{ // procedure\n";
-cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
-cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
-cp.code() += "} // procedure\n";
-} // procedure
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
-cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3435,7 +3416,26 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "if (" + std::to_string(ic.current_address_) + "ULL == ((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 && ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 != 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (((RV32IMAFDXCoreVHwlp*)cpu)->lpend_0 - ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0 < 8ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "cpu->nextPc = ((RV32IMAFDXCoreVHwlp*)cpu)->lpstart_0;\n";
+cp.code() += "((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 = ((RV32IMAFDXCoreVHwlp*)cpu)->lpcount_0 - 1ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 { // block
