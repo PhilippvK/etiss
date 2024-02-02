@@ -175,20 +175,13 @@ void SimpleMemSystem::load_elf()
         if (reader.get_machine() == EM_RISCV)
         {
             if ((reader.get_class() == ELFCLASS64)) {
-                etiss::cfg().set<std::string>("arch.cpu", "RISCV64"); // RISCV and OR1K work as well
+                etiss::cfg().set<std::string>("arch.cpu", "RV64IMACFD"); // RISCV and OR1K work as well
             } else if ((reader.get_class() == ELFCLASS32)) {
                 etiss::cfg().set<std::string>("arch.cpu", "RV32IMACFD");
             // add conditions
             } else {
                 etiss::log(etiss::FATALERROR, "System architecture is neither 64 nor 32 bit!");
             }
-        }
-        else if (reader.get_machine() == EM_OPENRISC)
-        {
-            if ((reader.get_class() == ELFCLASS32))
-                etiss::cfg().set<std::string>("arch.cpu", "OR1K");
-            if ((reader.get_class() == ELFCLASS64))
-                etiss::log(etiss::FATALERROR, "OR1k 64 is not supported");
         }
         else
         {
