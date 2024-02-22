@@ -1,5 +1,5 @@
 /**
- * Generated on Tue, 28 Nov 2023 09:45:19 +0100.
+ * Generated on Thu, 22 Feb 2024 17:34:53 +0100.
  *
  * This file contains the instruction behavior models of the RV32IC
  * instruction set for the RV32IMACFD core architecture.
@@ -58,7 +58,7 @@ cp.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd + 8ULL) + "ULL] = *((
 else { // conditional
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV32IMACFD_raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "RV32IMACFD_raise(cpu, system, plugin_pointers, 0ULL, 2LL);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
@@ -661,7 +661,7 @@ cp.code() += "{ // block\n";
 if (imm == 0ULL) { // conditional
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV32IMACFD_raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "RV32IMACFD_raise(cpu, system, plugin_pointers, 0ULL, 2LL);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
@@ -756,7 +756,7 @@ cp.code() += "*((RV32IMACFD*)cpu)->X[2ULL] = *((RV32IMACFD*)cpu)->X[2ULL] + " + 
 else { // conditional
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV32IMACFD_raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "RV32IMACFD_raise(cpu, system, plugin_pointers, 0ULL, 2LL);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
@@ -837,7 +837,7 @@ cp.code() += "} // block\n";
 } // block
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV32IMACFD_raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "RV32IMACFD_raise(cpu, system, plugin_pointers, 0ULL, 2LL);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
@@ -2193,7 +2193,7 @@ cp.code() += "} // block\n";
 } // block
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV32IMACFD_raise(cpu, system, plugin_pointers, 0ULL, 3ULL);\n";
+cp.code() += "RV32IMACFD_raise(cpu, system, plugin_pointers, 0ULL, 3LL);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
@@ -2351,7 +2351,7 @@ cp.code() += "} // block\n";
 } // block
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV32IMACFD_raise(cpu, system, plugin_pointers, 0ULL, 2ULL);\n";
+cp.code() += "RV32IMACFD_raise(cpu, system, plugin_pointers, 0ULL, 2LL);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure

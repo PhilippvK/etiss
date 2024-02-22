@@ -1,5 +1,5 @@
 /**
- * Generated on Tue, 28 Nov 2023 09:45:19 +0100.
+ * Generated on Thu, 22 Feb 2024 17:34:53 +0100.
  *
  * This file contains the function implementations for the RV32IMACFD core architecture.
  */
@@ -23,6 +23,20 @@ if (rm > 4ULL) { // conditional
 RV32IMACFD_raise(cpu, system, plugin_pointers, 0ULL, 2LL);
 } // conditional
 return rm;
+} // block
+}
+
+etiss_uint32 RV32IMACFD_rotl32(etiss_uint32 x, etiss_uint32 n)
+{
+{ // block
+return (x << n) | (x >> (32ULL - n));
+} // block
+}
+
+etiss_uint32 RV32IMACFD_rotr32(etiss_uint32 x, etiss_uint32 n)
+{
+{ // block
+return (x >> n) | (x << (32ULL - n));
 } // block
 }
 

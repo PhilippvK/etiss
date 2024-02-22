@@ -1,5 +1,5 @@
 /**
- * Generated on Tue, 28 Nov 2023 09:45:19 +0100.
+ * Generated on Thu, 22 Feb 2024 17:34:53 +0100.
  *
  * This file contains the architecture class for the RV32IMACFD core architecture.
  */
@@ -41,7 +41,7 @@
 using namespace etiss ;
 using namespace etiss::instr ;
 
-RV32IMACFDArch::RV32IMACFDArch():CPUArch("RV32IMACFD")
+RV32IMACFDArch::RV32IMACFDArch(unsigned int coreno):CPUArch("RV32IMACFD"), coreno_(coreno)
 {
 	headers_.insert("Arch/RV32IMACFD/RV32IMACFD.h");
 }
@@ -177,6 +177,7 @@ void RV32IMACFDArch::resetCPU(ETISS_CPU * cpu,etiss::uint64 * startpointer)
 	*rv32imacfdcpu->CSR[260] = 4294964019;
 	*rv32imacfdcpu->CSR[4] = 4294963473;
  	rv32imacfdcpu->RES_ADDR = -1;
+
 }
 
 void RV32IMACFDArch::deleteCPU(ETISS_CPU *cpu)
