@@ -1,5 +1,5 @@
 /**
- * Generated on Thu, 22 Feb 2024 17:34:53 +0100.
+ * Generated on Thu, 22 Feb 2024 17:38:03 +0100.
  *
  * This file contains the instruction behavior models of the XISE
  * instruction set for the RV32IMACFD core architecture.
@@ -937,6 +937,166 @@ rs1 += R_rs1_0.read(ba) << 0;
 		std::stringstream ss;
 // -----------------------------------------------------------------------------
 ss << "sha256sum1b" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + std::to_string(rs1) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// ROTL32 ----------------------------------------------------------------------
+static InstructionDefinition rotl32_rd_rs1_rs2 (
+	ISA32_RV32IMACFD,
+	"rotl32",
+	(uint32_t) 0x2000000b,
+	(uint32_t) 0xfe00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 rd = 0;
+static BitArrayRange R_rd_0(11, 7);
+rd += R_rd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 rs2 = 0;
+static BitArrayRange R_rs2_0(24, 20);
+rs2 += R_rs2_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//ROTL32\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+if (rd != 0ULL) { // conditional
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd) + "ULL] = (*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL] << (((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2) + "ULL]) >> (0ULL)) & 31)) | (*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL] >> (32ULL - (((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2) + "ULL]) >> (0ULL)) & 31)));\n";
+cp.code() += "} // block\n";
+} // block
+} // conditional
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 rd = 0;
+static BitArrayRange R_rd_0(11, 7);
+rd += R_rd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 rs2 = 0;
+static BitArrayRange R_rs2_0(24, 20);
+rs2 += R_rs2_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "rotl32" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + std::to_string(rs1) + " | rs2=" + std::to_string(rs2) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// ROTR32 ----------------------------------------------------------------------
+static InstructionDefinition rotr32_rd_rs1_rs2 (
+	ISA32_RV32IMACFD,
+	"rotr32",
+	(uint32_t) 0x2200000b,
+	(uint32_t) 0xfe00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 rd = 0;
+static BitArrayRange R_rd_0(11, 7);
+rd += R_rd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 rs2 = 0;
+static BitArrayRange R_rs2_0(24, 20);
+rs2 += R_rs2_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//ROTR32\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+if (rd != 0ULL) { // conditional
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd) + "ULL] = (*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL] >> (((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2) + "ULL]) >> (0ULL)) & 31)) | (*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL] << (32ULL - (((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2) + "ULL]) >> (0ULL)) & 31)));\n";
+cp.code() += "} // block\n";
+} // block
+} // conditional
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 rd = 0;
+static BitArrayRange R_rd_0(11, 7);
+rd += R_rd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 rs2 = 0;
+static BitArrayRange R_rs2_0(24, 20);
+rs2 += R_rs2_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "rotr32" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + std::to_string(rs1) + " | rs2=" + std::to_string(rs2) + "]");
 // -----------------------------------------------------------------------------
 		return ss.str();
 	}
