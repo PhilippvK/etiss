@@ -1,0 +1,89 @@
+/**
+ * Generated on Thu, 21 Mar 2024 17:23:30 +0100.
+ *
+ * This file contains the instruction behavior models of the Seal5Test_alu_cv_addRNrs_i16
+ * instruction set for the RV32IMACFD core architecture.
+ */
+
+#include "RV32IMACFDArch.h"
+#include "RV32IMACFDFuncs.h"
+
+using namespace etiss;
+using namespace etiss::instr;
+
+
+// cv_addRNrs_i16 --------------------------------------------------------------
+static InstructionDefinition cv_addrnrs_i16_rd_rs1_rs2 (
+	ISA32_RV32IMACFD,
+	"cv_addrnrs_i16",
+	(uint32_t) 0x3400007b,
+	(uint32_t) 0xfe00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 rd = 0;
+static BitArrayRange R_rd_0(11, 7);
+rd += R_rd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 rs2 = 0;
+static BitArrayRange R_rs2_0(24, 20);
+rs2 += R_rs2_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//cv_addRNrs_i16\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+if (rd != 0ULL) { // conditional
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd) + "ULL] = *((RV32IMACFD*)cpu)->X[" + std::to_string(rd) + "ULL] + (etiss_int16)((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL])) + 2ULL ^ ((etiss_int16)(((etiss_int16)((((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2) + "ULL])) >> (0ULL)) & 31)) << (11)) >> (11)) - 1ULL >> ((etiss_int16)(((etiss_int16)((((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2) + "ULL])) >> (0ULL)) & 31)) << (11)) >> (11));\n";
+cp.code() += "} // block\n";
+} // block
+} // conditional
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 rd = 0;
+static BitArrayRange R_rd_0(11, 7);
+rd += R_rd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 rs2 = 0;
+static BitArrayRange R_rs2_0(24, 20);
+rs2 += R_rs2_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "cv_addrnrs_i16" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + std::to_string(rs1) + " | rs2=" + std::to_string(rs2) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);

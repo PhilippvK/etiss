@@ -1,4 +1,4 @@
-# Generated on Tue, 28 Nov 2023 09:45:19 +0100.
+# Generated on Thu, 21 Mar 2024 17:23:30 +0100.
 #
 # This file contains the CMake build info for the RV32IMACFD core architecture.
 
@@ -26,6 +26,76 @@ ADD_LIBRARY(${PROJECT_NAME} SHARED
 	RV32IMACFD_RV32AInstr.cpp
 	RV32IMACFD_tum_rvaInstr.cpp
 	RV32IMACFD_tum_semihostingInstr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_absInstr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_mini5_16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_mini5_32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_mini12_16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_mini12_32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_maxi5_16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_maxi5_32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_maxi12_16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_maxi12_32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_minu_i16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_mins_i16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_minu_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_mins_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_maxu_i16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_maxs_i16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_maxu_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_maxs_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_sletu_i16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_slets_i16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_sletu_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_slets_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_addNru_i16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_addNrs_i16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_addNru_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_addNrs_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_subNru_i16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_subNrs_i16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_subNru_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_subNrs_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_addRNru_i16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_addRNrs_i16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_addRNru_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_addRNrs_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_subRNru_i16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_subRNrs_i16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_subRNru_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_subRNrs_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_addNuInstr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_addNsInstr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_subNuInstr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_subNsInstr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_addRNuInstr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_addRNsInstr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_subRNuInstr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_subRNsInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_macu_i16Instr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_macs_i16Instr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_macu_i32Instr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_macs_i32Instr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_msuu_i16Instr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_msus_i16Instr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_msuu_i32Instr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_msus_i32Instr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_mulNuInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_mulNsInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_mulhhNuInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_mulhhNsInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_mulRNuInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_mulRNsInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_mulhhRNuInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_mulhhRNsInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_macNuInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_macNsInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_machhNuInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_machhNsInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_macRNuInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_macRNsInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_machhRNuInstr.cpp
+	RV32IMACFD_Seal5Test_mac_cv_machhRNsInstr.cpp
+	RV32IMACFD_Seal5Test_extInstr.cpp
 )
 
 add_custom_command(
