@@ -1,5 +1,5 @@
 /**
- * Generated on Thu, 21 Mar 2024 17:23:30 +0100.
+ * Generated on Thu, 21 Mar 2024 19:52:45 +0100.
  *
  * This file contains the instruction behavior models of the Seal5Test_mac_cv_machhNs
  * instruction set for the RV32IMACFD core architecture.
@@ -55,7 +55,7 @@ cp.code() += "} // block\n";
 if (rd != 0ULL) { // conditional
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd) + "ULL] = (etiss_int16)(((((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL])) >> (16ULL)) & 65535)) * (etiss_int16)(((((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2) + "ULL])) >> (16ULL)) & 65535)) + *((RV32IMACFD*)cpu)->X[" + std::to_string(rd) + "ULL] >> " + std::to_string((etiss_uint8)((Is3))) + "ULL;\n";
+cp.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd) + "ULL] = (etiss_int16)(((((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL])) >> (16ULL)) & 65535)) * (etiss_int16)(((((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2) + "ULL])) >> (16ULL)) & 65535)) + (etiss_int32)((*((RV32IMACFD*)cpu)->X[" + std::to_string(rd) + "ULL])) >> " + std::to_string((etiss_uint8)((Is3))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 } // conditional

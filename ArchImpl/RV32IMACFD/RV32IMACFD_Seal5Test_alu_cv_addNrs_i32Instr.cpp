@@ -1,5 +1,5 @@
 /**
- * Generated on Thu, 21 Mar 2024 17:23:30 +0100.
+ * Generated on Thu, 21 Mar 2024 19:52:45 +0100.
  *
  * This file contains the instruction behavior models of the Seal5Test_alu_cv_addNrs_i32
  * instruction set for the RV32IMACFD core architecture.
@@ -16,7 +16,7 @@ using namespace etiss::instr;
 static InstructionDefinition cv_addnrs_i32_rd_rs1_rs2 (
 	ISA32_RV32IMACFD,
 	"cv_addnrs_i32",
-	(uint32_t) 0x2800007b,
+	(uint32_t) 0x3c00007b,
 	(uint32_t) 0xfe00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
@@ -52,7 +52,7 @@ cp.code() += "} // block\n";
 if (rd != 0ULL) { // conditional
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd) + "ULL] = *((RV32IMACFD*)cpu)->X[" + std::to_string(rd) + "ULL] + (etiss_int32)((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL])) >> ((etiss_int32)(((etiss_int32)((((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2) + "ULL])) >> (0ULL)) & 31)) << (27)) >> (27));\n";
+cp.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd) + "ULL] = *((RV32IMACFD*)cpu)->X[" + std::to_string(rd) + "ULL] + (etiss_int32)((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL])) >> ((etiss_int8)(((etiss_int8)((((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2) + "ULL])) >> (0ULL)) & 31)) << (3)) >> (3));\n";
 cp.code() += "} // block\n";
 } // block
 } // conditional

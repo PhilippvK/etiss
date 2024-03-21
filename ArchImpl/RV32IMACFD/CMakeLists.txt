@@ -1,4 +1,4 @@
-# Generated on Thu, 21 Mar 2024 17:23:30 +0100.
+# Generated on Thu, 21 Mar 2024 19:52:45 +0100.
 #
 # This file contains the CMake build info for the RV32IMACFD core architecture.
 
@@ -26,7 +26,13 @@ ADD_LIBRARY(${PROJECT_NAME} SHARED
 	RV32IMACFD_RV32AInstr.cpp
 	RV32IMACFD_tum_rvaInstr.cpp
 	RV32IMACFD_tum_semihostingInstr.cpp
-	RV32IMACFD_Seal5Test_alu_cv_absInstr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_abs8Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_abs16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_abs32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_exthsInstr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_exthzInstr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_extbsInstr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_extbzInstr.cpp
 	RV32IMACFD_Seal5Test_alu_cv_mini5_16Instr.cpp
 	RV32IMACFD_Seal5Test_alu_cv_mini5_32Instr.cpp
 	RV32IMACFD_Seal5Test_alu_cv_mini12_16Instr.cpp
@@ -35,14 +41,18 @@ ADD_LIBRARY(${PROJECT_NAME} SHARED
 	RV32IMACFD_Seal5Test_alu_cv_maxi5_32Instr.cpp
 	RV32IMACFD_Seal5Test_alu_cv_maxi12_16Instr.cpp
 	RV32IMACFD_Seal5Test_alu_cv_maxi12_32Instr.cpp
-	RV32IMACFD_Seal5Test_alu_cv_minu_i16Instr.cpp
-	RV32IMACFD_Seal5Test_alu_cv_mins_i16Instr.cpp
-	RV32IMACFD_Seal5Test_alu_cv_minu_i32Instr.cpp
-	RV32IMACFD_Seal5Test_alu_cv_mins_i32Instr.cpp
-	RV32IMACFD_Seal5Test_alu_cv_maxu_i16Instr.cpp
-	RV32IMACFD_Seal5Test_alu_cv_maxs_i16Instr.cpp
-	RV32IMACFD_Seal5Test_alu_cv_maxu_i32Instr.cpp
-	RV32IMACFD_Seal5Test_alu_cv_maxs_i32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_min_u_8Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_min_s_8Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_min_u_16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_min_s_16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_min_u_32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_min_s_32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_max_u_8Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_max_s_8Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_max_u_16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_max_s_16Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_max_u_32Instr.cpp
+	RV32IMACFD_Seal5Test_alu_cv_max_s_32Instr.cpp
 	RV32IMACFD_Seal5Test_alu_cv_sletu_i16Instr.cpp
 	RV32IMACFD_Seal5Test_alu_cv_slets_i16Instr.cpp
 	RV32IMACFD_Seal5Test_alu_cv_sletu_i32Instr.cpp
@@ -95,7 +105,6 @@ ADD_LIBRARY(${PROJECT_NAME} SHARED
 	RV32IMACFD_Seal5Test_mac_cv_macRNsInstr.cpp
 	RV32IMACFD_Seal5Test_mac_cv_machhRNuInstr.cpp
 	RV32IMACFD_Seal5Test_mac_cv_machhRNsInstr.cpp
-	RV32IMACFD_Seal5Test_extInstr.cpp
 )
 
 add_custom_command(

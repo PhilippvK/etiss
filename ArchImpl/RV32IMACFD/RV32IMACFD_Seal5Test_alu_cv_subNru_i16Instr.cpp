@@ -1,5 +1,5 @@
 /**
- * Generated on Thu, 21 Mar 2024 17:23:30 +0100.
+ * Generated on Thu, 21 Mar 2024 19:52:45 +0100.
  *
  * This file contains the instruction behavior models of the Seal5Test_alu_cv_subNru_i16
  * instruction set for the RV32IMACFD core architecture.
@@ -16,7 +16,7 @@ using namespace etiss::instr;
 static InstructionDefinition cv_subnru_i16_rd_rs1_rs2 (
 	ISA32_RV32IMACFD,
 	"cv_subnru_i16",
-	(uint32_t) 0x2a00007b,
+	(uint32_t) 0x3e00007b,
 	(uint32_t) 0xfe00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
