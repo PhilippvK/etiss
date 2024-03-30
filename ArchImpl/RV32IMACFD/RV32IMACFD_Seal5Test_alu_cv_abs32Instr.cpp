@@ -1,5 +1,5 @@
 /**
- * Generated on Thu, 21 Mar 2024 19:52:45 +0100.
+ * Generated on Sat, 30 Mar 2024 15:01:53 +0100.
  *
  * This file contains the instruction behavior models of the Seal5Test_alu_cv_abs32
  * instruction set for the RV32IMACFD core architecture.
@@ -49,7 +49,7 @@ cp.code() += "} // block\n";
 if (rd != 0ULL) { // conditional
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd) + "ULL] = ((etiss_int32)(((etiss_int32)((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL])))) < 0ULL) ? (-((etiss_int32)((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL])))) : ((etiss_int32)((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL])));\n";
+cp.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd) + "ULL] = ((etiss_int32)(((etiss_int32)((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL])))) < 0LL) ? (-((etiss_int32)((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL])))) : ((etiss_int32)((*((RV32IMACFD*)cpu)->X[" + std::to_string(rs1) + "ULL])));\n";
 cp.code() += "} // block\n";
 } // block
 } // conditional
