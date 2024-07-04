@@ -139,6 +139,51 @@ int main(int argc, const char *argv[])
     etiss_int32 exception = cpu->execute(dsys);
     //float endTime = (float)clock() / CLOCKS_PER_SEC;
     std::cout << "=== Simulation end ===" << std::endl << std::endl;
+    if (etiss::cfg().get<bool>("etiss.dump_memory", false)) {
+        std::cout << "Dumping memory!" << std::endl;
+        int start = etiss::cfg().get<int>("etiss.dump_memory_start", -1);
+        int end = etiss::cfg().get<int>("etiss.dump_memory_end", -1);
+        int block = etiss::cfg().get<int>("etiss.dump_memory_block", 4);
+        int len = end - start + 1;
+        if (len < 0) {
+            std::cout << "ERR" << std::endl;
+        } else if (end == 0) {
+            std::cout << "ERR" << std::endl;
+        } else if (block < 1) {
+            std::cout << "ERR" << std::endl;
+        } else if (end < 0) {
+            std::cout << "ERR" << std::endl;
+        } else if (start < 0) {
+            std::cout << "ERR" << std::endl;
+        } else {
+            etiss::uint8* buf = (etiss::uint8*)malloc(block * sizeof(etiss::uint8));
+            int remaining = len;
+            etiss::uint64 current = start;
+            while (remaining > 1) {
+                std::cout << "remaining=" << remaining << std::endl;
+                int block_ = remaining >= block ? block : remaining;  // TODO: handle len % block != 0
+                std::cout << "block_=" << block_ << std::endl;
+                dsys.dread(cpu->getState(), current, buf, block_);
+                etiss::uint64 val = 0;
+                int w = block_ * 2;
+                if (block_ == 1) {
+                    val = buf[0];
+                } else if (block_ == 2) {
+                    val = (etiss::uint16)buf[1] << 8 | buf[0];
+                } else if (block_ == 4) {
+                    val = (etiss::uint32)buf[3] << 24  | (etiss::uint32)buf[2] << 16 | (etiss::uint16)buf[1] << 8 | buf[0];
+                } else if (block_ == 8) {
+                    std::cout << "TODO" << std::endl;
+                } else {
+                    std::cout << "ERR" << std::endl;
+                }
+                std::cout << "MEM[0x" << std::hex << std::setfill('0') << std::setw(0) << current << "]=0x" << std::setw(w) << val << std::dec << std::endl;
+                current += block_;
+                remaining -= block_;
+            }
+
+        }
+    }
 
 
     // print the exception code returned by the cpu core
@@ -186,5 +231,3 @@ int main(int argc, const char *argv[])
         break;
     }
 }
-
-
