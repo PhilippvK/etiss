@@ -26,6 +26,27 @@ return rm;
 } // block
 }
 
+etiss_int32 RV32IMACFD_min(etiss_int32 a, etiss_int32 b)
+{
+{ // block
+return ((a < b)) ? (a) : (b);
+} // block
+}
+
+etiss_int32 RV32IMACFD_remainder(etiss_int32 a, etiss_int32 b)
+{
+{ // block
+return a % b;
+} // block
+}
+
+etiss_int32 RV32IMACFD_BWIDTH(etiss_int32 a)
+{
+{ // block
+return 32ULL;
+} // block
+}
+
 etiss_uint32 RV32IMACFD_sstatus_mask(ETISS_CPU * const cpu, ETISS_System * const system, void * const * const plugin_pointers)
 {
 { // block

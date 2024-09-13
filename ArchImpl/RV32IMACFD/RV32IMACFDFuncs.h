@@ -80,6 +80,12 @@ etiss_uint64 unbox_d(etiss_uint64);
 
 etiss_uint64 fclass_d(etiss_uint64);
 
+etiss_int32 RV32IMACFD_min(etiss_int32 a, etiss_int32 b);
+
+etiss_int32 RV32IMACFD_remainder(etiss_int32 a, etiss_int32 b);
+
+etiss_int32 RV32IMACFD_BWIDTH(etiss_int32 a);
+
 etiss_uint64 etiss_get_cycles(ETISS_CPU * const cpu, ETISS_System * const system, void * const * const plugin_pointers);
 
 etiss_uint64 etiss_get_time();
