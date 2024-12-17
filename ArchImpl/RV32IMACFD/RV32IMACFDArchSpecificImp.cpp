@@ -12,11 +12,7 @@
 
 #include "RV32IMACFDArch.h"
 #include "RV32IMACFDArchSpecificImp.h"
-
-#define ETISS_ARCH_STATIC_FN_ONLY
-extern "C" {
 #include "RV32IMACFDFuncs.h"
-}
 
 /**
 	@brief This function will be called automatically in order to handling exceptions such as interrupt, system call, illegal instructions
@@ -34,7 +30,7 @@ extern "C" {
 */
 etiss::int32 RV32IMACFDArch::handleException(etiss::int32 cause, ETISS_CPU * cpu)
 {
-	translate_exc_code(cpu, nullptr, nullptr, cause);
+	RV32IMACFD_translate_exc_code(cpu, nullptr, nullptr, cause);
 	cpu->instructionPointer = cpu->nextPc;
 	return 0;
 }
@@ -125,7 +121,7 @@ error_code += R_error_code_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "translate_exc_code(cpu, system, plugin_pointers, " + std::to_string(error_code) + "ULL);\n";
+cp.code() += "RV32IMACFD_translate_exc_code(cpu, system, plugin_pointers, " + std::to_string(error_code) + "ULL);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
@@ -172,7 +168,7 @@ error_code += R_error_code_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "translate_exc_code(cpu, system, plugin_pointers, " + std::to_string(error_code) + "ULL);\n";
+cp.code() += "RV32IMACFD_translate_exc_code(cpu, system, plugin_pointers, " + std::to_string(error_code) + "ULL);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
@@ -349,8 +345,8 @@ etiss::InterruptVector * RV32IMACFDArch::createInterruptVector(ETISS_CPU * cpu)
   	std::vector<etiss::uint32 *> vec;
 	std::vector<etiss::uint32 *> mask;
 
-	vec.push_back(&((RV32IMACFD*)cpu)->MIE);
-	mask.push_back(&((RV32IMACFD*)cpu)->MIP);
+	vec.push_back(&((RV32IMACFD*)cpu)->MIP);
+	mask.push_back(&((RV32IMACFD*)cpu)->MIE);
 
 	return new etiss::MappedInterruptVector<etiss::uint32>(vec, mask);
 }
