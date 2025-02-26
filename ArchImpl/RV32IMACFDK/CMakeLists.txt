@@ -1,0 +1,40 @@
+# Generated on Wed, 26 Feb 2025 14:44:45 +0100.
+#
+# This file contains the CMake build info for the RV32IMACFDK core architecture.
+
+PROJECT(RV32IMACFDK)
+
+SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+SET(CMAKE_INSTALL_RPATH "\$ORIGIN/../../include/jit/etiss/jit")
+
+ADD_LIBRARY(${PROJECT_NAME} SHARED
+	RV32IMACFDKArch.cpp
+	RV32IMACFDKArchLib.cpp
+	RV32IMACFDKArchSpecificImp.cpp
+	RV32IMACFDKFuncs.c
+	RV32IMACFDKInstr.cpp
+	RV32IMACFDK_RV32IInstr.cpp
+	RV32IMACFDK_RV32ICInstr.cpp
+	RV32IMACFDK_RV32MInstr.cpp
+	RV32IMACFDK_RV32FInstr.cpp
+	RV32IMACFDK_RV32FCInstr.cpp
+	RV32IMACFDK_RV32DInstr.cpp
+	RV32IMACFDK_RV32DCInstr.cpp
+	RV32IMACFDK_ZifenceiInstr.cpp
+	RV32IMACFDK_RV32KInstr.cpp
+	RV32IMACFDK_tum_csrInstr.cpp
+	RV32IMACFDK_tum_retInstr.cpp
+	RV32IMACFDK_RV32AInstr.cpp
+	RV32IMACFDK_tum_rvaInstr.cpp
+	RV32IMACFDK_tum_semihostingInstr.cpp
+)
+
+add_custom_command(
+	TARGET ${PROJECT_NAME} POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy
+		"${CMAKE_CURRENT_LIST_DIR}/${PROJECT_NAME}Funcs.h"
+		"${ETISS_BINARY_DIR}/include/jit/Arch/${PROJECT_NAME}"
+)
+INSTALL(FILES "${CMAKE_CURRENT_LIST_DIR}/${PROJECT_NAME}Funcs.h" DESTINATION "include/jit/Arch/${PROJECT_NAME}")
+
+ETISSPluginArch(${PROJECT_NAME})
