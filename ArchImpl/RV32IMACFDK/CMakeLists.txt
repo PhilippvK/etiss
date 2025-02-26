@@ -1,4 +1,4 @@
-# Generated on Wed, 26 Feb 2025 14:44:45 +0100.
+# Generated on Wed, 26 Feb 2025 14:57:41 +0100.
 #
 # This file contains the CMake build info for the RV32IMACFDK core architecture.
 

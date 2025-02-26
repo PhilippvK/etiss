@@ -1,5 +1,5 @@
 /**
- * Generated on Wed, 26 Feb 2025 14:44:45 +0100.
+ * Generated on Wed, 26 Feb 2025 14:57:41 +0100.
  *
  * This file contains the instruction behavior models of the RV32K
  * instruction set for the RV32IMACFDK core architecture.
@@ -214,7 +214,7 @@ ss << "k_lli" << " # " << ba << (" [rd=" + std::to_string(rd) + " | imm=" + std:
 );
 
 // K_ADDI ----------------------------------------------------------------------
-static InstructionDefinition k_addi_rd_rs1_rs2_imm (
+static InstructionDefinition k_addi_rd_rs1_imm (
 	ISA48_RV32IMACFDK,
 	"k_addi",
 	(uint64_t) 0x10000000005f,
@@ -233,11 +233,8 @@ rd += R_rd_0.read(ba) << 0;
 etiss_uint8 rs1 = 0;
 static BitArrayRange R_rs1_0(19, 15);
 rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 rs2 = 0;
-static BitArrayRange R_rs2_0(24, 20);
-rs2 += R_rs2_0.read(ba) << 0;
 etiss_uint32 imm = 0;
-static BitArrayRange R_imm_0(43, 25);
+static BitArrayRange R_imm_0(43, 20);
 imm += R_imm_0.read(ba) << 0;
 
 // -----------------------------------------------------------------------------
@@ -258,7 +255,7 @@ cp.code() += "{ // block\n";
 if ((rd % 32ULL) != 0LL) { // conditional
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "*((RV32IMACFDK*)cpu)->X[" + std::to_string(rd % 32ULL) + "ULL] = *((RV32IMACFDK*)cpu)->X[" + std::to_string(rs1 % 32ULL) + "ULL] + " + std::to_string(((etiss_int32)(((etiss_int32)imm) << (13)) >> (13))) + "LL;\n";
+cp.code() += "*((RV32IMACFDK*)cpu)->X[" + std::to_string(rd % 32ULL) + "ULL] = *((RV32IMACFDK*)cpu)->X[" + std::to_string(rs1 % 32ULL) + "ULL] + " + std::to_string(((etiss_int32)(((etiss_int32)imm) << (8)) >> (8))) + "LL;\n";
 cp.code() += "} // block\n";
 } // block
 } // conditional
@@ -282,18 +279,15 @@ rd += R_rd_0.read(ba) << 0;
 etiss_uint8 rs1 = 0;
 static BitArrayRange R_rs1_0(19, 15);
 rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 rs2 = 0;
-static BitArrayRange R_rs2_0(24, 20);
-rs2 += R_rs2_0.read(ba) << 0;
 etiss_uint32 imm = 0;
-static BitArrayRange R_imm_0(43, 25);
+static BitArrayRange R_imm_0(43, 20);
 imm += R_imm_0.read(ba) << 0;
 
 // -----------------------------------------------------------------------------
 
 		std::stringstream ss;
 // -----------------------------------------------------------------------------
-ss << "k_addi" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + std::to_string(rs1) + " | rs2=" + std::to_string(rs2) + " | imm=" + std::to_string(imm) + "]");
+ss << "k_addi" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + std::to_string(rs1) + " | imm=" + std::to_string(imm) + "]");
 // -----------------------------------------------------------------------------
 		return ss.str();
 	}
