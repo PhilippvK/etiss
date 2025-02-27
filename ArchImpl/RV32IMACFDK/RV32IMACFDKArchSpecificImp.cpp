@@ -216,8 +216,7 @@ cp.code() += "return cpu->exception;\n";
         etiss_uint32 opRd = op.read(ba);
 
         /*BitArrayRange fullOp(ba.byteCount()*8-1,0);
-        // etiss_uint32 fullOpRd = fullOp.read(ba);
-        etiss_uint64 fullOpRd = fullOp.read(ba);
+        etiss_uint32 fullOpRd = fullOp.read(ba);
 
         std::stringstream ss;
         ss << "Byte count: " << ba.byteCount()<< std::endl;

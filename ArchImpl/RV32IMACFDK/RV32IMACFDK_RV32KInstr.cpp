@@ -1,5 +1,5 @@
 /**
- * Generated on Thu, 27 Feb 2025 12:55:10 +0100.
+ * Generated on Thu, 27 Feb 2025 14:13:34 +0100.
  *
  * This file contains the instruction behavior models of the RV32K
  * instruction set for the RV32IMACFDK core architecture.
@@ -182,6 +182,9 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+if ((rd % 32ULL) != 0LL) { // conditional
+cp.code() += "*((RV32IMACFDK*)cpu)->X[" + std::to_string(rd % 32ULL) + "ULL] = " + std::to_string((etiss_uint32)(((etiss_uint32)(imm)))) + "ULL;\n";
+} // conditional
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
