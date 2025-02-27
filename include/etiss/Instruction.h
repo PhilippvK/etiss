@@ -77,7 +77,8 @@ namespace etiss
 namespace instr
 {
 
-typedef uint32_t I;
+// typedef uint32_t I;
+typedef uint64_t I;
 
 class Instruction;
 class VariableInstructionSet;
