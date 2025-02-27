@@ -1,5 +1,5 @@
 /**
- * Generated on Wed, 26 Feb 2025 14:57:41 +0100.
+ * Generated on Thu, 27 Feb 2025 12:55:10 +0100.
  *
  * This file contains the function prototypes for the RV32IMACFDK core architecture.
  */
