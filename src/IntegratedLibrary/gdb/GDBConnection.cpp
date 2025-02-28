@@ -71,11 +71,13 @@ PacketProtocol &Connection::getPacketProtocol()
 
 PacketProtocol::PacketProtocol(Connection &connection) : con(connection)
 {
+    std::cout << "PacketProtocol::PacketProtocol" << std::endl;
     cfg_noack_ = false;
 }
 
 size_t PacketProtocol_findUE(std::string &buffer, char c)
 {
+    std::cout << "PacketProtocol_findUE" << std::endl;
     size_t cur = buffer.find(c);
     if (cur == 0)
         return cur;
@@ -91,6 +93,7 @@ size_t PacketProtocol_findUE(std::string &buffer, char c)
 }
 int PacketProtocol_findResponse(std::string &buffer)
 {
+    std::cout << "PacketProtocol_findResponse" << std::endl;
     size_t pos = 0;
     while (buffer.length() > pos)
     {
@@ -122,6 +125,7 @@ int PacketProtocol_findResponse(std::string &buffer)
 }
 size_t PacketProtocol_getPacketStart(std::string &buffer)
 {
+    std::cout << "PacketProtocol::getPacketStart" << std::endl;
     size_t dol = PacketProtocol_findUE(buffer, '$');
     size_t per = PacketProtocol_findUE(buffer, '%');
     if (dol == std::string::npos && per == std::string::npos)
@@ -143,12 +147,14 @@ size_t PacketProtocol_getPacketStart(std::string &buffer)
 }
 bool PacketProtocol_startsWith(const std::string &str, const std::string &prefix)
 {
+    std::cout << "PacketProtocol_startsWith" << std::endl;
     if (prefix.length() > str.length())
         return false;
     return str.substr(0, prefix.length()) == prefix;
 }
 bool PacketProtocol::available(bool block)
 { // filter function to handle some commands internally
+    std::cout << "PacketProtocol::available" << std::endl;
     while (_available(block))
     {
         if (command == "QStartNoAckMode")
@@ -156,6 +162,8 @@ bool PacketProtocol::available(bool block)
             snd("OK", false);
             cfg_noack_ = true;
             command = "";
+            // snd("", false);
+            // cfg_noack_ = false;
         }
         else
         {
@@ -166,6 +174,7 @@ bool PacketProtocol::available(bool block)
 }
 bool PacketProtocol::_available(bool block)
 {
+    std::cout << "PacketProtocol::_available" << std::endl;
     if (command.length() > 0) // pending command
         return true;
     tryReadPacket();
@@ -186,6 +195,7 @@ bool PacketProtocol::_available(bool block)
 
 void PacketProtocol::tryReadPacket()
 {
+    std::cout << "PacketProtocol::tryReadPacket" << std::endl;
     if (!command.empty())
         return;
     if (con.pendingBREAK())
@@ -297,6 +307,7 @@ void PacketProtocol::tryReadPacket()
 
 std::string PacketProtocol::rcv(bool &isnotification)
 {
+    std::cout << "PacketProtocol::rcv(" << isnotification << ")" << std::endl;
     if (command.length() <= 0)
         available(true);
     std::string ret = command;
@@ -306,6 +317,7 @@ std::string PacketProtocol::rcv(bool &isnotification)
 }
 bool PacketProtocol::snd(std::string answer, bool isnotification)
 {
+    std::cout << "PacketProtocol::snd(" << answer << ", " << isnotification << ")" << std::endl;
     std::string pack = isnotification ? "%" : "$";
     for (unsigned i = 0; i < answer.length(); i++)
     {
@@ -328,6 +340,7 @@ bool PacketProtocol::snd(std::string answer, bool isnotification)
     pack.append(hex::fromByte(chksm));
     con.snd(pack);
     // wait for response
+    std::cout << "cfg_noack_=" << cfg_noack_ << std::endl;
     if (!isnotification && !cfg_noack_)
     {
         while (true)
@@ -357,13 +370,16 @@ bool PacketProtocol::snd(std::string answer, bool isnotification)
 }
 bool Connection::isRelyable()
 {
+    std::cout << "Connection::isRelyable" << std::endl;
     return false;
 }
 bool Connection::pendingBREAK()
 {
+    std::cout << "Connection::pendingBREAK" << std::endl;
     return pending_break_;
 }
 void Connection::clearBREAK()
 {
+    std::cout << "Connection::clearBREAK" << std::endl;
     pending_break_ = false;
 }
