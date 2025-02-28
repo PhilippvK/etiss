@@ -711,6 +711,10 @@ void Server::handlePacket(bool block)
                 {
                     answer = "l";
                 }
+                else
+                {
+                    std::cout << "GDB: unknown command: " << command << std::endl;
+                }
             }
             break;
             case 'k':
@@ -734,7 +738,7 @@ void Server::handlePacket(bool block)
                 }
                 else
                 {
-                    // std::cout << "GDB: unknown command: " << command << std::endl;
+                    std::cout << "GDB: unknown command: " << command << std::endl;
                 }
                 break;
             default:
@@ -743,8 +747,8 @@ void Server::handlePacket(bool block)
             }
             if (!nodbgaction)
             {
-                // std::cout << "GDB: command: " << command << std::endl;
-                // std::cout << "GDB: answer: "<<answer << std::endl;
+                std::cout << "GDB: command: " << command << std::endl;
+                std::cout << "GDB: answer: "<<answer << std::endl;
             }
             con_.snd(answer, answerisnotification);
         }
