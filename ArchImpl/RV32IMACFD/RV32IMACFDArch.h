@@ -1,5 +1,5 @@
 /**
- * Generated on Thu, 24 Oct 2024 10:16:12 +0200.
+ * Generated on Thu, 06 Mar 2025 16:05:02 +0100.
  *
  * This file contains the architecture class for the RV32IMACFD core architecture.
  */

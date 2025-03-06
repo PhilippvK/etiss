@@ -1,5 +1,5 @@
 /**
- * Generated on Thu, 24 Oct 2024 10:16:12 +0200.
+ * Generated on Thu, 06 Mar 2025 16:05:02 +0100.
  *
  * This file contains the function prototypes for the RV32IMACFD core architecture.
  */
@@ -79,6 +79,12 @@ etiss_uint64 fconv_f2d(etiss_uint32, etiss_uint8);
 etiss_uint64 unbox_d(etiss_uint64);
 
 etiss_uint64 fclass_d(etiss_uint64);
+
+etiss_uint32 brev_xlen(etiss_uint32);
+
+etiss_uint32 clo_xlen(etiss_uint32);
+
+etiss_uint32 cto_xlen(etiss_uint32);
 
 etiss_uint64 etiss_get_cycles(ETISS_CPU * const cpu, ETISS_System * const system, void * const * const plugin_pointers);
 
