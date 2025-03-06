@@ -1,5 +1,5 @@
 /**
- * Generated on Mon, 13 Jan 2025 14:27:20 +0000.
+ * Generated on Tue, 04 Mar 2025 12:00:03 +0000.
  *
  * This file contains the instruction behavior models of the RVZve32x
  * instruction set for the RV32IMACFDV core architecture.
@@ -55,13 +55,19 @@ cp.code() += "etiss_uint8 sew = (vtype_extractSEW(" + std::to_string(zimm) + "UL
 cp.code() += "etiss_uint8 lmul = (vtype_extractLMUL(" + std::to_string(zimm) + "ULL)) & 0x7;\n";
 cp.code() += "etiss_uint8 vta = (vtype_extractTA(" + std::to_string(zimm) + "ULL)) & 0x1;\n";
 cp.code() += "etiss_uint8 vma = (vtype_extractMA(" + std::to_string(zimm) + "ULL)) & 0x1;\n";
+cp.code() += "etiss_uint32 vtype_result = " + std::to_string(zimm) + "ULL;\n";
 cp.code() += "etiss_uint32 _vlmax = 0LL;\n";
-cp.code() += "etiss_uint32 _illmask = 0LL;\n";
 cp.code() += "etiss_uint32 vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "if (sew == 3ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "vtype_result = 2147483648ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "if (lmul & 4ULL) { // conditional\n";
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "_illmask = 2147483648ULL;\n";
 cp.code() += "if (lmul == 6ULL) { // conditional\n";
 { // block
 cp.code() += "{ // block\n";
@@ -79,7 +85,11 @@ cp.code() += "} // conditional\n";
 cp.code() += "else { // conditional\n";
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "_vlmax = vlen / (8ULL << sew) / 8ULL;\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "vtype_result = 2147483648ULL;\n";
+cp.code() += "} // block\n";
+} // block
 cp.code() += "} // block\n";
 } // block
 cp.code() += "} // conditional\n";
@@ -89,7 +99,6 @@ cp.code() += "} // conditional\n";
 cp.code() += "else { // conditional\n";
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "_illmask = 0LL;\n";
 cp.code() += "if (lmul == 0LL) { // conditional\n";
 { // block
 cp.code() += "{ // block\n";
@@ -166,7 +175,7 @@ cp.code() += "} // block\n";
 } // block
 cp.code() += "} // conditional\n";
 cp.code() += "*((RV32IMACFDV*)cpu)->CSR[3104ULL] = _vl;\n";
-cp.code() += "*((RV32IMACFDV*)cpu)->CSR[3105ULL] = _illmask | " + std::to_string(zimm) + "ULL;\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[3105ULL] = vtype_result;\n";
 if (rd != 0LL) { // conditional
 cp.code() += "*((RV32IMACFDV*)cpu)->X[" + std::to_string(rd) + "ULL] = _vl;\n";
 } // conditional
@@ -206,7 +215,7 @@ ss << "vsetvli" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + st
 );
 
 // VSETIVLI --------------------------------------------------------------------
-static InstructionDefinition vsetivli_rd_uimm_zimm (
+static InstructionDefinition vsetivli_rd_uimm_vtypei (
 	ISA32_RV32IMACFDV,
 	"vsetivli",
 	(uint32_t) 0xc0007057,
@@ -225,9 +234,9 @@ rd += R_rd_0.read(ba) << 0;
 etiss_uint8 uimm = 0;
 static BitArrayRange R_uimm_0(19, 15);
 uimm += R_uimm_0.read(ba) << 0;
-etiss_uint16 zimm = 0;
-static BitArrayRange R_zimm_0(29, 20);
-zimm += R_zimm_0.read(ba) << 0;
+etiss_uint16 vtypei = 0;
+static BitArrayRange R_vtypei_0(29, 20);
+vtypei += R_vtypei_0.read(ba) << 0;
 
 // -----------------------------------------------------------------------------
 
@@ -244,7 +253,114 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-etiss_uint32 _vlmax = 0LL;
+cp.code() += "etiss_uint8 sew = (vtype_extractSEW(" + std::to_string(vtypei) + "ULL)) & 0x7;\n";
+cp.code() += "etiss_uint8 lmul = (vtype_extractLMUL(" + std::to_string(vtypei) + "ULL)) & 0x7;\n";
+cp.code() += "etiss_uint8 vta = (vtype_extractTA(" + std::to_string(vtypei) + "ULL)) & 0x1;\n";
+cp.code() += "etiss_uint8 vma = (vtype_extractMA(" + std::to_string(vtypei) + "ULL)) & 0x1;\n";
+cp.code() += "etiss_uint32 _vlmax = 0LL;\n";
+cp.code() += "etiss_uint32 vtype_result = " + std::to_string(vtypei) + "ULL;\n";
+cp.code() += "etiss_uint32 vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "if (sew == 3ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "vtype_result = 2147483648ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "if (lmul & 4ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (lmul == 6ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "_vlmax = vlen / (8ULL << sew) / 4ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += " else if (lmul == 7ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "_vlmax = vlen / (8ULL << sew) / 2ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "vtype_result = 2147483648ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "if (lmul == 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "_vlmax = vlen / (8ULL << sew);\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += " else if (lmul == 1ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "_vlmax = vlen / (8ULL << sew) * 2ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += " else if (lmul == 2ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "_vlmax = vlen / (8ULL << sew) * 4ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += " else if (lmul == 3ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "_vlmax = vlen / (8ULL << sew) * 8ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+etiss_uint32 _avl = uimm;
+cp.code() += "etiss_uint32 _vl = 0LL;\n";
+cp.code() += "if (" + std::to_string(_avl) + "ULL <= _vlmax) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "_vl = " + std::to_string(_avl) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += " else if (" + std::to_string(_avl) + "ULL >= (2ULL * _vlmax)) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "_vl = _vlmax;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "_vl = _vlmax;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[3104ULL] = _vl;\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[3105ULL] = vtype_result;\n";
+if (rd != 0LL) { // conditional
+cp.code() += "*((RV32IMACFDV*)cpu)->X[" + std::to_string(rd) + "ULL] = _vl;\n";
+} // conditional
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
@@ -265,15 +381,15 @@ rd += R_rd_0.read(ba) << 0;
 etiss_uint8 uimm = 0;
 static BitArrayRange R_uimm_0(19, 15);
 uimm += R_uimm_0.read(ba) << 0;
-etiss_uint16 zimm = 0;
-static BitArrayRange R_zimm_0(29, 20);
-zimm += R_zimm_0.read(ba) << 0;
+etiss_uint16 vtypei = 0;
+static BitArrayRange R_vtypei_0(29, 20);
+vtypei += R_vtypei_0.read(ba) << 0;
 
 // -----------------------------------------------------------------------------
 
 		std::stringstream ss;
 // -----------------------------------------------------------------------------
-ss << "vsetivli" << " # " << ba << (" [rd=" + std::to_string(rd) + " | uimm=" + std::to_string(uimm) + " | zimm=" + std::to_string(zimm) + "]");
+ss << "vsetivli" << " # " << ba << (" [rd=" + std::to_string(rd) + " | uimm=" + std::to_string(uimm) + " | vtypei=" + std::to_string(vtypei) + "]");
 // -----------------------------------------------------------------------------
 		return ss.str();
 	}
@@ -324,12 +440,18 @@ cp.code() += "etiss_uint8 lmul = (vtype_extractLMUL(zimm)) & 0x7;\n";
 cp.code() += "etiss_uint8 vta = (vtype_extractTA(zimm)) & 0x1;\n";
 cp.code() += "etiss_uint8 vma = (vtype_extractMA(zimm)) & 0x1;\n";
 cp.code() += "etiss_uint32 _vlmax = 0LL;\n";
-cp.code() += "etiss_uint32 _illmask = 0LL;\n";
+cp.code() += "etiss_uint32 vtype_result = zimm;\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "if (sew == 3ULL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "vtype_result = 2147483648ULL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "if (lmul & 4ULL) { // conditional\n";
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "_illmask = 2147483648ULL;\n";
 cp.code() += "if (lmul == 6ULL) { // conditional\n";
 { // block
 cp.code() += "{ // block\n";
@@ -347,7 +469,11 @@ cp.code() += "} // conditional\n";
 cp.code() += "else { // conditional\n";
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "_vlmax = _vlen / (8ULL << sew) / 8ULL;\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "vtype_result = 2147483648ULL;\n";
+cp.code() += "} // block\n";
+} // block
 cp.code() += "} // block\n";
 } // block
 cp.code() += "} // conditional\n";
@@ -357,7 +483,6 @@ cp.code() += "} // conditional\n";
 cp.code() += "else { // conditional\n";
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "_illmask = 0LL;\n";
 cp.code() += "if (lmul == 0LL) { // conditional\n";
 { // block
 cp.code() += "{ // block\n";
@@ -434,7 +559,7 @@ cp.code() += "} // block\n";
 } // block
 cp.code() += "} // conditional\n";
 cp.code() += "*((RV32IMACFDV*)cpu)->CSR[3104ULL] = _vl;\n";
-cp.code() += "*((RV32IMACFDV*)cpu)->CSR[3105ULL] = _illmask | zimm;\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[3105ULL] = vtype_result;\n";
 if (rd != 0LL) { // conditional
 cp.code() += "*((RV32IMACFDV*)cpu)->X[" + std::to_string(rd) + "ULL] = _vl;\n";
 } // conditional
@@ -468,8774 +593,6 @@ rs2 += R_rs2_0.read(ba) << 0;
 		std::stringstream ss;
 // -----------------------------------------------------------------------------
 ss << "vsetvl" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + std::to_string(rs1) + " | rs2=" + std::to_string(rs2) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VS1R_V ----------------------------------------------------------------------
-static InstructionDefinition vs1r_v_vs3_rs1 (
-	ISA32_RV32IMACFDV,
-	"vs1r_v",
-	(uint32_t) 0x2800027,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VS1R_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vs1r_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VS2R_V ----------------------------------------------------------------------
-static InstructionDefinition vs2r_v_vs3_rs1 (
-	ISA32_RV32IMACFDV,
-	"vs2r_v",
-	(uint32_t) 0x22800027,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VS2R_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vs2r_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VS4R_V ----------------------------------------------------------------------
-static InstructionDefinition vs4r_v_vs3_rs1 (
-	ISA32_RV32IMACFDV,
-	"vs4r_v",
-	(uint32_t) 0x62800027,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VS4R_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vs4r_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VS8R_V ----------------------------------------------------------------------
-static InstructionDefinition vs8r_v_vs3_rs1 (
-	ISA32_RV32IMACFDV,
-	"vs8r_v",
-	(uint32_t) 0xe2800027,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VS8R_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vs8r_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG2EI8_V ---------------------------------------------------------------
-static InstructionDefinition vsoxseg2ei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg2ei8_v",
-	(uint32_t) 0x2c000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG2EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg2ei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG2EI16_V --------------------------------------------------------------
-static InstructionDefinition vsoxseg2ei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg2ei16_v",
-	(uint32_t) 0x2c005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG2EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg2ei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG2EI32_V --------------------------------------------------------------
-static InstructionDefinition vsoxseg2ei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg2ei32_v",
-	(uint32_t) 0x2c006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG2EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg2ei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG3EI8_V ---------------------------------------------------------------
-static InstructionDefinition vsoxseg3ei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg3ei8_v",
-	(uint32_t) 0x4c000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG3EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg3ei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG3EI16_V --------------------------------------------------------------
-static InstructionDefinition vsoxseg3ei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg3ei16_v",
-	(uint32_t) 0x4c005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG3EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg3ei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG3EI32_V --------------------------------------------------------------
-static InstructionDefinition vsoxseg3ei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg3ei32_v",
-	(uint32_t) 0x4c006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG3EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg3ei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG4EI8_V ---------------------------------------------------------------
-static InstructionDefinition vsoxseg4ei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg4ei8_v",
-	(uint32_t) 0x6c000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG4EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg4ei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG4EI16_V --------------------------------------------------------------
-static InstructionDefinition vsoxseg4ei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg4ei16_v",
-	(uint32_t) 0x6c005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG4EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg4ei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG4EI32_V --------------------------------------------------------------
-static InstructionDefinition vsoxseg4ei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg4ei32_v",
-	(uint32_t) 0x6c006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG4EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg4ei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG5EI8_V ---------------------------------------------------------------
-static InstructionDefinition vsoxseg5ei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg5ei8_v",
-	(uint32_t) 0x8c000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG5EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg5ei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG5EI16_V --------------------------------------------------------------
-static InstructionDefinition vsoxseg5ei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg5ei16_v",
-	(uint32_t) 0x8c005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG5EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg5ei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG5EI32_V --------------------------------------------------------------
-static InstructionDefinition vsoxseg5ei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg5ei32_v",
-	(uint32_t) 0x8c006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG5EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg5ei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG6EI8_V ---------------------------------------------------------------
-static InstructionDefinition vsoxseg6ei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg6ei8_v",
-	(uint32_t) 0xac000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG6EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg6ei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG6EI16_V --------------------------------------------------------------
-static InstructionDefinition vsoxseg6ei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg6ei16_v",
-	(uint32_t) 0xac005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG6EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg6ei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG6EI32_V --------------------------------------------------------------
-static InstructionDefinition vsoxseg6ei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg6ei32_v",
-	(uint32_t) 0xac006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG6EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg6ei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG7EI8_V ---------------------------------------------------------------
-static InstructionDefinition vsoxseg7ei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg7ei8_v",
-	(uint32_t) 0xcc000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG7EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg7ei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG7EI16_V --------------------------------------------------------------
-static InstructionDefinition vsoxseg7ei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg7ei16_v",
-	(uint32_t) 0xcc005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG7EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg7ei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG7EI32_V --------------------------------------------------------------
-static InstructionDefinition vsoxseg7ei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg7ei32_v",
-	(uint32_t) 0xcc006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG7EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg7ei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG8EI8_V ---------------------------------------------------------------
-static InstructionDefinition vsoxseg8ei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg8ei8_v",
-	(uint32_t) 0xec000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG8EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg8ei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG8EI16_V --------------------------------------------------------------
-static InstructionDefinition vsoxseg8ei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg8ei16_v",
-	(uint32_t) 0xec005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG8EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg8ei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXSEG8EI32_V --------------------------------------------------------------
-static InstructionDefinition vsoxseg8ei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxseg8ei32_v",
-	(uint32_t) 0xec006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXSEG8EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxseg8ei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG2EI8_V ---------------------------------------------------------------
-static InstructionDefinition vsuxseg2ei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg2ei8_v",
-	(uint32_t) 0x24000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG2EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg2ei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG2EI16_V --------------------------------------------------------------
-static InstructionDefinition vsuxseg2ei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg2ei16_v",
-	(uint32_t) 0x24005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG2EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg2ei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG2EI32_V --------------------------------------------------------------
-static InstructionDefinition vsuxseg2ei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg2ei32_v",
-	(uint32_t) 0x24006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG2EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg2ei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG3EI8_V ---------------------------------------------------------------
-static InstructionDefinition vsuxseg3ei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg3ei8_v",
-	(uint32_t) 0x44000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG3EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg3ei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG3EI16_V --------------------------------------------------------------
-static InstructionDefinition vsuxseg3ei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg3ei16_v",
-	(uint32_t) 0x44005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG3EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg3ei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG3EI32_V --------------------------------------------------------------
-static InstructionDefinition vsuxseg3ei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg3ei32_v",
-	(uint32_t) 0x44006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG3EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg3ei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG4EI8_V ---------------------------------------------------------------
-static InstructionDefinition vsuxseg4ei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg4ei8_v",
-	(uint32_t) 0x64000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG4EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg4ei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG4EI16_V --------------------------------------------------------------
-static InstructionDefinition vsuxseg4ei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg4ei16_v",
-	(uint32_t) 0x64005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG4EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg4ei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG4EI32_V --------------------------------------------------------------
-static InstructionDefinition vsuxseg4ei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg4ei32_v",
-	(uint32_t) 0x64006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG4EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg4ei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG5EI8_V ---------------------------------------------------------------
-static InstructionDefinition vsuxseg5ei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg5ei8_v",
-	(uint32_t) 0x84000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG5EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg5ei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG5EI16_V --------------------------------------------------------------
-static InstructionDefinition vsuxseg5ei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg5ei16_v",
-	(uint32_t) 0x84005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG5EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg5ei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG5EI32_V --------------------------------------------------------------
-static InstructionDefinition vsuxseg5ei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg5ei32_v",
-	(uint32_t) 0x84006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG5EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg5ei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG6EI8_V ---------------------------------------------------------------
-static InstructionDefinition vsuxseg6ei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg6ei8_v",
-	(uint32_t) 0xa4000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG6EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg6ei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG6EI16_V --------------------------------------------------------------
-static InstructionDefinition vsuxseg6ei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg6ei16_v",
-	(uint32_t) 0xa4005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG6EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg6ei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG6EI32_V --------------------------------------------------------------
-static InstructionDefinition vsuxseg6ei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg6ei32_v",
-	(uint32_t) 0xa4006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG6EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg6ei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG7EI8_V ---------------------------------------------------------------
-static InstructionDefinition vsuxseg7ei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg7ei8_v",
-	(uint32_t) 0xc4000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG7EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg7ei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG7EI16_V --------------------------------------------------------------
-static InstructionDefinition vsuxseg7ei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg7ei16_v",
-	(uint32_t) 0xc4005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG7EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg7ei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG7EI32_V --------------------------------------------------------------
-static InstructionDefinition vsuxseg7ei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg7ei32_v",
-	(uint32_t) 0xc4006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG7EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg7ei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG8EI8_V ---------------------------------------------------------------
-static InstructionDefinition vsuxseg8ei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg8ei8_v",
-	(uint32_t) 0xe4000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG8EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg8ei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG8EI16_V --------------------------------------------------------------
-static InstructionDefinition vsuxseg8ei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg8ei16_v",
-	(uint32_t) 0xe4005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG8EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg8ei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXSEG8EI32_V --------------------------------------------------------------
-static InstructionDefinition vsuxseg8ei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxseg8ei32_v",
-	(uint32_t) 0xe4006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXSEG8EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxseg8ei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG2EI8_V ---------------------------------------------------------------
-static InstructionDefinition vloxseg2ei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg2ei8_v",
-	(uint32_t) 0x2c000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG2EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg2ei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG2EI16_V --------------------------------------------------------------
-static InstructionDefinition vloxseg2ei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg2ei16_v",
-	(uint32_t) 0x2c005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG2EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg2ei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG2EI32_V --------------------------------------------------------------
-static InstructionDefinition vloxseg2ei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg2ei32_v",
-	(uint32_t) 0x2c006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG2EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg2ei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG3EI8_V ---------------------------------------------------------------
-static InstructionDefinition vloxseg3ei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg3ei8_v",
-	(uint32_t) 0x4c000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG3EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg3ei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG3EI16_V --------------------------------------------------------------
-static InstructionDefinition vloxseg3ei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg3ei16_v",
-	(uint32_t) 0x4c005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG3EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg3ei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG3EI32_V --------------------------------------------------------------
-static InstructionDefinition vloxseg3ei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg3ei32_v",
-	(uint32_t) 0x4c006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG3EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg3ei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG4EI8_V ---------------------------------------------------------------
-static InstructionDefinition vloxseg4ei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg4ei8_v",
-	(uint32_t) 0x6c000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG4EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg4ei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG4EI16_V --------------------------------------------------------------
-static InstructionDefinition vloxseg4ei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg4ei16_v",
-	(uint32_t) 0x6c005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG4EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg4ei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG4EI32_V --------------------------------------------------------------
-static InstructionDefinition vloxseg4ei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg4ei32_v",
-	(uint32_t) 0x6c006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG4EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg4ei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG6EI8_V ---------------------------------------------------------------
-static InstructionDefinition vloxseg6ei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg6ei8_v",
-	(uint32_t) 0xac000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG6EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg6ei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG6EI16_V --------------------------------------------------------------
-static InstructionDefinition vloxseg6ei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg6ei16_v",
-	(uint32_t) 0xac005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG6EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg6ei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG6EI32_V --------------------------------------------------------------
-static InstructionDefinition vloxseg6ei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg6ei32_v",
-	(uint32_t) 0xac006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG6EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg6ei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG5EI8_V ---------------------------------------------------------------
-static InstructionDefinition vloxseg5ei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg5ei8_v",
-	(uint32_t) 0x8c000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG5EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg5ei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG5EI16_V --------------------------------------------------------------
-static InstructionDefinition vloxseg5ei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg5ei16_v",
-	(uint32_t) 0x8c005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG5EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg5ei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG5EI32_V --------------------------------------------------------------
-static InstructionDefinition vloxseg5ei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg5ei32_v",
-	(uint32_t) 0x8c006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG5EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg5ei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG8EI8_V ---------------------------------------------------------------
-static InstructionDefinition vloxseg8ei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg8ei8_v",
-	(uint32_t) 0xec000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG8EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg8ei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG8EI16_V --------------------------------------------------------------
-static InstructionDefinition vloxseg8ei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg8ei16_v",
-	(uint32_t) 0xec005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG8EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg8ei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG8EI32_V --------------------------------------------------------------
-static InstructionDefinition vloxseg8ei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg8ei32_v",
-	(uint32_t) 0xec006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG8EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg8ei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG3EI8_V ---------------------------------------------------------------
-static InstructionDefinition vluxseg3ei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg3ei8_v",
-	(uint32_t) 0x44000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG3EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg3ei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG3EI16_V --------------------------------------------------------------
-static InstructionDefinition vluxseg3ei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg3ei16_v",
-	(uint32_t) 0x44005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG3EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg3ei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG3EI32_V --------------------------------------------------------------
-static InstructionDefinition vluxseg3ei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg3ei32_v",
-	(uint32_t) 0x44006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG3EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg3ei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG2EI8_V ---------------------------------------------------------------
-static InstructionDefinition vluxseg2ei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg2ei8_v",
-	(uint32_t) 0x24000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG2EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg2ei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG2EI16_V --------------------------------------------------------------
-static InstructionDefinition vluxseg2ei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg2ei16_v",
-	(uint32_t) 0x24005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG2EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg2ei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG2EI32_V --------------------------------------------------------------
-static InstructionDefinition vluxseg2ei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg2ei32_v",
-	(uint32_t) 0x24006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG2EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg2ei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG4EI8_V ---------------------------------------------------------------
-static InstructionDefinition vluxseg4ei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg4ei8_v",
-	(uint32_t) 0x64000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG4EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg4ei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG4EI16_V --------------------------------------------------------------
-static InstructionDefinition vluxseg4ei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg4ei16_v",
-	(uint32_t) 0x64005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG4EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg4ei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG4EI32_V --------------------------------------------------------------
-static InstructionDefinition vluxseg4ei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg4ei32_v",
-	(uint32_t) 0x64006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG4EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg4ei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG5EI8_V ---------------------------------------------------------------
-static InstructionDefinition vluxseg5ei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg5ei8_v",
-	(uint32_t) 0x84000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG5EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg5ei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG5EI16_V --------------------------------------------------------------
-static InstructionDefinition vluxseg5ei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg5ei16_v",
-	(uint32_t) 0x84005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG5EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg5ei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG5EI32_V --------------------------------------------------------------
-static InstructionDefinition vluxseg5ei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg5ei32_v",
-	(uint32_t) 0x84006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG5EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg5ei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG6EI8_V ---------------------------------------------------------------
-static InstructionDefinition vluxseg6ei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg6ei8_v",
-	(uint32_t) 0xa4000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG6EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg6ei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG6EI16_V --------------------------------------------------------------
-static InstructionDefinition vluxseg6ei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg6ei16_v",
-	(uint32_t) 0xa4005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG6EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg6ei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG6EI32_V --------------------------------------------------------------
-static InstructionDefinition vluxseg6ei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg6ei32_v",
-	(uint32_t) 0xa4006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG6EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg6ei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG7EI8_V ---------------------------------------------------------------
-static InstructionDefinition vloxseg7ei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg7ei8_v",
-	(uint32_t) 0xcc000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG7EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg7ei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG7EI16_V --------------------------------------------------------------
-static InstructionDefinition vloxseg7ei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg7ei16_v",
-	(uint32_t) 0xcc005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG7EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg7ei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXSEG7EI32_V --------------------------------------------------------------
-static InstructionDefinition vloxseg7ei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxseg7ei32_v",
-	(uint32_t) 0xcc006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXSEG7EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxseg7ei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG7EI8_V ---------------------------------------------------------------
-static InstructionDefinition vluxseg7ei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg7ei8_v",
-	(uint32_t) 0xc4000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG7EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg7ei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG7EI16_V --------------------------------------------------------------
-static InstructionDefinition vluxseg7ei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg7ei16_v",
-	(uint32_t) 0xc4005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG7EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg7ei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG7EI32_V --------------------------------------------------------------
-static InstructionDefinition vluxseg7ei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg7ei32_v",
-	(uint32_t) 0xc4006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG7EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg7ei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG8EI8_V ---------------------------------------------------------------
-static InstructionDefinition vluxseg8ei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg8ei8_v",
-	(uint32_t) 0xe4000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG8EI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg8ei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG8EI16_V --------------------------------------------------------------
-static InstructionDefinition vluxseg8ei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg8ei16_v",
-	(uint32_t) 0xe4005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG8EI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg8ei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXSEG8EI32_V --------------------------------------------------------------
-static InstructionDefinition vluxseg8ei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxseg8ei32_v",
-	(uint32_t) 0xe4006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXSEG8EI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxseg8ei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXEI8_V -------------------------------------------------------------------
-static InstructionDefinition vsoxei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxei8_v",
-	(uint32_t) 0xc000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXEI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXEI16_V ------------------------------------------------------------------
-static InstructionDefinition vsoxei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxei16_v",
-	(uint32_t) 0xc005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXEI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSOXEI32_V ------------------------------------------------------------------
-static InstructionDefinition vsoxei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsoxei32_v",
-	(uint32_t) 0xc006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSOXEI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsoxei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXEI8_V -------------------------------------------------------------------
-static InstructionDefinition vsuxei8_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxei8_v",
-	(uint32_t) 0x4000027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXEI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXEI16_V ------------------------------------------------------------------
-static InstructionDefinition vsuxei16_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxei16_v",
-	(uint32_t) 0x4005027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXEI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSUXEI32_V ------------------------------------------------------------------
-static InstructionDefinition vsuxei32_v_vs3_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vsuxei32_v",
-	(uint32_t) 0x4006027,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSUXEI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsuxei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXEI8_V -------------------------------------------------------------------
-static InstructionDefinition vloxei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxei8_v",
-	(uint32_t) 0xc000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXEI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXEI16_V ------------------------------------------------------------------
-static InstructionDefinition vloxei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxei16_v",
-	(uint32_t) 0xc005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXEI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLOXEI32_V ------------------------------------------------------------------
-static InstructionDefinition vloxei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vloxei32_v",
-	(uint32_t) 0xc006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLOXEI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vloxei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXEI8_V -------------------------------------------------------------------
-static InstructionDefinition vluxei8_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxei8_v",
-	(uint32_t) 0x4000007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXEI8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXEI16_V ------------------------------------------------------------------
-static InstructionDefinition vluxei16_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxei16_v",
-	(uint32_t) 0x4005007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXEI16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLUXEI32_V ------------------------------------------------------------------
-static InstructionDefinition vluxei32_v_vd_rs1_vs2_vm (
-	ISA32_RV32IMACFDV,
-	"vluxei32_v",
-	(uint32_t) 0x4006007,
-	(uint32_t) 0xfc00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLUXEI32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vs2 = 0;
-static BitArrayRange R_vs2_0(24, 20);
-vs2 += R_vs2_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vluxei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VL1RE8_V --------------------------------------------------------------------
-static InstructionDefinition vl1re8_v_vd_rs1 (
-	ISA32_RV32IMACFDV,
-	"vl1re8_v",
-	(uint32_t) 0x2800007,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VL1RE8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vl1re8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VL2RE8_V --------------------------------------------------------------------
-static InstructionDefinition vl2re8_v_vd_rs1 (
-	ISA32_RV32IMACFDV,
-	"vl2re8_v",
-	(uint32_t) 0x22800007,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VL2RE8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vl2re8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VL4RE8_V --------------------------------------------------------------------
-static InstructionDefinition vl4re8_v_vd_rs1 (
-	ISA32_RV32IMACFDV,
-	"vl4re8_v",
-	(uint32_t) 0x62800007,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VL4RE8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vl4re8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VL8RE8_V --------------------------------------------------------------------
-static InstructionDefinition vl8re8_v_vd_rs1 (
-	ISA32_RV32IMACFDV,
-	"vl8re8_v",
-	(uint32_t) 0xe2800007,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VL8RE8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vl8re8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VL1RE16_V -------------------------------------------------------------------
-static InstructionDefinition vl1re16_v_vd_rs1 (
-	ISA32_RV32IMACFDV,
-	"vl1re16_v",
-	(uint32_t) 0x2805007,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VL1RE16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vl1re16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VL2RE16_V -------------------------------------------------------------------
-static InstructionDefinition vl2re16_v_vd_rs1 (
-	ISA32_RV32IMACFDV,
-	"vl2re16_v",
-	(uint32_t) 0x22805007,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VL2RE16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vl2re16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VL4RE16_V -------------------------------------------------------------------
-static InstructionDefinition vl4re16_v_vd_rs1 (
-	ISA32_RV32IMACFDV,
-	"vl4re16_v",
-	(uint32_t) 0x62805007,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VL4RE16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vl4re16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VL8RE16_V -------------------------------------------------------------------
-static InstructionDefinition vl8re16_v_vd_rs1 (
-	ISA32_RV32IMACFDV,
-	"vl8re16_v",
-	(uint32_t) 0xe2805007,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VL8RE16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vl8re16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VL1RE32_V -------------------------------------------------------------------
-static InstructionDefinition vl1re32_v_vd_rs1 (
-	ISA32_RV32IMACFDV,
-	"vl1re32_v",
-	(uint32_t) 0x2806007,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VL1RE32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vl1re32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VL2RE32_V -------------------------------------------------------------------
-static InstructionDefinition vl2re32_v_vd_rs1 (
-	ISA32_RV32IMACFDV,
-	"vl2re32_v",
-	(uint32_t) 0x22806007,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VL2RE32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vl2re32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VL4RE32_V -------------------------------------------------------------------
-static InstructionDefinition vl4re32_v_vd_rs1 (
-	ISA32_RV32IMACFDV,
-	"vl4re32_v",
-	(uint32_t) 0x62806007,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VL4RE32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vl4re32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VL8RE32_V -------------------------------------------------------------------
-static InstructionDefinition vl8re32_v_vd_rs1 (
-	ISA32_RV32IMACFDV,
-	"vl8re32_v",
-	(uint32_t) 0xe2806007,
-	(uint32_t) 0xfff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VL8RE32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vl8re32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + "]");
 // -----------------------------------------------------------------------------
 		return ss.str();
 	}
@@ -9907,6 +1264,1480 @@ ss << "vlse32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 	}
 );
 
+// VLM_V -----------------------------------------------------------------------
+static InstructionDefinition vlm_v_vd_rs1_vm (
+	ISA32_RV32IMACFDV,
+	"vlm_v",
+	(uint32_t) 0xb00007,
+	(uint32_t) 0xfdf0707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLM_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_mask(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLM_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vlm_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VLOXEI8_V -------------------------------------------------------------------
+static InstructionDefinition vloxei8_v_vd_rs1_vs2_vm (
+	ISA32_RV32IMACFDV,
+	"vloxei8_v",
+	(uint32_t) 0xc000007,
+	(uint32_t) 0xfc00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLOXEI8_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 0LL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_encoded_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLOXEI8_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vloxei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VLOXEI16_V ------------------------------------------------------------------
+static InstructionDefinition vloxei16_v_vd_rs1_vs2_vm (
+	ISA32_RV32IMACFDV,
+	"vloxei16_v",
+	(uint32_t) 0xc005007,
+	(uint32_t) 0xfc00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLOXEI16_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 5ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_encoded_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLOXEI16_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vloxei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VLOXEI32_V ------------------------------------------------------------------
+static InstructionDefinition vloxei32_v_vd_rs1_vs2_vm (
+	ISA32_RV32IMACFDV,
+	"vloxei32_v",
+	(uint32_t) 0xc006007,
+	(uint32_t) 0xfc00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLOXEI32_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 6ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_encoded_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLOXEI32_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vloxei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VLUXEI8_V -------------------------------------------------------------------
+static InstructionDefinition vluxei8_v_vd_rs1_vs2_vm (
+	ISA32_RV32IMACFDV,
+	"vluxei8_v",
+	(uint32_t) 0x4000007,
+	(uint32_t) 0xfc00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLUXEI8_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 0LL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_encoded_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLUXEI8_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vluxei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VLUXEI16_V ------------------------------------------------------------------
+static InstructionDefinition vluxei16_v_vd_rs1_vs2_vm (
+	ISA32_RV32IMACFDV,
+	"vluxei16_v",
+	(uint32_t) 0x4005007,
+	(uint32_t) 0xfc00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLUXEI16_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 5ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_encoded_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLUXEI16_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vluxei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VLUXEI32_V ------------------------------------------------------------------
+static InstructionDefinition vluxei32_v_vd_rs1_vs2_vm (
+	ISA32_RV32IMACFDV,
+	"vluxei32_v",
+	(uint32_t) 0x4006007,
+	(uint32_t) 0xfc00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLUXEI32_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 6ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_encoded_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLUXEI32_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vluxei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSOXEI8_V -------------------------------------------------------------------
+static InstructionDefinition vsoxei8_v_vs3_rs1_vs2_vm (
+	ISA32_RV32IMACFDV,
+	"vsoxei8_v",
+	(uint32_t) 0xc000027,
+	(uint32_t) 0xfc00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSOXEI8_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 0LL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_encoded_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSOXEI8_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vsoxei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSOXEI16_V ------------------------------------------------------------------
+static InstructionDefinition vsoxei16_v_vs3_rs1_vs2_vm (
+	ISA32_RV32IMACFDV,
+	"vsoxei16_v",
+	(uint32_t) 0xc005027,
+	(uint32_t) 0xfc00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSOXEI16_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 5ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_encoded_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSOXEI16_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vsoxei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSOXEI32_V ------------------------------------------------------------------
+static InstructionDefinition vsoxei32_v_vs3_rs1_vs2_vm (
+	ISA32_RV32IMACFDV,
+	"vsoxei32_v",
+	(uint32_t) 0xc006027,
+	(uint32_t) 0xfc00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSOXEI32_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 6ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_encoded_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSOXEI32_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vsoxei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSUXEI8_V -------------------------------------------------------------------
+static InstructionDefinition vsuxei8_v_vs3_rs1_vs2_vm (
+	ISA32_RV32IMACFDV,
+	"vsuxei8_v",
+	(uint32_t) 0x4000027,
+	(uint32_t) 0xfc00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSUXEI8_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 0LL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_encoded_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSUXEI8_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vsuxei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSUXEI16_V ------------------------------------------------------------------
+static InstructionDefinition vsuxei16_v_vs3_rs1_vs2_vm (
+	ISA32_RV32IMACFDV,
+	"vsuxei16_v",
+	(uint32_t) 0x4005027,
+	(uint32_t) 0xfc00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSUXEI16_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 5ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_encoded_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSUXEI16_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vsuxei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSUXEI32_V ------------------------------------------------------------------
+static InstructionDefinition vsuxei32_v_vs3_rs1_vs2_vm (
+	ISA32_RV32IMACFDV,
+	"vsuxei32_v",
+	(uint32_t) 0x4006027,
+	(uint32_t) 0xfc00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSUXEI32_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 6ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_encoded_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSUXEI32_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vsuxei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
 // VLE8FF_V --------------------------------------------------------------------
 static InstructionDefinition vle8ff_v_vd_rs1_vm (
 	ISA32_RV32IMACFDV,
@@ -9946,13 +2777,47 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 0LL);\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_encoded_unitstride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLE8FF_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -10020,13 +2885,47 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 5ULL);\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_encoded_unitstride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLE16FF_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -10094,13 +2993,47 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 6ULL);\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_encoded_unitstride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLE32FF_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -10129,12 +3062,12 @@ ss << "vle32ff_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 	}
 );
 
-// VLM_V -----------------------------------------------------------------------
-static InstructionDefinition vlm_v_vd_rs1_vm (
+// VLSEGE8_V -------------------------------------------------------------------
+static InstructionDefinition vlsege8_v_vd_rs1_vm_nf (
 	ISA32_RV32IMACFDV,
-	"vlm_v",
-	(uint32_t) 0xb00007,
-	(uint32_t) 0xfdf0707f,
+	"vlsege8_v",
+	(uint32_t) 0x000007,
+	(uint32_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -10152,13 +3085,16 @@ rs1 += R_rs1_0.read(ba) << 0;
 etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
 
 // -----------------------------------------------------------------------------
 
 	{
 		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
 
-		cp.code() = std::string("//VLM_V\n");
+		cp.code() = std::string("//VLSEGE8_V\n");
 
 // -----------------------------------------------------------------------------
 { // block
@@ -10168,13 +3104,47 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 0LL);\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_unitstride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLSEGE8_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -10192,23 +3162,26 @@ rs1 += R_rs1_0.read(ba) << 0;
 etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
 
 // -----------------------------------------------------------------------------
 
 		std::stringstream ss;
 // -----------------------------------------------------------------------------
-ss << "vlm_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + "]");
+ss << "vlsege8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
 // -----------------------------------------------------------------------------
 		return ss.str();
 	}
 );
 
-// VLR_V -----------------------------------------------------------------------
-static InstructionDefinition vlr_v_vd_rs1_nf (
+// VLSEGE16_V ------------------------------------------------------------------
+static InstructionDefinition vlsege16_v_vd_rs1_vm_nf (
 	ISA32_RV32IMACFDV,
-	"vlr_v",
-	(uint32_t) 0x2800007,
-	(uint32_t) 0x1ff0707f,
+	"vlsege16_v",
+	(uint32_t) 0x005007,
+	(uint32_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -10223,6 +3196,9 @@ vd += R_vd_0.read(ba) << 0;
 etiss_uint8 rs1 = 0;
 static BitArrayRange R_rs1_0(19, 15);
 rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
 etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
@@ -10232,7 +3208,7 @@ nf += R_nf_0.read(ba) << 0;
 	{
 		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
 
-		cp.code() = std::string("//VLR_V\n");
+		cp.code() = std::string("//VLSEGE16_V\n");
 
 // -----------------------------------------------------------------------------
 { // block
@@ -10242,13 +3218,47 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 5ULL);\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_unitstride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLSEGE16_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -10263,6 +3273,9 @@ vd += R_vd_0.read(ba) << 0;
 etiss_uint8 rs1 = 0;
 static BitArrayRange R_rs1_0(19, 15);
 rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
 etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
@@ -10271,7 +3284,805 @@ nf += R_nf_0.read(ba) << 0;
 
 		std::stringstream ss;
 // -----------------------------------------------------------------------------
-ss << "vlr_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | nf=" + std::to_string(nf) + "]");
+ss << "vlsege16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VLSEGE32_V ------------------------------------------------------------------
+static InstructionDefinition vlsege32_v_vd_rs1_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vlsege32_v",
+	(uint32_t) 0x006007,
+	(uint32_t) 0x1df0707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLSEGE32_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 6ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_unitstride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLSEGE32_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vlsege32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSSEGE8_V -------------------------------------------------------------------
+static InstructionDefinition vssege8_v_vs3_rs1_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vssege8_v",
+	(uint32_t) 0x000027,
+	(uint32_t) 0x1df0707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSSEGE8_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 0LL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_segment_unitstride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSSEGE8_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vssege8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSSEGE16_V ------------------------------------------------------------------
+static InstructionDefinition vssege16_v_vs3_rs1_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vssege16_v",
+	(uint32_t) 0x005027,
+	(uint32_t) 0x1df0707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSSEGE16_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 5ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_segment_unitstride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSSEGE16_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vssege16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSSEGE32_V ------------------------------------------------------------------
+static InstructionDefinition vssege32_v_vs3_rs1_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vssege32_v",
+	(uint32_t) 0x006027,
+	(uint32_t) 0x1df0707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSSEGE32_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 6ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_segment_unitstride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSSEGE32_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vssege32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VLSEGE8FF_V -----------------------------------------------------------------
+static InstructionDefinition vlsege8ff_v_vd_rs1_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vlsege8ff_v",
+	(uint32_t) 0x1000007,
+	(uint32_t) 0x1df0707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLSEGE8FF_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 0LL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_unitstride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLSEGE8FF_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vlsege8ff_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VLSEGE16FF_V ----------------------------------------------------------------
+static InstructionDefinition vlsege16ff_v_vd_rs1_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vlsege16ff_v",
+	(uint32_t) 0x1005007,
+	(uint32_t) 0x1df0707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLSEGE16FF_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 5ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_unitstride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLSEGE16FF_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vlsege16ff_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VLSEGE32FF_V ----------------------------------------------------------------
+static InstructionDefinition vlsege32ff_v_vd_rs1_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vlsege32ff_v",
+	(uint32_t) 0x1006007,
+	(uint32_t) 0x1df0707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLSEGE32FF_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 6ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_unitstride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLSEGE32FF_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vlsege32ff_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
 // -----------------------------------------------------------------------------
 		return ss.str();
 	}
@@ -10322,13 +4133,47 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 0LL);\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_stride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), (etiss_uint16)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs2) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLSSEGE8_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -10408,13 +4253,47 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 5ULL);\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_stride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), (etiss_uint16)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs2) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLSSEGE16_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -10494,13 +4373,47 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 6ULL);\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_stride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), (etiss_uint16)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs2) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLSSEGE32_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -10535,251 +4448,11 @@ ss << "vlssege32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" 
 	}
 );
 
-// VLSEGE8_V -------------------------------------------------------------------
-static InstructionDefinition vlsege8_v_vd_rs1_vm_nf (
-	ISA32_RV32IMACFDV,
-	"vlsege8_v",
-	(uint32_t) 0x000007,
-	(uint32_t) 0x1df0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-etiss_uint8 nf = 0;
-static BitArrayRange R_nf_0(31, 29);
-nf += R_nf_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLSEGE8_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-etiss_uint8 nf = 0;
-static BitArrayRange R_nf_0(31, 29);
-nf += R_nf_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vlsege8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLSEGE16_V ------------------------------------------------------------------
-static InstructionDefinition vlsege16_v_vd_rs1_vm_nf (
-	ISA32_RV32IMACFDV,
-	"vlsege16_v",
-	(uint32_t) 0x005007,
-	(uint32_t) 0x1df0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-etiss_uint8 nf = 0;
-static BitArrayRange R_nf_0(31, 29);
-nf += R_nf_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLSEGE16_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-etiss_uint8 nf = 0;
-static BitArrayRange R_nf_0(31, 29);
-nf += R_nf_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vlsege16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VLSEGE32_V ------------------------------------------------------------------
-static InstructionDefinition vlsege32_v_vd_rs1_vm_nf (
-	ISA32_RV32IMACFDV,
-	"vlsege32_v",
-	(uint32_t) 0x006007,
-	(uint32_t) 0x1df0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-etiss_uint8 nf = 0;
-static BitArrayRange R_nf_0(31, 29);
-nf += R_nf_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VLSEGE32_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vd = 0;
-static BitArrayRange R_vd_0(11, 7);
-vd += R_vd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 vm = 0;
-static BitArrayRange R_vm_0(25, 25);
-vm += R_vm_0.read(ba) << 0;
-etiss_uint8 nf = 0;
-static BitArrayRange R_nf_0(31, 29);
-nf += R_nf_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vlsege32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
 // VSSSEGE8_V ------------------------------------------------------------------
 static InstructionDefinition vsssege8_v_vs3_rs1_rs2_vm_nf (
 	ISA32_RV32IMACFDV,
 	"vsssege8_v",
-	(uint32_t) 0x000027,
+	(uint32_t) 0x8000027,
 	(uint32_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
@@ -10820,13 +4493,47 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 0LL);\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_segment_stride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), (etiss_uint16)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs2) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSSSEGE8_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -10865,7 +4572,7 @@ ss << "vsssege8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1="
 static InstructionDefinition vsssege16_v_vs3_rs1_rs2_vm_nf (
 	ISA32_RV32IMACFDV,
 	"vsssege16_v",
-	(uint32_t) 0x005027,
+	(uint32_t) 0x8005027,
 	(uint32_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
@@ -10906,13 +4613,47 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 5ULL);\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_segment_stride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), (etiss_uint16)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs2) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSSSEGE16_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -10951,7 +4692,7 @@ ss << "vsssege16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=
 static InstructionDefinition vsssege32_v_vs3_rs1_rs2_vm_nf (
 	ISA32_RV32IMACFDV,
 	"vsssege32_v",
-	(uint32_t) 0x006027,
+	(uint32_t) 0x8006027,
 	(uint32_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
@@ -10992,13 +4733,47 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 6ULL);\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_segment_stride(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), (etiss_uint16)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs2) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSSSEGE32_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -11033,12 +4808,12 @@ ss << "vsssege32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=
 	}
 );
 
-// VSSEGE8_V -------------------------------------------------------------------
-static InstructionDefinition vssege8_v_vs3_rs1_vm_nf (
+// VLUXSEGEI8_V ----------------------------------------------------------------
+static InstructionDefinition vluxsegei8_v_vd_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV,
-	"vssege8_v",
-	(uint32_t) 0x000027,
-	(uint32_t) 0x1df0707f,
+	"vluxsegei8_v",
+	(uint32_t) 0x4000007,
+	(uint32_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -11047,12 +4822,15 @@ static InstructionDefinition vssege8_v_vs3_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
 etiss_uint8 rs1 = 0;
 static BitArrayRange R_rs1_0(19, 15);
 rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
 etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
@@ -11065,7 +4843,7 @@ nf += R_nf_0.read(ba) << 0;
 	{
 		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
 
-		cp.code() = std::string("//VSSEGE8_V\n");
+		cp.code() = std::string("//VLUXSEGEI8_V\n");
 
 // -----------------------------------------------------------------------------
 { // block
@@ -11075,13 +4853,47 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 0LL);\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLUXSEGEI8_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -11090,12 +4902,15 @@ cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 	[] (BitArray & ba, Instruction & instr)
 	{
 // -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
 etiss_uint8 rs1 = 0;
 static BitArrayRange R_rs1_0(19, 15);
 rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
 etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
@@ -11107,18 +4922,18 @@ nf += R_nf_0.read(ba) << 0;
 
 		std::stringstream ss;
 // -----------------------------------------------------------------------------
-ss << "vssege8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+ss << "vluxsegei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
 // -----------------------------------------------------------------------------
 		return ss.str();
 	}
 );
 
-// VSSEGE16_V ------------------------------------------------------------------
-static InstructionDefinition vssege16_v_vs3_rs1_vm_nf (
+// VLUXSEGEI16_V ---------------------------------------------------------------
+static InstructionDefinition vluxsegei16_v_vd_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV,
-	"vssege16_v",
-	(uint32_t) 0x005027,
-	(uint32_t) 0x1df0707f,
+	"vluxsegei16_v",
+	(uint32_t) 0x4005007,
+	(uint32_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -11127,12 +4942,15 @@ static InstructionDefinition vssege16_v_vs3_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
 etiss_uint8 rs1 = 0;
 static BitArrayRange R_rs1_0(19, 15);
 rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
 etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
@@ -11145,7 +4963,7 @@ nf += R_nf_0.read(ba) << 0;
 	{
 		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
 
-		cp.code() = std::string("//VSSEGE16_V\n");
+		cp.code() = std::string("//VLUXSEGEI16_V\n");
 
 // -----------------------------------------------------------------------------
 { // block
@@ -11155,13 +4973,47 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 5ULL);\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLUXSEGEI16_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -11170,12 +5022,15 @@ cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 	[] (BitArray & ba, Instruction & instr)
 	{
 // -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
 etiss_uint8 rs1 = 0;
 static BitArrayRange R_rs1_0(19, 15);
 rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
 etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
@@ -11187,17 +5042,1336 @@ nf += R_nf_0.read(ba) << 0;
 
 		std::stringstream ss;
 // -----------------------------------------------------------------------------
-ss << "vssege16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+ss << "vluxsegei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
 // -----------------------------------------------------------------------------
 		return ss.str();
 	}
 );
 
-// VSSEGE32_V ------------------------------------------------------------------
-static InstructionDefinition vssege32_v_vs3_rs1_vm_nf (
+// VLUXSEGEI32_V ---------------------------------------------------------------
+static InstructionDefinition vluxsegei32_v_vd_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV,
-	"vssege32_v",
-	(uint32_t) 0x006027,
+	"vluxsegei32_v",
+	(uint32_t) 0x4006007,
+	(uint32_t) 0x1c00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLUXSEGEI32_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 6ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLUXSEGEI32_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vluxsegei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VLOXSEGEI8_V ----------------------------------------------------------------
+static InstructionDefinition vloxsegei8_v_vd_rs1_vs2_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vloxsegei8_v",
+	(uint32_t) 0xc000007,
+	(uint32_t) 0x1c00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLOXSEGEI8_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 0LL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLOXSEGEI8_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vloxsegei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VLOXSEGEI16_V ---------------------------------------------------------------
+static InstructionDefinition vloxsegei16_v_vd_rs1_vs2_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vloxsegei16_v",
+	(uint32_t) 0xc005007,
+	(uint32_t) 0x1c00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLOXSEGEI16_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 5ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLOXSEGEI16_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vloxsegei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VLOXSEGEI32_V ---------------------------------------------------------------
+static InstructionDefinition vloxsegei32_v_vd_rs1_vs2_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vloxsegei32_v",
+	(uint32_t) 0xc006007,
+	(uint32_t) 0x1c00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLOXSEGEI32_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 6ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_segment_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLOXSEGEI32_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vloxsegei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSUXSEGEI8_V ----------------------------------------------------------------
+static InstructionDefinition vsuxsegei8_v_vs3_rs1_vs2_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vsuxsegei8_v",
+	(uint32_t) 0x4000027,
+	(uint32_t) 0x1c00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSUXSEGEI8_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 0LL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_segment_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSUXSEGEI8_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vsuxsegei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSUXSEGEI16_V ---------------------------------------------------------------
+static InstructionDefinition vsuxsegei16_v_vs3_rs1_vs2_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vsuxsegei16_v",
+	(uint32_t) 0x4005027,
+	(uint32_t) 0x1c00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSUXSEGEI16_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 5ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_segment_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSUXSEGEI16_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vsuxsegei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSUXSEGEI32_V ---------------------------------------------------------------
+static InstructionDefinition vsuxsegei32_v_vs3_rs1_vs2_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vsuxsegei32_v",
+	(uint32_t) 0x4006027,
+	(uint32_t) 0x1c00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSUXSEGEI32_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 6ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_segment_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSUXSEGEI32_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vsuxsegei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSOXSEGEI8_V ----------------------------------------------------------------
+static InstructionDefinition vsoxsegei8_v_vs3_rs1_vs2_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vsoxsegei8_v",
+	(uint32_t) 0xc000027,
+	(uint32_t) 0x1c00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSOXSEGEI8_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 0LL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_segment_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSOXSEGEI8_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vsoxsegei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSOXSEGEI16_V ---------------------------------------------------------------
+static InstructionDefinition vsoxsegei16_v_vs3_rs1_vs2_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vsoxsegei16_v",
+	(uint32_t) 0xc005027,
+	(uint32_t) 0x1c00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSOXSEGEI16_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 5ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_segment_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSOXSEGEI16_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vsoxsegei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSOXSEGEI32_V ---------------------------------------------------------------
+static InstructionDefinition vsoxsegei32_v_vs3_rs1_vs2_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vsoxsegei32_v",
+	(uint32_t) 0xc006027,
+	(uint32_t) 0x1c00707f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VSOXSEGEI32_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, 6ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_segment_index(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]), " + std::to_string(vs2) + "ULL);\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSOXSEGEI32_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vs3 = 0;
+static BitArrayRange R_vs3_0(11, 7);
+vs3 += R_vs3_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vs2 = 0;
+static BitArrayRange R_vs2_0(24, 20);
+vs2 += R_vs2_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vsoxsegei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vs2=" + std::to_string(vs2) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VLR_V -----------------------------------------------------------------------
+static InstructionDefinition vlr_v_vd_width_rs1_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vlr_v",
+	(uint32_t) 0x800007,
+	(uint32_t) 0x1df0007f,
+	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+	{
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 width = 0;
+static BitArrayRange R_width_0(14, 12);
+width += R_width_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
+
+		cp.code() = std::string("//VLR_V\n");
+
+// -----------------------------------------------------------------------------
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "} // block\n";
+} // block
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
+cp.code() += "etiss_uint32 _eew = vcfg_concatEEW(0LL, " + std::to_string(width) + "ULL);\n";
+cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vload_registers(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, _eew, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vd) + "ULL, _vstart, _vlen, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
+// -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VLR_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
+
+		return true;
+	},
+	0,
+	[] (BitArray & ba, Instruction & instr)
+	{
+// -----------------------------------------------------------------------------
+etiss_uint8 vd = 0;
+static BitArrayRange R_vd_0(11, 7);
+vd += R_vd_0.read(ba) << 0;
+etiss_uint8 width = 0;
+static BitArrayRange R_width_0(14, 12);
+width += R_width_0.read(ba) << 0;
+etiss_uint8 rs1 = 0;
+static BitArrayRange R_rs1_0(19, 15);
+rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 vm = 0;
+static BitArrayRange R_vm_0(25, 25);
+vm += R_vm_0.read(ba) << 0;
+etiss_uint8 nf = 0;
+static BitArrayRange R_nf_0(31, 29);
+nf += R_nf_0.read(ba) << 0;
+
+// -----------------------------------------------------------------------------
+
+		std::stringstream ss;
+// -----------------------------------------------------------------------------
+ss << "vlr_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | width=" + std::to_string(width) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+// -----------------------------------------------------------------------------
+		return ss.str();
+	}
+);
+
+// VSR_V -----------------------------------------------------------------------
+static InstructionDefinition vsr_v_vs3_rs1_vm_nf (
+	ISA32_RV32IMACFDV,
+	"vsr_v",
+	(uint32_t) 0x800027,
 	(uint32_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
@@ -11225,7 +6399,7 @@ nf += R_nf_0.read(ba) << 0;
 	{
 		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
 
-		cp.code() = std::string("//VSSEGE32_V\n");
+		cp.code() = std::string("//VSR_V\n");
 
 // -----------------------------------------------------------------------------
 { // block
@@ -11235,13 +6409,45 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
+cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_registers(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(nf + 1ULL) + "ULL, " + std::to_string(vs3) + "ULL, _vstart, _vlen, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSR_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -11267,7 +6473,7 @@ nf += R_nf_0.read(ba) << 0;
 
 		std::stringstream ss;
 // -----------------------------------------------------------------------------
-ss << "vssege32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
+ss << "vsr_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + " | nf=" + std::to_string(nf) + "]");
 // -----------------------------------------------------------------------------
 		return ss.str();
 	}
@@ -11979,12 +7185,44 @@ cp.code() += "} // block\n";
 { // block
 cp.code() += "{ // block\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
+cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
+cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
+cp.code() += "etiss_uint32 ret = etiss_vstore_mask(cpu, system, plugin_pointers, ((RV32IMACFDV*)cpu)->V, " + std::to_string(vm) + "ULL, " + std::to_string(vs3) + "ULL, _vstart, _vlen, _vl, (etiss_uint64)(*((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1) + "ULL]));\n";
+cp.code() += "if (ret != 0LL) { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = ret >> 8ULL;\n";
+{ // procedure
+cp.code() += "{ // procedure\n";
+cp.code() += "RV32IMACFDV_raise(cpu, system, plugin_pointers, 0LL, 2ULL);\n";
+cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
+cp.code() += "} // procedure\n";
+} // procedure
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
+cp.code() += "else { // conditional\n";
+{ // block
+cp.code() += "{ // block\n";
+cp.code() += "*((RV32IMACFDV*)cpu)->CSR[8ULL] = 0LL;\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "} // conditional\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
 		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
+
+		cp.code() = std::string("//VSM_V\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
+// -----------------------------------------------------------------------------
 	}
 
 		return true;
@@ -12008,80 +7246,6 @@ vm += R_vm_0.read(ba) << 0;
 		std::stringstream ss;
 // -----------------------------------------------------------------------------
 ss << "vsm_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | vm=" + std::to_string(vm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSR_V -----------------------------------------------------------------------
-static InstructionDefinition vsr_v_vs3_rs1_nf (
-	ISA32_RV32IMACFDV,
-	"vsr_v",
-	(uint32_t) 0x2800027,
-	(uint32_t) 0x1ff0707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 nf = 0;
-static BitArrayRange R_nf_0(31, 29);
-nf += R_nf_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSR_V\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 vs3 = 0;
-static BitArrayRange R_vs3_0(11, 7);
-vs3 += R_vs3_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 nf = 0;
-static BitArrayRange R_nf_0(31, 29);
-nf += R_nf_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsr_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + std::to_string(rs1) + " | nf=" + std::to_string(nf) + "]");
 // -----------------------------------------------------------------------------
 		return ss.str();
 	}
