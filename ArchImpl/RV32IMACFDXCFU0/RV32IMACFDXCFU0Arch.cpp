@@ -1,5 +1,5 @@
 /**
- * Generated on Thu, 19 Jun 2025 19:51:37 +0200.
+ * Generated on Thu, 19 Jun 2025 20:06:23 +0200.
  *
  * This file contains the architecture class for the RV32IMACFDXCFU0 core architecture.
  */
@@ -181,7 +181,6 @@ void RV32IMACFDXCFU0Arch::resetCPU(ETISS_CPU * cpu,etiss::uint64 * startpointer)
  	*rv32imacfdxcfu0cpu->CSR[772] = 4294966203ULL;
  	*rv32imacfdxcfu0cpu->CSR[260] = 4294964019ULL;
  	*rv32imacfdxcfu0cpu->CSR[4] = 4294963473ULL;
-  	rv32imacfdxcfu0cpu->clusters[None] = 0LL;
    	rv32imacfdxcfu0cpu->weight_code_packed = 0LL;
    	rv32imacfdxcfu0cpu->acc = 0LL;
    	rv32imacfdxcfu0cpu->RES_ADDR = -1LL;
