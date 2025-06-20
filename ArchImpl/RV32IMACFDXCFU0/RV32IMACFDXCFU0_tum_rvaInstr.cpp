@@ -1,5 +1,5 @@
 /**
- * Generated on Fri, 20 Jun 2025 08:54:36 +0200.
+ * Generated on Fri, 20 Jun 2025 09:12:50 +0200.
  *
  * This file contains the instruction behavior models of the tum_rva
  * instruction set for the RV32IMACFDXCFU0 core architecture.
@@ -47,19 +47,14 @@ aq += R_aq_0.read(ba) << 0;
 		cp.code() = std::string("//LRW\n");
 
 // -----------------------------------------------------------------------------
-cp.code() += "etiss_coverage_count(1, 189);\n";
 { // block
-cp.code() += "etiss_coverage_count(1, 1117);\n";
 cp.code() += "{ // block\n";
 cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "etiss_coverage_count(5, 1116, 1112, 1115, 1113, 1114);\n";
 cp.code() += "} // block\n";
 } // block
 { // block
-cp.code() += "etiss_coverage_count(1, 7101);\n";
 cp.code() += "{ // block\n";
 cp.code() += "etiss_uint32 offs = *((RV32IMACFDXCFU0*)cpu)->X[" + std::to_string(rs1 % 32ULL) + "ULL];\n";
-cp.code() += "etiss_coverage_count(4, 7079, 7078, 7077, 7075);\n";
 cp.code() += "etiss_uint32 mem_val_0;\n";
 cp.code() += "cpu->exception |= (*(system->dread))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 4);\n";
 cp.code() += "if (cpu->exception) { // conditional\n";
@@ -71,14 +66,9 @@ cp.code() += "} // procedure\n";
 } // procedure
 cp.code() += "} // conditional\n";
 cp.code() += "etiss_int32 res = (etiss_int32)(mem_val_0);\n";
-cp.code() += "etiss_coverage_count(4, 7086, 7085, 7083, 7082);\n";
 cp.code() += "((RV32IMACFDXCFU0*)cpu)->RES_ADDR = offs;\n";
-cp.code() += "etiss_coverage_count(3, 7089, 7087, 7088);\n";
-cp.code() += "etiss_coverage_count(1, 7090);\n";
 if (rd) { // conditional
-cp.code() += "etiss_coverage_count(1, 7091);\n";
 cp.code() += "*((RV32IMACFDXCFU0*)cpu)->X[" + std::to_string(rd % 32ULL) + "ULL] = (etiss_int32)(res);\n";
-cp.code() += "etiss_coverage_count(6, 7100, 7096, 7095, 7093, 7099, 7097);\n";
 } // conditional
 cp.code() += "} // block\n";
 } // block
@@ -164,25 +154,17 @@ aq += R_aq_0.read(ba) << 0;
 		cp.code() = std::string("//SCW\n");
 
 // -----------------------------------------------------------------------------
-cp.code() += "etiss_coverage_count(1, 190);\n";
 { // block
-cp.code() += "etiss_coverage_count(1, 1117);\n";
 cp.code() += "{ // block\n";
 cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "etiss_coverage_count(5, 1116, 1112, 1115, 1113, 1114);\n";
 cp.code() += "} // block\n";
 } // block
 { // block
-cp.code() += "etiss_coverage_count(1, 7139);\n";
 cp.code() += "{ // block\n";
 cp.code() += "etiss_uint32 offs = *((RV32IMACFDXCFU0*)cpu)->X[" + std::to_string(rs1 % 32ULL) + "ULL];\n";
-cp.code() += "etiss_coverage_count(4, 7108, 7107, 7106, 7104);\n";
-cp.code() += "etiss_coverage_count(1, 7109);\n";
 cp.code() += "if (((RV32IMACFDXCFU0*)cpu)->RES_ADDR == offs) { // conditional\n";
-cp.code() += "etiss_coverage_count(3, 7112, 7110, 7111);\n";
 cp.code() += "etiss_uint32 mem_val_0;\n";
 cp.code() += "mem_val_0 = (etiss_int32)(*((RV32IMACFDXCFU0*)cpu)->X[" + std::to_string(rs2 % 32ULL) + "ULL]);\n";
-cp.code() += "etiss_coverage_count(7, 7123, 7115, 7114, 7122, 7120, 7119, 7117);\n";
 cp.code() += "cpu->exception |= (*(system->dwrite))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 4);\n";
 cp.code() += "if (cpu->exception) { // conditional\n";
 { // procedure
@@ -193,14 +175,10 @@ cp.code() += "} // procedure\n";
 } // procedure
 cp.code() += "} // conditional\n";
 cp.code() += "} // conditional\n";
-cp.code() += "etiss_coverage_count(1, 7124);\n";
 if (rd) { // conditional
-cp.code() += "etiss_coverage_count(1, 7125);\n";
 cp.code() += "*((RV32IMACFDXCFU0*)cpu)->X[" + std::to_string(rd % 32ULL) + "ULL] = ((RV32IMACFDXCFU0*)cpu)->RES_ADDR != offs;\n";
-cp.code() += "etiss_coverage_count(7, 7134, 7130, 7129, 7127, 7133, 7131, 7132);\n";
 } // conditional
 cp.code() += "((RV32IMACFDXCFU0*)cpu)->RES_ADDR = -1LL;\n";
-cp.code() += "etiss_coverage_count(2, 7138, 7135);\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
