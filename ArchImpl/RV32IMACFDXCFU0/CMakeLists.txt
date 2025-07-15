@@ -1,4 +1,4 @@
-# Generated on Thu, 19 Jun 2025 20:39:14 +0200.
+# Generated on Fri, 20 Jun 2025 08:54:36 +0200.
 #
 # This file contains the CMake build info for the RV32IMACFDXCFU0 core architecture.
 

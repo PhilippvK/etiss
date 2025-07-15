@@ -1,5 +1,5 @@
 /**
- * Generated on Thu, 19 Jun 2025 20:39:14 +0200.
+ * Generated on Fri, 20 Jun 2025 08:54:36 +0200.
  *
  * This file contains the instruction behavior models of the XCFU0
  * instruction set for the RV32IMACFDXCFU0 core architecture.
@@ -108,11 +108,11 @@ ss << "cfu0_push_weights" << " # " << ba << (" [rd=" + std::to_string(rd) + " | 
 );
 
 // CFU0_PUSH_WEIGHTS_4B --------------------------------------------------------
-static InstructionDefinition cfu0_push_weights_4b_rd_rs1 (
+static InstructionDefinition cfu0_push_weights_4b_rd_rs1_rs2 (
 	ISA32_RV32IMACFDXCFU0,
 	"cfu0_push_weights_4b",
 	(uint32_t) 0x1000000b,
-	(uint32_t) 0xfff0707f,
+	(uint32_t) 0xfe00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -127,6 +127,9 @@ rd += R_rd_0.read(ba) << 0;
 etiss_uint8 rs1 = 0;
 static BitArrayRange R_rs1_0(19, 15);
 rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 rs2 = 0;
+static BitArrayRange R_rs2_0(24, 20);
+rs2 += R_rs2_0.read(ba) << 0;
 
 // -----------------------------------------------------------------------------
 
@@ -180,12 +183,15 @@ rd += R_rd_0.read(ba) << 0;
 etiss_uint8 rs1 = 0;
 static BitArrayRange R_rs1_0(19, 15);
 rs1 += R_rs1_0.read(ba) << 0;
+etiss_uint8 rs2 = 0;
+static BitArrayRange R_rs2_0(24, 20);
+rs2 += R_rs2_0.read(ba) << 0;
 
 // -----------------------------------------------------------------------------
 
 		std::stringstream ss;
 // -----------------------------------------------------------------------------
-ss << "cfu0_push_weights_4b" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + std::to_string(rs1) + "]");
+ss << "cfu0_push_weights_4b" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + std::to_string(rs1) + " | rs2=" + std::to_string(rs2) + "]");
 // -----------------------------------------------------------------------------
 		return ss.str();
 	}
