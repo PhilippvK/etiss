@@ -1,5 +1,5 @@
 /**
- * Generated on Fri, 20 Jun 2025 08:54:36 +0200.
+ * Generated on Wed, 16 Jul 2025 08:32:03 +0200.
  *
  * This file contains the registers for the RV32IMACFDXCFU0 core architecture.
  */
