@@ -1,5 +1,5 @@
 /**
- * Generated on Wed, 30 Apr 2025 13:39:25 +0000.
+ * Generated on Tue, 05 Aug 2025 11:41:33 +0000.
  *
  * This file contains the instruction behavior models of the RVZve32f
  * instruction set for the RV32IMACFDV core architecture.
@@ -58,7 +58,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfadd_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -174,7 +174,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfadd_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -290,7 +290,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfsub_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -406,7 +406,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfsub_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -522,7 +522,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfrsub_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -638,7 +638,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwadd_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -754,7 +754,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwadd_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -870,7 +870,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwsub_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -986,7 +986,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwsub_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -1102,7 +1102,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwadd_wv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -1218,7 +1218,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwadd_wf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -1334,7 +1334,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwsub_wv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -1450,7 +1450,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwsub_wf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -1566,7 +1566,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfmul_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -1682,7 +1682,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfmul_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -1798,7 +1798,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfdiv_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -1914,7 +1914,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfdiv_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -2030,7 +2030,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfrdiv_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -2146,7 +2146,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwmul_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -2262,7 +2262,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwmul_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -2378,7 +2378,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfmacc_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -2494,7 +2494,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfmacc_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -2610,7 +2610,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfnmacc_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -2726,7 +2726,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfnmacc_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -2842,7 +2842,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfmsac_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -2958,7 +2958,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfmsac_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -3074,7 +3074,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfnmsac_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -3190,7 +3190,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfnmsac_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -3306,7 +3306,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfmadd_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -3422,7 +3422,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfmadd_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -3538,7 +3538,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfnmadd_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -3654,7 +3654,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfnmadd_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -3770,7 +3770,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfmsub_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -3886,7 +3886,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfmsub_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -4002,7 +4002,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfnmsub_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -4118,7 +4118,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfnmsub_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -4234,7 +4234,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwmacc_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -4350,7 +4350,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwmacc_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -4466,7 +4466,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwnmacc_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -4582,7 +4582,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwnmacc_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -4698,7 +4698,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwmsac_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -4814,7 +4814,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwmsac_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -4930,7 +4930,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwnmsac_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -5046,7 +5046,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwnmsac_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -5159,7 +5159,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfsqrt_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -5269,7 +5269,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfrsqrt7_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -5379,7 +5379,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfrec7_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -5492,7 +5492,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfmin_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -5608,7 +5608,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfmin_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -5724,7 +5724,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfmax_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -5840,7 +5840,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfmax_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -5956,7 +5956,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfsgnj_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -6072,7 +6072,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfsgnj_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -6188,7 +6188,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfsgnjn_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -6304,7 +6304,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfsgnjn_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -6420,7 +6420,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfsgnjx_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -6536,7 +6536,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfsgnjx_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -6652,7 +6652,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vmfeq_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -6768,7 +6768,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vmfeq_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -6884,7 +6884,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vmfne_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -7000,7 +7000,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vmfne_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -7116,7 +7116,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vmflt_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -7232,7 +7232,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vmflt_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -7348,7 +7348,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vmfle_vv(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -7464,7 +7464,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vmfle_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -7580,7 +7580,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vmfgt_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -7696,7 +7696,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vmfge_vf(((RV32IMACFDV*)cpu)->V, *((RV32IMACFDV*)cpu)->F, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, " + std::to_string(rs1) + "ULL, _vstart, _vlen, _vl, 64ULL, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -7809,7 +7809,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfclass_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -8131,7 +8131,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfcvt_xu_f_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -8241,7 +8241,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfcvt_x_f_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -8351,7 +8351,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfcvt_rtz_xu_f_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -8461,7 +8461,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfcvt_rtz_x_f_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -8571,7 +8571,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfcvt_f_xu_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -8681,7 +8681,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfcvt_f_x_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -8791,7 +8791,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwcvt_xu_f_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -8901,7 +8901,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwcvt_x_f_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -9011,7 +9011,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwcvt_rtz_xu_f_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -9121,7 +9121,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwcvt_rtz_x_f_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -9231,7 +9231,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwcvt_f_xu_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -9341,7 +9341,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwcvt_f_x_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -9451,7 +9451,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwcvt_f_f_v(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -9561,7 +9561,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfncvt_xu_f_w(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -9671,7 +9671,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfncvt_x_f_w(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -9781,7 +9781,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfncvt_rtz_xu_f_w(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -9891,7 +9891,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfncvt_rtz_x_f_w(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -10001,7 +10001,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfncvt_f_xu_w(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -10111,7 +10111,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfncvt_f_x_w(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -10221,7 +10221,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfncvt_f_f_w(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -10331,7 +10331,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfncvt_rod_f_f_w(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -10444,7 +10444,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfredosum_vs(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -10560,7 +10560,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfredusum_vs(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -10676,7 +10676,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfredmax_vs(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -10792,7 +10792,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfredmin_vs(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -10908,7 +10908,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwredosum_vs(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
@@ -11024,7 +11024,7 @@ cp.code() += "etiss_uint32 _vtype = *((RV32IMACFDV*)cpu)->CSR[3105ULL];\n";
 cp.code() += "etiss_uint32 _vstart = *((RV32IMACFDV*)cpu)->CSR[8ULL];\n";
 cp.code() += "etiss_uint32 _vl = *((RV32IMACFDV*)cpu)->CSR[3104ULL];\n";
 cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "etiss_uint32 _rounding_mode = *((RV32IMACFDV*)cpu)->CSR[2LL];\n";
+cp.code() += "etiss_uint32 _rounding_mode = (((((RV32IMACFDV*)cpu)->FCSR) >> (5ULL)) & 7ULL);\n";
 cp.code() += "etiss_uint32 ret = vfwredusum_vs(((RV32IMACFDV*)cpu)->V, _vtype, " + std::to_string(vm) + "ULL, " + std::to_string(vd) + "ULL, " + std::to_string(vs1) + "ULL, " + std::to_string(vs2) + "ULL, _vstart, _vlen, _vl, _rounding_mode);\n";
 cp.code() += "if (ret != 0LL) { // conditional\n";
 { // block
