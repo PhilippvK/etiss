@@ -44,6 +44,10 @@ extern "C"
         uint16_t pVTYPE, uint8_t pVm, uint16_t pEEW, uint8_t pVd, uint16_t pVSTART, uint16_t pVLEN, uint16_t pVL,
         uint64_t pMSTART);
 
+    uint8_t etiss_vload_mask(ETISS_CPU *const pCpu, ETISS_System *const pSystem, void *const *const plugin_pointers,
+                             uint8_t *pV, uint8_t pVm, uint8_t pVd, uint16_t pVSTART, uint16_t pVLEN, uint16_t pVL,
+                             uint64_t pMSTART);
+
     //////////////////////////////////////////////////////////////////////////////////////
     /// \brief Load encoded (strided) from memory to target vector (-group)
     /// \return 0 if no exception triggered, else 1
@@ -114,6 +118,10 @@ extern "C"
         uint8_t *pV,                        //!<[inout] Vector register field as local memory
         uint16_t pVTYPE, uint8_t pVm, uint16_t pEEW, uint8_t pVs3, uint16_t pVSTART, uint16_t pVLEN, uint16_t pVL,
         uint64_t pMSTART);
+
+    uint8_t etiss_vstore_mask(ETISS_CPU *const pCpu, ETISS_System *const pSystem, void *const *const plugin_pointers,
+                              uint8_t *pV, uint8_t pVm, uint8_t pVs3, uint16_t pVSTART, uint16_t pVLEN, uint16_t pVL,
+                              uint64_t pMSTART);
 
     //////////////////////////////////////////////////////////////////////////////////////
     /// \brief Store encoded (strided) source vector (-group) to memory
