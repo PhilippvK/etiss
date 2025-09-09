@@ -15,7 +15,7 @@ extern "C" {
 #include "etiss/jit/CPU.h"
 #include "etiss/jit/System.h"
 #include "etiss/jit/ReturnCode.h"
-#include "etiss/jit/Coverage.h"
+// #include "etiss/jit/Coverage.h"
 
 
 void leave(etiss_int32 priv_lvl);
