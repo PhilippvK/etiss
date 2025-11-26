@@ -2,11 +2,11 @@
  * Generated on Thu, 07 Aug 2025 14:17:26 +0000.
  *
  * This file contains the instruction behavior models of the tum_ret
- * instruction set for the RV32IMACFDV_zvl64b core architecture.
+ * instruction set for the RV32IMACFDV_zvl1024b core architecture.
  */
 
-#include "RV32IMACFDV_zvl64bArch.h"
-#include "RV32IMACFDV_zvl64bFuncs.h"
+#include "RV32IMACFDV_zvl1024bArch.h"
+#include "RV32IMACFDV_zvl1024bFuncs.h"
 
 using namespace etiss;
 using namespace etiss::instr;
@@ -14,7 +14,7 @@ using namespace etiss::instr;
 
 // ECALL -----------------------------------------------------------------------
 static InstructionDefinition ecall_ (
-	ISA32_RV32IMACFDV_zvl64b,
+	ISA32_RV32IMACFDV_zvl1024b,
 	"ecall",
 	(uint32_t) 0x000073,
 	(uint32_t) 0xffffffff,
@@ -44,7 +44,7 @@ cp.code() += "} // block\n";
 cp.code() += "{ // block\n";
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV32IMACFDV_zvl64b_raise(cpu, system, plugin_pointers, 0LL, 8LL + ((RV32IMACFDV_zvl64b*)cpu)->PRIV);\n";
+cp.code() += "RV32IMACFDV_zvl1024b_raise(cpu, system, plugin_pointers, 0LL, 8LL + ((RV32IMACFDV_zvl1024b*)cpu)->PRIV);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
@@ -84,7 +84,7 @@ ss << "ecall" << " # " << ba << (" []");
 
 // MRET ------------------------------------------------------------------------
 static InstructionDefinition mret_ (
-	ISA32_RV32IMACFDV_zvl64b,
+	ISA32_RV32IMACFDV_zvl1024b,
 	"mret",
 	(uint32_t) 0x30200073,
 	(uint32_t) 0xffffffff,
@@ -112,25 +112,25 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMACFDV_zvl64b*)cpu)->PRIV < 3LL) { // conditional\n";
+cp.code() += "if (((RV32IMACFDV_zvl1024b*)cpu)->PRIV < 3LL) { // conditional\n";
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV32IMACFDV_zvl64b_raise(cpu, system, plugin_pointers, 0LL, 2LL);\n";
+cp.code() += "RV32IMACFDV_zvl1024b_raise(cpu, system, plugin_pointers, 0LL, 2LL);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
 cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = *((RV32IMACFDV_zvl64b*)cpu)->CSR[833LL];\n";
-cp.code() += "etiss_uint32 s = RV32IMACFDV_zvl64b_csr_read(cpu, system, plugin_pointers, 768LL);\n";
-cp.code() += "etiss_uint32 prev_prv = RV32IMACFDV_zvl64b_get_field(s, 6144LL);\n";
+cp.code() += "cpu->nextPc = *((RV32IMACFDV_zvl1024b*)cpu)->CSR[833LL];\n";
+cp.code() += "etiss_uint32 s = RV32IMACFDV_zvl1024b_csr_read(cpu, system, plugin_pointers, 768LL);\n";
+cp.code() += "etiss_uint32 prev_prv = RV32IMACFDV_zvl1024b_get_field(s, 6144LL);\n";
 cp.code() += "if (prev_prv != 3LL) { // conditional\n";
-cp.code() += "s = RV32IMACFDV_zvl64b_set_field(s, 131072LL, 0LL);\n";
+cp.code() += "s = RV32IMACFDV_zvl1024b_set_field(s, 131072LL, 0LL);\n";
 cp.code() += "} // conditional\n";
-cp.code() += "s = RV32IMACFDV_zvl64b_set_field(s, 8LL, RV32IMACFDV_zvl64b_get_field(s, 128LL));\n";
-cp.code() += "s = RV32IMACFDV_zvl64b_set_field(s, 128LL, 1ULL);\n";
-cp.code() += "s = RV32IMACFDV_zvl64b_set_field(s, 6144LL, (RV32IMACFDV_zvl64b_extension_enabled(cpu, system, plugin_pointers, 85ULL)) ? (0LL) : (3LL));\n";
-cp.code() += "RV32IMACFDV_zvl64b_csr_write(cpu, system, plugin_pointers, 768LL, s);\n";
-cp.code() += "((RV32IMACFDV_zvl64b*)cpu)->PRIV = (prev_prv) & 0x7;\n";
+cp.code() += "s = RV32IMACFDV_zvl1024b_set_field(s, 8LL, RV32IMACFDV_zvl1024b_get_field(s, 128LL));\n";
+cp.code() += "s = RV32IMACFDV_zvl1024b_set_field(s, 128LL, 1ULL);\n";
+cp.code() += "s = RV32IMACFDV_zvl1024b_set_field(s, 6144LL, (RV32IMACFDV_zvl1024b_extension_enabled(cpu, system, plugin_pointers, 85ULL)) ? (0LL) : (3LL));\n";
+cp.code() += "RV32IMACFDV_zvl1024b_csr_write(cpu, system, plugin_pointers, 768LL, s);\n";
+cp.code() += "((RV32IMACFDV_zvl1024b*)cpu)->PRIV = (prev_prv) & 0x7;\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
@@ -167,7 +167,7 @@ ss << "mret" << " # " << ba << (" []");
 
 // WFI -------------------------------------------------------------------------
 static InstructionDefinition wfi_ (
-	ISA32_RV32IMACFDV_zvl64b,
+	ISA32_RV32IMACFDV_zvl1024b,
 	"wfi",
 	(uint32_t) 0x10500073,
 	(uint32_t) 0xffffffff,
@@ -231,7 +231,7 @@ ss << "wfi" << " # " << ba << (" []");
 
 // SRET ------------------------------------------------------------------------
 static InstructionDefinition sret_ (
-	ISA32_RV32IMACFDV_zvl64b,
+	ISA32_RV32IMACFDV_zvl1024b,
 	"sret",
 	(uint32_t) 0x10200073,
 	(uint32_t) 0xffffffff,
@@ -259,22 +259,22 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "if (((RV32IMACFDV_zvl64b*)cpu)->PRIV < ((RV32IMACFDV_zvl64b_get_field(RV32IMACFDV_zvl64b_csr_read(cpu, system, plugin_pointers, 768LL), 4194304LL)) ? (3LL) : (1LL))) { // conditional\n";
+cp.code() += "if (((RV32IMACFDV_zvl1024b*)cpu)->PRIV < ((RV32IMACFDV_zvl1024b_get_field(RV32IMACFDV_zvl1024b_csr_read(cpu, system, plugin_pointers, 768LL), 4194304LL)) ? (3LL) : (1LL))) { // conditional\n";
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV32IMACFDV_zvl64b_raise(cpu, system, plugin_pointers, 0LL, 2LL);\n";
+cp.code() += "RV32IMACFDV_zvl1024b_raise(cpu, system, plugin_pointers, 0LL, 2LL);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
 cp.code() += "} // conditional\n";
-cp.code() += "cpu->nextPc = *((RV32IMACFDV_zvl64b*)cpu)->CSR[321LL];\n";
-cp.code() += "etiss_uint32 s = RV32IMACFDV_zvl64b_csr_read(cpu, system, plugin_pointers, 256LL);\n";
-cp.code() += "etiss_uint32 prev_prv = RV32IMACFDV_zvl64b_get_field(s, 256LL);\n";
-cp.code() += "s = RV32IMACFDV_zvl64b_set_field(s, 2LL, RV32IMACFDV_zvl64b_get_field(s, 32LL));\n";
-cp.code() += "s = RV32IMACFDV_zvl64b_set_field(s, 32LL, 1ULL);\n";
-cp.code() += "s = RV32IMACFDV_zvl64b_set_field(s, 256LL, 0LL);\n";
-cp.code() += "RV32IMACFDV_zvl64b_csr_write(cpu, system, plugin_pointers, 768LL, s);\n";
-cp.code() += "((RV32IMACFDV_zvl64b*)cpu)->PRIV = (prev_prv) & 0x7;\n";
+cp.code() += "cpu->nextPc = *((RV32IMACFDV_zvl1024b*)cpu)->CSR[321LL];\n";
+cp.code() += "etiss_uint32 s = RV32IMACFDV_zvl1024b_csr_read(cpu, system, plugin_pointers, 256LL);\n";
+cp.code() += "etiss_uint32 prev_prv = RV32IMACFDV_zvl1024b_get_field(s, 256LL);\n";
+cp.code() += "s = RV32IMACFDV_zvl1024b_set_field(s, 2LL, RV32IMACFDV_zvl1024b_get_field(s, 32LL));\n";
+cp.code() += "s = RV32IMACFDV_zvl1024b_set_field(s, 32LL, 1ULL);\n";
+cp.code() += "s = RV32IMACFDV_zvl1024b_set_field(s, 256LL, 0LL);\n";
+cp.code() += "RV32IMACFDV_zvl1024b_csr_write(cpu, system, plugin_pointers, 768LL, s);\n";
+cp.code() += "((RV32IMACFDV_zvl1024b*)cpu)->PRIV = (prev_prv) & 0x7;\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";

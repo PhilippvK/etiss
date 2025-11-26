@@ -1,23 +1,23 @@
 /**
  * Generated on Wed, 19 Jun 2024 11:26:11 +0200.
  *
- * This file contains the GDBCore adapter for the RV32IMACFDV_zvl64b core architecture.
+ * This file contains the GDBCore adapter for the RV32IMACFDV_zvl256b core architecture.
  *
  * WARNING: This file contains user-added code, be mindful when overwriting this with
  * generated code!
  */
 
-#ifndef ETISS_RV32IMACFDV_zvl64bArch_RV32IMACFDV_zvl64bGDBCORE_H_
-#define ETISS_RV32IMACFDV_zvl64bArch_RV32IMACFDV_zvl64bGDBCORE_H_
+#ifndef ETISS_RV32IMACFDV_zvl256bArch_RV32IMACFDV_zvl256bGDBCORE_H_
+#define ETISS_RV32IMACFDV_zvl256bArch_RV32IMACFDV_zvl256bGDBCORE_H_
 
 #include "etiss/IntegratedLibrary/gdb/GDBCore.h"
 #include <sstream>
 
 /**
-	@brief This class is the brige between RV32IMACFDV_zvl64b architecture and gdbserver
+	@brief This class is the brige between RV32IMACFDV_zvl256b architecture and gdbserver
 
 	@details Gdbserver integrated in ETISS calls GDBCore to read/write registers via virtualStrruct
-				The index in mapRegister() should strictly follow the RV32IMACFDV_zvl64b gdb tool defined register
+				The index in mapRegister() should strictly follow the RV32IMACFDV_zvl256b gdb tool defined register
 				order. Because gdbserver will send raw register data sequentially in strict order over
 				RSP ->TCP/IP ->RSP protocal
 
@@ -27,10 +27,10 @@
 
 				By default only general purpose register and instruction pointer are supported. Further
 				Special Function Register/Control and Status Register could be added manually. Meanwhile
-				virtualStruct in RV32IMACFDV_zvl64bArch.cpp should be modified as well as well
+				virtualStruct in RV32IMACFDV_zvl256bArch.cpp should be modified as well as well
 
 */
-class RV32IMACFDV_zvl64bGDBCore : public etiss::plugin::gdb::GDBCore {
+class RV32IMACFDV_zvl256bGDBCore : public etiss::plugin::gdb::GDBCore {
 public:
 	std::string mapRegister(unsigned index){
 		printf("index in GDBCore.h %d\n", index);
@@ -141,7 +141,7 @@ public:
 	}
 
 	bool isLittleEndian(){
-		// Modify according to RV32IMACFDV_zvl64b manual
+		// Modify according to RV32IMACFDV_zvl256b manual
 		return true;
 	}
 };

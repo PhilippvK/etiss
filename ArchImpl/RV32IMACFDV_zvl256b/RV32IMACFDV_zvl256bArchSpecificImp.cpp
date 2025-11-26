@@ -1,7 +1,7 @@
 /**
  * Generated on Thu, 24 Feb 2022 17:15:20 +0100.
  *
- * This file contains the architecture specific implementation for the RV32IMACFDV_zvl64b
+ * This file contains the architecture specific implementation for the RV32IMACFDV_zvl256b
  * core architecture.
  *
  * WARNING: This file contains user-added code, be mindful when overwriting this with
@@ -10,9 +10,9 @@
 
 #include <vector>
 
-#include "RV32IMACFDV_zvl64bArch.h"
-#include "RV32IMACFDV_zvl64bArchSpecificImp.h"
-#include "RV32IMACFDV_zvl64bFuncs.h"
+#include "RV32IMACFDV_zvl256bArch.h"
+#include "RV32IMACFDV_zvl256bArchSpecificImp.h"
+#include "RV32IMACFDV_zvl256bFuncs.h"
 
 /**
 	@brief This function will be called automatically in order to handling exceptions such as interrupt, system call, illegal instructions
@@ -28,9 +28,9 @@
 						break;
 
 */
-etiss::int32 RV32IMACFDV_zvl64bArch::handleException(etiss::int32 cause, ETISS_CPU * cpu)
+etiss::int32 RV32IMACFDV_zvl256bArch::handleException(etiss::int32 cause, ETISS_CPU * cpu)
 {
-	RV32IMACFDV_zvl64b_translate_exc_code(cpu, nullptr, nullptr, cause);
+	RV32IMACFDV_zvl256b_translate_exc_code(cpu, nullptr, nullptr, cause);
 	cpu->instructionPointer = cpu->nextPc;
 	return 0;
 }
@@ -57,7 +57,7 @@ etiss::int32 RV32IMACFDV_zvl64bArch::handleException(etiss::int32 cause, ETISS_C
 				};
 
 */
-void RV32IMACFDV_zvl64bArch::initInstrSet(etiss::instr::ModedInstructionSet & mis) const
+void RV32IMACFDV_zvl256bArch::initInstrSet(etiss::instr::ModedInstructionSet & mis) const
 {
 
     {
@@ -79,9 +79,9 @@ void RV32IMACFDV_zvl64bArch::initInstrSet(etiss::instr::ModedInstructionSet & mi
 
     if (false) {
         // Pre-compilation of instruction set to view instruction tree. Could be disabled.
-        etiss::instr::ModedInstructionSet iset("RV32IMACFDV_zvl64bISA");
+        etiss::instr::ModedInstructionSet iset("RV32IMACFDV_zvl256bISA");
 		bool ok = true;
-		RV32IMACFDV_zvl64bISA.addTo(iset,ok);
+		RV32IMACFDV_zvl256bISA.addTo(iset,ok);
 
 		iset.compile();
 
@@ -89,9 +89,9 @@ void RV32IMACFDV_zvl64bArch::initInstrSet(etiss::instr::ModedInstructionSet & mi
 	}
 
 	bool ok = true;
-	RV32IMACFDV_zvl64bISA.addTo(mis,ok);
+	RV32IMACFDV_zvl256bISA.addTo(mis,ok);
 	if (!ok)
-		etiss::log(etiss::FATALERROR,"Failed to add instructions for RV32IMACFDV_zvl64bISA");
+		etiss::log(etiss::FATALERROR,"Failed to add instructions for RV32IMACFDV_zvl256bISA");
 
     etiss::instr::VariableInstructionSet *vis = mis.get(1);
 
@@ -121,7 +121,7 @@ error_code += R_error_code_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV32IMACFDV_zvl64b_translate_exc_code(cpu, system, plugin_pointers, " + std::to_string(error_code) + "ULL);\n";
+cp.code() += "RV32IMACFDV_zvl256b_translate_exc_code(cpu, system, plugin_pointers, " + std::to_string(error_code) + "ULL);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
@@ -168,7 +168,7 @@ error_code += R_error_code_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV32IMACFDV_zvl64b_translate_exc_code(cpu, system, plugin_pointers, " + std::to_string(error_code) + "ULL);\n";
+cp.code() += "RV32IMACFDV_zvl256b_translate_exc_code(cpu, system, plugin_pointers, " + std::to_string(error_code) + "ULL);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
@@ -193,7 +193,7 @@ cp.code() += "return cpu->exception;\n";
 	);
 
     vis->length_updater_ = [](VariableInstructionSet &, InstructionContext &ic, BitArray &ba) {
-        std::function<void(InstructionContext & ic, etiss_uint32 opRd)> updateRV32IMACFDV_zvl64bInstrLength =
+        std::function<void(InstructionContext & ic, etiss_uint32 opRd)> updateRV32IMACFDV_zvl256bInstrLength =
             [](InstructionContext &ic, etiss_uint32 opRd) {
                 ic.instr_width_fully_evaluated_ = true;
                 ic.is_not_default_width_ = true;
@@ -234,7 +234,7 @@ cp.code() += "return cpu->exception;\n";
             }
             else
             {
-                updateRV32IMACFDV_zvl64bInstrLength(ic, opRd);
+                updateRV32IMACFDV_zvl256bInstrLength(ic, opRd);
                 break;
             }
         case 4:
@@ -245,12 +245,12 @@ cp.code() += "return cpu->exception;\n";
             }
             else if(opRd == 0x7f) /* P-Extension instructions */
             {
-                updateRV32IMACFDV_zvl64bInstrLength(ic, opRd);
+                updateRV32IMACFDV_zvl256bInstrLength(ic, opRd);
                 break;
             }
             else
             {
-                updateRV32IMACFDV_zvl64bInstrLength(ic, opRd);
+                updateRV32IMACFDV_zvl256bInstrLength(ic, opRd);
                 break;
             }
         case 6:
@@ -261,7 +261,7 @@ cp.code() += "return cpu->exception;\n";
             }
             else
             {
-                updateRV32IMACFDV_zvl64bInstrLength(ic, opRd);
+                updateRV32IMACFDV_zvl256bInstrLength(ic, opRd);
                 break;
             }
         case 8:
@@ -272,7 +272,7 @@ cp.code() += "return cpu->exception;\n";
             }
             else
             {
-                updateRV32IMACFDV_zvl64bInstrLength(ic, opRd);
+                updateRV32IMACFDV_zvl256bInstrLength(ic, opRd);
                 break;
             }
         default:
@@ -306,14 +306,14 @@ cp.code() += "return cpu->exception;\n";
 	@attention Default endianess: little-endian
 
 */
-void RV32IMACFDV_zvl64bArch::compensateEndianess(ETISS_CPU * cpu, etiss::instr::BitArray & ba) const
+void RV32IMACFDV_zvl256bArch::compensateEndianess(ETISS_CPU * cpu, etiss::instr::BitArray & ba) const
 {
 	/**************************************************************************
 	*		                Endianess compensation	                    	  *
 	***************************************************************************/
 }
 
-std::shared_ptr<etiss::VirtualStruct> RV32IMACFDV_zvl64bArch::getVirtualStruct(ETISS_CPU * cpu)
+std::shared_ptr<etiss::VirtualStruct> RV32IMACFDV_zvl256bArch::getVirtualStruct(ETISS_CPU * cpu)
 {
 	auto ret = etiss::VirtualStruct::allocate(
 		cpu,
@@ -323,61 +323,61 @@ std::shared_ptr<etiss::VirtualStruct> RV32IMACFDV_zvl64bArch::getVirtualStruct(E
 	);
 
 	for (uint32_t i = 0; i < 32; ++i){
-		ret->addField(new RegField_RV32IMACFDV_zvl64b(*ret,i));
+		ret->addField(new RegField_RV32IMACFDV_zvl256b(*ret,i));
 	}
 
-	ret->addField(new pcField_RV32IMACFDV_zvl64b(*ret));
+	ret->addField(new pcField_RV32IMACFDV_zvl256b(*ret));
 
 	for (uint32_t i = 0; i < 32; ++i){
-		ret->addField(new FloatRegField_RV32IMACFDV_zvl64b(*ret,i));
+		ret->addField(new FloatRegField_RV32IMACFDV_zvl256b(*ret,i));
 	}
 
 	//for (uint32_t i = 0; i < 4; ++i){
-	//	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,i));
+	//	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,i));
 	//}
 
 	// FCSR
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,1));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,2));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,3));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,1));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,2));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,3));
 	// VCSR
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,8));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,9));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,10));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,15));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,8));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,9));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,10));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,15));
 	// M CSR
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,768));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,769));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,770));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,771));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,772));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,773));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,774));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,832));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,833));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,834));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,835));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,836));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,768));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,769));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,770));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,771));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,772));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,773));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,774));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,832));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,833));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,834));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,835));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,836));
 	//
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,3072));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,3073));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,3074));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,3072));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,3073));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,3074));
 	// VCSR
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,3104));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,3105));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,3106));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,3104));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,3105));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,3106));
 	//
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,3200));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,3201));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,3202));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,3200));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,3201));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,3202));
 	// M CSR
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,3857));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,3858));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,3859));
-	ret->addField(new CSRField_RV32IMACFDV_zvl64b(*ret,3860));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,3857));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,3858));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,3859));
+	ret->addField(new CSRField_RV32IMACFDV_zvl256b(*ret,3860));
 	// V0-V31
 	for (uint32_t i = 0; i < 32; ++i){
-		ret->addField(new VectorRegField_RV32IMACFDV_zvl64b(*ret,i));
+		ret->addField(new VectorRegField_RV32IMACFDV_zvl256b(*ret,i));
 	}
 
 	printf("added all fields in ArchSpecImp.cpp");
@@ -391,7 +391,7 @@ std::shared_ptr<etiss::VirtualStruct> RV32IMACFDV_zvl64bArch::getVirtualStruct(E
 				incoming. The content of interrupt vector could be a special register or standalone interrupt
 				lines.
 */
-etiss::InterruptVector * RV32IMACFDV_zvl64bArch::createInterruptVector(ETISS_CPU * cpu)
+etiss::InterruptVector * RV32IMACFDV_zvl256bArch::createInterruptVector(ETISS_CPU * cpu)
 {
 	if (cpu == 0)
 		return 0;
@@ -399,21 +399,21 @@ etiss::InterruptVector * RV32IMACFDV_zvl64bArch::createInterruptVector(ETISS_CPU
   	std::vector<etiss::uint32 *> vec;
 	std::vector<etiss::uint32 *> mask;
 
-	vec.push_back(&((RV32IMACFDV_zvl64b*)cpu)->MIP);
-	mask.push_back(&((RV32IMACFDV_zvl64b*)cpu)->MIE);
+	vec.push_back(&((RV32IMACFDV_zvl256b*)cpu)->MIP);
+	mask.push_back(&((RV32IMACFDV_zvl256b*)cpu)->MIE);
 
 	return new etiss::MappedInterruptVector<etiss::uint32>(vec, mask);
 }
 
-void RV32IMACFDV_zvl64bArch::deleteInterruptVector(etiss::InterruptVector * vec, ETISS_CPU * cpu)
+void RV32IMACFDV_zvl256bArch::deleteInterruptVector(etiss::InterruptVector * vec, ETISS_CPU * cpu)
 {
 	delete vec;
 }
 
-etiss::InterruptEnable* RV32IMACFDV_zvl64bArch::createInterruptEnable(ETISS_CPU* cpu) {
- 	return new etiss::MappedInterruptEnable<etiss::uint32>(&((RV32IMACFDV_zvl64b*)cpu)->MSTATUS, 15);
+etiss::InterruptEnable* RV32IMACFDV_zvl256bArch::createInterruptEnable(ETISS_CPU* cpu) {
+ 	return new etiss::MappedInterruptEnable<etiss::uint32>(&((RV32IMACFDV_zvl256b*)cpu)->MSTATUS, 15);
 }
 
-void RV32IMACFDV_zvl64bArch::deleteInterruptEnable(etiss::InterruptEnable* en, ETISS_CPU* cpu) {
+void RV32IMACFDV_zvl256bArch::deleteInterruptEnable(etiss::InterruptEnable* en, ETISS_CPU* cpu) {
 	delete en;
 }

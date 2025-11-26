@@ -1,34 +1,34 @@
 /**
  * Generated on Thu, 07 Aug 2025 14:17:26 +0000.
  *
- * This file contains the architecture class for the RV32IMACFDV_zvl64b core architecture.
+ * This file contains the architecture class for the RV32IMACFDV_zvl1024b core architecture.
  */
 
-#ifndef ETISS_RV32IMACFDV_zvl64bArch_RV32IMACFDV_zvl64bArch_H_
-#define ETISS_RV32IMACFDV_zvl64bArch_RV32IMACFDV_zvl64bArch_H_
+#ifndef ETISS_RV32IMACFDV_zvl1024bArch_RV32IMACFDV_zvl1024bArch_H_
+#define ETISS_RV32IMACFDV_zvl1024bArch_RV32IMACFDV_zvl1024bArch_H_
 
 #include "etiss/CPUArch.h"
 #include "etiss/Instruction.h"
 #include "etiss/InterruptVector.h"
 #include "etiss/InterruptEnable.h"
-#include "RV32IMACFDV_zvl64b.h"
-#include "RV32IMACFDV_zvl64bGDBCore.h"
+#include "RV32IMACFDV_zvl1024b.h"
+#include "RV32IMACFDV_zvl1024bGDBCore.h"
 
 #include <map>
 
 extern const char * const reg_name[];
 
-extern etiss::instr::InstructionGroup ISA16_RV32IMACFDV_zvl64b;
-extern etiss::instr::InstructionClass ISA16_RV32IMACFDV_zvl64bClass;
-extern etiss::instr::InstructionGroup ISA32_RV32IMACFDV_zvl64b;
-extern etiss::instr::InstructionClass ISA32_RV32IMACFDV_zvl64bClass;
+extern etiss::instr::InstructionGroup ISA16_RV32IMACFDV_zvl1024b;
+extern etiss::instr::InstructionClass ISA16_RV32IMACFDV_zvl1024bClass;
+extern etiss::instr::InstructionGroup ISA32_RV32IMACFDV_zvl1024b;
+extern etiss::instr::InstructionClass ISA32_RV32IMACFDV_zvl1024bClass;
 
-extern etiss::instr::InstructionCollection RV32IMACFDV_zvl64bISA;
+extern etiss::instr::InstructionCollection RV32IMACFDV_zvl1024bISA;
 
-class RV32IMACFDV_zvl64bArch : public etiss::CPUArch {
+class RV32IMACFDV_zvl1024bArch : public etiss::CPUArch {
 
 public:
-	RV32IMACFDV_zvl64bArch(unsigned int);
+	RV32IMACFDV_zvl1024bArch(unsigned int);
 
 	virtual const std::set<std::string> & getListenerSupportedRegisters();
 
@@ -40,7 +40,7 @@ public:
 	/**
 		@brief get the VirtualStruct of the core to mitigate register access
 
-		@see RV32IMACFDV_zvl64bArchSpecificImp.h
+		@see RV32IMACFDV_zvl1024bArchSpecificImp.h
 	*/
 	virtual std::shared_ptr<etiss::VirtualStruct> getVirtualStruct(ETISS_CPU * cpu);
 
@@ -55,7 +55,7 @@ public:
 	virtual unsigned getInstructionSizeInBytes();
 
 	/**
-		@brief required headers (RV32IMACFDV_zvl64b.h)
+		@brief required headers (RV32IMACFDV_zvl1024b.h)
 	*/
 	virtual const std::set<std::string> & getHeaders() const;
 
@@ -63,14 +63,14 @@ public:
 		@brief This function will be called automatically in order to handling architecure dependent exceptions such
 			   as interrupt, system call, illegal instructions
 
-		@see RV32IMACFDV_zvl64bArchSpecificImp.h
+		@see RV32IMACFDV_zvl1024bArchSpecificImp.h
 	*/
 	virtual etiss::int32 handleException(etiss::int32 code, ETISS_CPU * cpu);
 
 	/**
 		@brief This function is called during CPUArch initialization
 
-		@see RV32IMACFDV_zvl64bArchSpecificImp.h
+		@see RV32IMACFDV_zvl1024bArchSpecificImp.h
 	*/
 	virtual void initInstrSet(etiss::instr::ModedInstructionSet & ) const;
 	virtual void initCodeBlock(etiss::CodeBlock & cb) const;
@@ -79,14 +79,14 @@ public:
 		@brief Target architecture may have inconsistent endianess. Data read from memory is buffered, and this function
 			   is called to alter sequence of buffered data so that the inconsistent endianess is compensated.
 
-		@see RV32IMACFDV_zvl64bArchSpecificImp.h
+		@see RV32IMACFDV_zvl1024bArchSpecificImp.h
 	*/
 	virtual void compensateEndianess(ETISS_CPU * cpu, etiss::instr::BitArray & ba) const ;
 
 	/**
 		@brief If interrupt handling is expected, vector table could be provided to support interrupt triggering
 
-		@see RV32IMACFDV_zvl64bArchSpecificImp.h
+		@see RV32IMACFDV_zvl1024bArchSpecificImp.h
 	*/
 	virtual etiss::InterruptVector * createInterruptVector(ETISS_CPU * cpu);
 	virtual void deleteInterruptVector(etiss::InterruptVector * vec, ETISS_CPU * cpu);
@@ -94,16 +94,16 @@ public:
 	virtual void deleteInterruptEnable(etiss::InterruptEnable* en, ETISS_CPU* cpu);
 
 	/**
-		@brief get the GDBcore for RV32IMACFDV_zvl64b architecture
+		@brief get the GDBcore for RV32IMACFDV_zvl1024b architecture
 
-		@see RV32IMACFDV_zvl64bGDBCore.h for implementation of GDBcore
+		@see RV32IMACFDV_zvl1024bGDBCore.h for implementation of GDBcore
 	*/
 	virtual etiss::plugin::gdb::GDBCore & getGDBCore();
 
 private:
 	std::set<std::string> listenerSupportedRegisters_;
 	std::set<std::string> headers_;
-	RV32IMACFDV_zvl64bGDBCore gdbcore_;
+	RV32IMACFDV_zvl1024bGDBCore gdbcore_;
 	unsigned int coreno_;
 };
 #endif

@@ -1,11 +1,11 @@
 /**
  * Generated on Wed, 30 Oct 2024 10:46:47 +0100.
  *
- * This file contains the registers for the RV32IMACFDV_zvl64b core architecture.
+ * This file contains the registers for the RV32IMACFDV_zvl256b core architecture.
  */
 
-#ifndef ETISS_RV32IMACFDV_zvl64bArch_RV32IMACFDV_zvl64b_H_
-#define ETISS_RV32IMACFDV_zvl64bArch_RV32IMACFDV_zvl64b_H_
+#ifndef ETISS_RV32IMACFDV_zvl256bArch_RV32IMACFDV_zvl256b_H_
+#define ETISS_RV32IMACFDV_zvl256bArch_RV32IMACFDV_zvl256b_H_
 #include <stdio.h>
 #include "etiss/jit/CPU.h"
 
@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 #pragma pack(push, 1)
-struct RV32IMACFDV_zvl64b {
+struct RV32IMACFDV_zvl256b {
 	ETISS_CPU cpu; // original cpu struct must be defined as the first field of the new structure. this allows to cast X * to ETISS_CPU * and vice vers
 	etiss_uint32 ZERO;
 	etiss_uint32 RA;
@@ -128,7 +128,7 @@ struct RV32IMACFDV_zvl64b {
 };
 
 #pragma pack(pop) // undo changes
-typedef struct RV32IMACFDV_zvl64b RV32IMACFDV_zvl64b; // convenient use of X instead of struct X in generated C code
+typedef struct RV32IMACFDV_zvl256b RV32IMACFDV_zvl256b; // convenient use of X instead of struct X in generated C code
 #ifdef __cplusplus
 } // extern "C"
 #endif

@@ -2,11 +2,11 @@
  * Generated on Thu, 07 Aug 2025 14:17:26 +0000.
  *
  * This file contains the instruction behavior models of the tum_rva
- * instruction set for the RV32IMACFDV_zvl64b core architecture.
+ * instruction set for the RV32IMACFDV_zvl256b core architecture.
  */
 
-#include "RV32IMACFDV_zvl64bArch.h"
-#include "RV32IMACFDV_zvl64bFuncs.h"
+#include "RV32IMACFDV_zvl256bArch.h"
+#include "RV32IMACFDV_zvl256bFuncs.h"
 
 using namespace etiss;
 using namespace etiss::instr;
@@ -14,7 +14,7 @@ using namespace etiss::instr;
 
 // LRW -------------------------------------------------------------------------
 static InstructionDefinition lrw_rd_rs1_rl_aq (
-	ISA32_RV32IMACFDV_zvl64b,
+	ISA32_RV32IMACFDV_zvl256b,
 	"lrw",
 	(uint32_t) 0x1000202f,
 	(uint32_t) 0xf9f0707f,
@@ -54,21 +54,21 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 offs = *((RV32IMACFDV_zvl64b*)cpu)->X[" + std::to_string(rs1 % 32ULL) + "ULL];\n";
+cp.code() += "etiss_uint32 offs = *((RV32IMACFDV_zvl256b*)cpu)->X[" + std::to_string(rs1 % 32ULL) + "ULL];\n";
 cp.code() += "etiss_uint32 mem_val_0;\n";
 cp.code() += "cpu->exception |= (*(system->dread))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 4);\n";
 cp.code() += "if (cpu->exception) { // conditional\n";
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV32IMACFDV_zvl64b_translate_exc_code(cpu, system, plugin_pointers, cpu->exception);\n";
+cp.code() += "RV32IMACFDV_zvl256b_translate_exc_code(cpu, system, plugin_pointers, cpu->exception);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
 cp.code() += "} // conditional\n";
 cp.code() += "etiss_int32 res = (etiss_int32)(mem_val_0);\n";
-cp.code() += "((RV32IMACFDV_zvl64b*)cpu)->RES_ADDR = offs;\n";
+cp.code() += "((RV32IMACFDV_zvl256b*)cpu)->RES_ADDR = offs;\n";
 if (rd) { // conditional
-cp.code() += "*((RV32IMACFDV_zvl64b*)cpu)->X[" + std::to_string(rd % 32ULL) + "ULL] = (etiss_int32)(res);\n";
+cp.code() += "*((RV32IMACFDV_zvl256b*)cpu)->X[" + std::to_string(rd % 32ULL) + "ULL] = (etiss_int32)(res);\n";
 } // conditional
 cp.code() += "} // block\n";
 } // block
@@ -118,7 +118,7 @@ ss << "lrw" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + std::t
 
 // SCW -------------------------------------------------------------------------
 static InstructionDefinition scw_rd_rs1_rs2_rl_aq (
-	ISA32_RV32IMACFDV_zvl64b,
+	ISA32_RV32IMACFDV_zvl256b,
 	"scw",
 	(uint32_t) 0x1800202f,
 	(uint32_t) 0xf800707f,
@@ -161,24 +161,24 @@ cp.code() += "} // block\n";
 } // block
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "etiss_uint32 offs = *((RV32IMACFDV_zvl64b*)cpu)->X[" + std::to_string(rs1 % 32ULL) + "ULL];\n";
-cp.code() += "if (((RV32IMACFDV_zvl64b*)cpu)->RES_ADDR == offs) { // conditional\n";
+cp.code() += "etiss_uint32 offs = *((RV32IMACFDV_zvl256b*)cpu)->X[" + std::to_string(rs1 % 32ULL) + "ULL];\n";
+cp.code() += "if (((RV32IMACFDV_zvl256b*)cpu)->RES_ADDR == offs) { // conditional\n";
 cp.code() += "etiss_uint32 mem_val_0;\n";
-cp.code() += "mem_val_0 = (etiss_int32)(*((RV32IMACFDV_zvl64b*)cpu)->X[" + std::to_string(rs2 % 32ULL) + "ULL]);\n";
+cp.code() += "mem_val_0 = (etiss_int32)(*((RV32IMACFDV_zvl256b*)cpu)->X[" + std::to_string(rs2 % 32ULL) + "ULL]);\n";
 cp.code() += "cpu->exception |= (*(system->dwrite))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 4);\n";
 cp.code() += "if (cpu->exception) { // conditional\n";
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV32IMACFDV_zvl64b_translate_exc_code(cpu, system, plugin_pointers, cpu->exception);\n";
+cp.code() += "RV32IMACFDV_zvl256b_translate_exc_code(cpu, system, plugin_pointers, cpu->exception);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
 cp.code() += "} // conditional\n";
 cp.code() += "} // conditional\n";
 if (rd) { // conditional
-cp.code() += "*((RV32IMACFDV_zvl64b*)cpu)->X[" + std::to_string(rd % 32ULL) + "ULL] = ((RV32IMACFDV_zvl64b*)cpu)->RES_ADDR != offs;\n";
+cp.code() += "*((RV32IMACFDV_zvl256b*)cpu)->X[" + std::to_string(rd % 32ULL) + "ULL] = ((RV32IMACFDV_zvl256b*)cpu)->RES_ADDR != offs;\n";
 } // conditional
-cp.code() += "((RV32IMACFDV_zvl64b*)cpu)->RES_ADDR = -1LL;\n";
+cp.code() += "((RV32IMACFDV_zvl256b*)cpu)->RES_ADDR = -1LL;\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";

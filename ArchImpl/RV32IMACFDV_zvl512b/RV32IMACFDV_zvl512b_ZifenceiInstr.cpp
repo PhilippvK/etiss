@@ -2,11 +2,11 @@
  * Generated on Thu, 07 Aug 2025 14:17:26 +0000.
  *
  * This file contains the instruction behavior models of the Zifencei
- * instruction set for the RV32IMACFDV_zvl64b core architecture.
+ * instruction set for the RV32IMACFDV_zvl512b core architecture.
  */
 
-#include "RV32IMACFDV_zvl64bArch.h"
-#include "RV32IMACFDV_zvl64bFuncs.h"
+#include "RV32IMACFDV_zvl512bArch.h"
+#include "RV32IMACFDV_zvl512bFuncs.h"
 
 using namespace etiss;
 using namespace etiss::instr;
@@ -14,7 +14,7 @@ using namespace etiss::instr;
 
 // FENCE_I ---------------------------------------------------------------------
 static InstructionDefinition fence_i_rd_rs1_imm (
-	ISA32_RV32IMACFDV_zvl64b,
+	ISA32_RV32IMACFDV_zvl512b,
 	"fence_i",
 	(uint32_t) 0x00100f,
 	(uint32_t) 0x00707f,
@@ -50,7 +50,7 @@ cp.code() += "{ // block\n";
 cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
-cp.code() += "((RV32IMACFDV_zvl64b*)cpu)->FENCE[1ULL] = " + std::to_string(imm) + "ULL;\n";
+cp.code() += "((RV32IMACFDV_zvl512b*)cpu)->FENCE[1ULL] = " + std::to_string(imm) + "ULL;\n";
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 /**
  * Generated on Wed, 30 Oct 2024 10:46:47 +0100.
  *
- * This file contains the architecture class for the RV32IMACFDV_zvl64b core architecture.
+ * This file contains the architecture class for the RV32IMACFDV_zvl512b core architecture.
  */
 
 /*********************************************************************************************************************************
@@ -28,43 +28,43 @@
 		 correct it.
 
 	 7. Implementation dependent functionalities such as exception handling should be manully added. Corresponding interfaces
-		 are provided in RV32IMACFDV_zvl64bArchSpecificImp.h
+		 are provided in RV32IMACFDV_zvl512bArchSpecificImp.h
 
-	 8. RV32IMACFDV_zvl64bGDBCore.h provides the GDBCore class to support gdb flavor debugging feature, modify iy if in need.
+	 8. RV32IMACFDV_zvl512bGDBCore.h provides the GDBCore class to support gdb flavor debugging feature, modify iy if in need.
 
  *********************************************************************************************************************************/
 
-#include "RV32IMACFDV_zvl64bArch.h"
-#include "RV32IMACFDV_zvl64bFuncs.h"
+#include "RV32IMACFDV_zvl512bArch.h"
+#include "RV32IMACFDV_zvl512bFuncs.h"
 
-#define RV32IMACFDV_zvl64b_DEBUG_CALL 0
+#define RV32IMACFDV_zvl512b_DEBUG_CALL 0
 
 #define N_VREG_BYTES 64
 
 using namespace etiss ;
 using namespace etiss::instr ;
 
-RV32IMACFDV_zvl64bArch::RV32IMACFDV_zvl64bArch(unsigned int coreno):CPUArch("RV32IMACFDV_zvl64b"), coreno_(coreno)
+RV32IMACFDV_zvl512bArch::RV32IMACFDV_zvl512bArch(unsigned int coreno):CPUArch("RV32IMACFDV_zvl512b"), coreno_(coreno)
 {
-	headers_.insert("Arch/RV32IMACFDV_zvl64b/RV32IMACFDV_zvl64b.h");
+	headers_.insert("Arch/RV32IMACFDV_zvl512b/RV32IMACFDV_zvl512b.h");
 }
 
-const std::set<std::string> & RV32IMACFDV_zvl64bArch::getListenerSupportedRegisters()
+const std::set<std::string> & RV32IMACFDV_zvl512bArch::getListenerSupportedRegisters()
 {
 	return listenerSupportedRegisters_;
 }
 
-ETISS_CPU * RV32IMACFDV_zvl64bArch::newCPU()
+ETISS_CPU * RV32IMACFDV_zvl512bArch::newCPU()
 {
-	ETISS_CPU * ret = (ETISS_CPU *) new RV32IMACFDV_zvl64b() ;
+	ETISS_CPU * ret = (ETISS_CPU *) new RV32IMACFDV_zvl512b() ;
 	resetCPU (ret, 0);
 	return ret;
 }
 
-void RV32IMACFDV_zvl64bArch::resetCPU(ETISS_CPU * cpu,etiss::uint64 * startpointer)
+void RV32IMACFDV_zvl512bArch::resetCPU(ETISS_CPU * cpu,etiss::uint64 * startpointer)
 {
-	memset (cpu, 0, sizeof(RV32IMACFDV_zvl64b));
-	RV32IMACFDV_zvl64b * RV32IMACFDV_zvl64bcpu = (RV32IMACFDV_zvl64b *) cpu;
+	memset (cpu, 0, sizeof(RV32IMACFDV_zvl512b));
+	RV32IMACFDV_zvl512b * RV32IMACFDV_zvl512bcpu = (RV32IMACFDV_zvl512b *) cpu;
 
 	if (startpointer) cpu->instructionPointer = *startpointer & ~((etiss::uint64)0x1);
 	else cpu->instructionPointer = 0x0;   //  reference to manual
@@ -75,250 +75,250 @@ void RV32IMACFDV_zvl64bArch::resetCPU(ETISS_CPU * cpu,etiss::uint64 * startpoint
 
 
 	for (int i = 0; i < 32; ++i) {
-		RV32IMACFDV_zvl64bcpu->ins_X[i] = 0;
-		RV32IMACFDV_zvl64bcpu->X[i] = &RV32IMACFDV_zvl64bcpu->ins_X[i];
+		RV32IMACFDV_zvl512bcpu->ins_X[i] = 0;
+		RV32IMACFDV_zvl512bcpu->X[i] = &RV32IMACFDV_zvl512bcpu->ins_X[i];
 	}
 	for (int i = 0; i < 4096; ++i) {
-		RV32IMACFDV_zvl64bcpu->ins_CSR[i] = 0;
-		RV32IMACFDV_zvl64bcpu->CSR[i] = &RV32IMACFDV_zvl64bcpu->ins_CSR[i];
+		RV32IMACFDV_zvl512bcpu->ins_CSR[i] = 0;
+		RV32IMACFDV_zvl512bcpu->CSR[i] = &RV32IMACFDV_zvl512bcpu->ins_CSR[i];
 	}
 	for (int i = 0; i < 32; ++i) {
-		RV32IMACFDV_zvl64bcpu->ins_F[i] = 0;
-		RV32IMACFDV_zvl64bcpu->F[i] = &RV32IMACFDV_zvl64bcpu->ins_F[i];
+		RV32IMACFDV_zvl512bcpu->ins_F[i] = 0;
+		RV32IMACFDV_zvl512bcpu->F[i] = &RV32IMACFDV_zvl512bcpu->ins_F[i];
 	}
 
-	RV32IMACFDV_zvl64bcpu->ZERO = 0;
-	RV32IMACFDV_zvl64bcpu->RA = 0;
-	RV32IMACFDV_zvl64bcpu->SP = 0;
-	RV32IMACFDV_zvl64bcpu->GP = 0;
-	RV32IMACFDV_zvl64bcpu->TP = 0;
-	RV32IMACFDV_zvl64bcpu->T0 = 0;
-	RV32IMACFDV_zvl64bcpu->T1 = 0;
-	RV32IMACFDV_zvl64bcpu->T2 = 0;
-	RV32IMACFDV_zvl64bcpu->S0 = 0;
-	RV32IMACFDV_zvl64bcpu->S1 = 0;
-	RV32IMACFDV_zvl64bcpu->A0 = 0;
-	RV32IMACFDV_zvl64bcpu->A1 = 0;
-	RV32IMACFDV_zvl64bcpu->A2 = 0;
-	RV32IMACFDV_zvl64bcpu->A3 = 0;
-	RV32IMACFDV_zvl64bcpu->A4 = 0;
-	RV32IMACFDV_zvl64bcpu->A5 = 0;
-	RV32IMACFDV_zvl64bcpu->A6 = 0;
-	RV32IMACFDV_zvl64bcpu->A7 = 0;
-	RV32IMACFDV_zvl64bcpu->S2 = 0;
-	RV32IMACFDV_zvl64bcpu->S3 = 0;
-	RV32IMACFDV_zvl64bcpu->S4 = 0;
-	RV32IMACFDV_zvl64bcpu->S5 = 0;
-	RV32IMACFDV_zvl64bcpu->S6 = 0;
-	RV32IMACFDV_zvl64bcpu->S7 = 0;
-	RV32IMACFDV_zvl64bcpu->S8 = 0;
-	RV32IMACFDV_zvl64bcpu->S9 = 0;
-	RV32IMACFDV_zvl64bcpu->S10 = 0;
-	RV32IMACFDV_zvl64bcpu->S11 = 0;
-	RV32IMACFDV_zvl64bcpu->T3 = 0;
-	RV32IMACFDV_zvl64bcpu->T4 = 0;
-	RV32IMACFDV_zvl64bcpu->T5 = 0;
-	RV32IMACFDV_zvl64bcpu->T6 = 0;
+	RV32IMACFDV_zvl512bcpu->ZERO = 0;
+	RV32IMACFDV_zvl512bcpu->RA = 0;
+	RV32IMACFDV_zvl512bcpu->SP = 0;
+	RV32IMACFDV_zvl512bcpu->GP = 0;
+	RV32IMACFDV_zvl512bcpu->TP = 0;
+	RV32IMACFDV_zvl512bcpu->T0 = 0;
+	RV32IMACFDV_zvl512bcpu->T1 = 0;
+	RV32IMACFDV_zvl512bcpu->T2 = 0;
+	RV32IMACFDV_zvl512bcpu->S0 = 0;
+	RV32IMACFDV_zvl512bcpu->S1 = 0;
+	RV32IMACFDV_zvl512bcpu->A0 = 0;
+	RV32IMACFDV_zvl512bcpu->A1 = 0;
+	RV32IMACFDV_zvl512bcpu->A2 = 0;
+	RV32IMACFDV_zvl512bcpu->A3 = 0;
+	RV32IMACFDV_zvl512bcpu->A4 = 0;
+	RV32IMACFDV_zvl512bcpu->A5 = 0;
+	RV32IMACFDV_zvl512bcpu->A6 = 0;
+	RV32IMACFDV_zvl512bcpu->A7 = 0;
+	RV32IMACFDV_zvl512bcpu->S2 = 0;
+	RV32IMACFDV_zvl512bcpu->S3 = 0;
+	RV32IMACFDV_zvl512bcpu->S4 = 0;
+	RV32IMACFDV_zvl512bcpu->S5 = 0;
+	RV32IMACFDV_zvl512bcpu->S6 = 0;
+	RV32IMACFDV_zvl512bcpu->S7 = 0;
+	RV32IMACFDV_zvl512bcpu->S8 = 0;
+	RV32IMACFDV_zvl512bcpu->S9 = 0;
+	RV32IMACFDV_zvl512bcpu->S10 = 0;
+	RV32IMACFDV_zvl512bcpu->S11 = 0;
+	RV32IMACFDV_zvl512bcpu->T3 = 0;
+	RV32IMACFDV_zvl512bcpu->T4 = 0;
+	RV32IMACFDV_zvl512bcpu->T5 = 0;
+	RV32IMACFDV_zvl512bcpu->T6 = 0;
 	for (int i = 0; i < 8; ++i) {
-		RV32IMACFDV_zvl64bcpu->FENCE[i] = 0;
+		RV32IMACFDV_zvl512bcpu->FENCE[i] = 0;
 	}
 	for (int i = 0; i < 8; ++i) {
-		RV32IMACFDV_zvl64bcpu->RES[i] = 0;
+		RV32IMACFDV_zvl512bcpu->RES[i] = 0;
 	}
-	RV32IMACFDV_zvl64bcpu->PRIV = 0;
-	RV32IMACFDV_zvl64bcpu->DPC = 0;
-	RV32IMACFDV_zvl64bcpu->VSTART_CSR = 0;
-	RV32IMACFDV_zvl64bcpu->VXSAT_CSR = 0;
-	RV32IMACFDV_zvl64bcpu->VXRM_CSR = 0;
-	RV32IMACFDV_zvl64bcpu->VCSR_CSR = 0;
-	RV32IMACFDV_zvl64bcpu->VL_CSR = 0;
-	RV32IMACFDV_zvl64bcpu->VTYPE_CSR = 0;
-	RV32IMACFDV_zvl64bcpu->VLENB_CSR = 0;
-	RV32IMACFDV_zvl64bcpu->FCSR = 0;
-	RV32IMACFDV_zvl64bcpu->FFLAGS = 0;
-	RV32IMACFDV_zvl64bcpu->FRM = 0;
-	RV32IMACFDV_zvl64bcpu->MSTATUS = 0;
-	RV32IMACFDV_zvl64bcpu->MIE = 0;
-	RV32IMACFDV_zvl64bcpu->MIP = 0;
-	RV32IMACFDV_zvl64bcpu->CYCLE = 0;
-	RV32IMACFDV_zvl64bcpu->CYCLEH = 0;
-	RV32IMACFDV_zvl64bcpu->TIME = 0;
-	RV32IMACFDV_zvl64bcpu->TIMEH = 0;
-	RV32IMACFDV_zvl64bcpu->INSTRET = 0;
-	RV32IMACFDV_zvl64bcpu->INSTRETH = 0;
-	RV32IMACFDV_zvl64bcpu->MVENDORID = 0;
-	RV32IMACFDV_zvl64bcpu->MARCHID = 0;
-	RV32IMACFDV_zvl64bcpu->MIMPID = 0;
-	RV32IMACFDV_zvl64bcpu->MHARTID = 0;
-	RV32IMACFDV_zvl64bcpu->MISA = 0;
-	RV32IMACFDV_zvl64bcpu->MEDELEG = 0;
-	RV32IMACFDV_zvl64bcpu->MIDELEG = 0;
-	RV32IMACFDV_zvl64bcpu->MTVEC = 0;
-	RV32IMACFDV_zvl64bcpu->MCOUNTEREN = 0;
-	RV32IMACFDV_zvl64bcpu->MSCRATCH = 0;
-	RV32IMACFDV_zvl64bcpu->MEPC = 0;
-	RV32IMACFDV_zvl64bcpu->MCAUSE = 0;
-	RV32IMACFDV_zvl64bcpu->MTVAL = 0;
+	RV32IMACFDV_zvl512bcpu->PRIV = 0;
+	RV32IMACFDV_zvl512bcpu->DPC = 0;
+	RV32IMACFDV_zvl512bcpu->VSTART_CSR = 0;
+	RV32IMACFDV_zvl512bcpu->VXSAT_CSR = 0;
+	RV32IMACFDV_zvl512bcpu->VXRM_CSR = 0;
+	RV32IMACFDV_zvl512bcpu->VCSR_CSR = 0;
+	RV32IMACFDV_zvl512bcpu->VL_CSR = 0;
+	RV32IMACFDV_zvl512bcpu->VTYPE_CSR = 0;
+	RV32IMACFDV_zvl512bcpu->VLENB_CSR = 0;
+	RV32IMACFDV_zvl512bcpu->FCSR = 0;
+	RV32IMACFDV_zvl512bcpu->FFLAGS = 0;
+	RV32IMACFDV_zvl512bcpu->FRM = 0;
+	RV32IMACFDV_zvl512bcpu->MSTATUS = 0;
+	RV32IMACFDV_zvl512bcpu->MIE = 0;
+	RV32IMACFDV_zvl512bcpu->MIP = 0;
+	RV32IMACFDV_zvl512bcpu->CYCLE = 0;
+	RV32IMACFDV_zvl512bcpu->CYCLEH = 0;
+	RV32IMACFDV_zvl512bcpu->TIME = 0;
+	RV32IMACFDV_zvl512bcpu->TIMEH = 0;
+	RV32IMACFDV_zvl512bcpu->INSTRET = 0;
+	RV32IMACFDV_zvl512bcpu->INSTRETH = 0;
+	RV32IMACFDV_zvl512bcpu->MVENDORID = 0;
+	RV32IMACFDV_zvl512bcpu->MARCHID = 0;
+	RV32IMACFDV_zvl512bcpu->MIMPID = 0;
+	RV32IMACFDV_zvl512bcpu->MHARTID = 0;
+	RV32IMACFDV_zvl512bcpu->MISA = 0;
+	RV32IMACFDV_zvl512bcpu->MEDELEG = 0;
+	RV32IMACFDV_zvl512bcpu->MIDELEG = 0;
+	RV32IMACFDV_zvl512bcpu->MTVEC = 0;
+	RV32IMACFDV_zvl512bcpu->MCOUNTEREN = 0;
+	RV32IMACFDV_zvl512bcpu->MSCRATCH = 0;
+	RV32IMACFDV_zvl512bcpu->MEPC = 0;
+	RV32IMACFDV_zvl512bcpu->MCAUSE = 0;
+	RV32IMACFDV_zvl512bcpu->MTVAL = 0;
 	for (int i = 0; i < N_VREG_BYTES; ++i) {
-		RV32IMACFDV_zvl64bcpu->V[i] = 0;
+		RV32IMACFDV_zvl512bcpu->V[i] = 0;
 	}
-	RV32IMACFDV_zvl64bcpu->FT0 = 0;
-	RV32IMACFDV_zvl64bcpu->FT1 = 0;
-	RV32IMACFDV_zvl64bcpu->FT2 = 0;
-	RV32IMACFDV_zvl64bcpu->FT3 = 0;
-	RV32IMACFDV_zvl64bcpu->FT4 = 0;
-	RV32IMACFDV_zvl64bcpu->FT5 = 0;
-	RV32IMACFDV_zvl64bcpu->FT6 = 0;
-	RV32IMACFDV_zvl64bcpu->FT7 = 0;
-	RV32IMACFDV_zvl64bcpu->FS0 = 0;
-	RV32IMACFDV_zvl64bcpu->FS1 = 0;
-	RV32IMACFDV_zvl64bcpu->FA0 = 0;
-	RV32IMACFDV_zvl64bcpu->FA1 = 0;
-	RV32IMACFDV_zvl64bcpu->FA2 = 0;
-	RV32IMACFDV_zvl64bcpu->FA3 = 0;
-	RV32IMACFDV_zvl64bcpu->FA4 = 0;
-	RV32IMACFDV_zvl64bcpu->FA5 = 0;
-	RV32IMACFDV_zvl64bcpu->FA6 = 0;
-	RV32IMACFDV_zvl64bcpu->FA7 = 0;
-	RV32IMACFDV_zvl64bcpu->FS2 = 0;
-	RV32IMACFDV_zvl64bcpu->FS3 = 0;
-	RV32IMACFDV_zvl64bcpu->FS4 = 0;
-	RV32IMACFDV_zvl64bcpu->FS5 = 0;
-	RV32IMACFDV_zvl64bcpu->FS6 = 0;
-	RV32IMACFDV_zvl64bcpu->FS7 = 0;
-	RV32IMACFDV_zvl64bcpu->FS8 = 0;
-	RV32IMACFDV_zvl64bcpu->FS9 = 0;
-	RV32IMACFDV_zvl64bcpu->FS10 = 0;
-	RV32IMACFDV_zvl64bcpu->FS11 = 0;
-	RV32IMACFDV_zvl64bcpu->FT8 = 0;
-	RV32IMACFDV_zvl64bcpu->FT9 = 0;
-	RV32IMACFDV_zvl64bcpu->FT10 = 0;
-	RV32IMACFDV_zvl64bcpu->FT11 = 0;
-	RV32IMACFDV_zvl64bcpu->RES_ADDR = 0;
+	RV32IMACFDV_zvl512bcpu->FT0 = 0;
+	RV32IMACFDV_zvl512bcpu->FT1 = 0;
+	RV32IMACFDV_zvl512bcpu->FT2 = 0;
+	RV32IMACFDV_zvl512bcpu->FT3 = 0;
+	RV32IMACFDV_zvl512bcpu->FT4 = 0;
+	RV32IMACFDV_zvl512bcpu->FT5 = 0;
+	RV32IMACFDV_zvl512bcpu->FT6 = 0;
+	RV32IMACFDV_zvl512bcpu->FT7 = 0;
+	RV32IMACFDV_zvl512bcpu->FS0 = 0;
+	RV32IMACFDV_zvl512bcpu->FS1 = 0;
+	RV32IMACFDV_zvl512bcpu->FA0 = 0;
+	RV32IMACFDV_zvl512bcpu->FA1 = 0;
+	RV32IMACFDV_zvl512bcpu->FA2 = 0;
+	RV32IMACFDV_zvl512bcpu->FA3 = 0;
+	RV32IMACFDV_zvl512bcpu->FA4 = 0;
+	RV32IMACFDV_zvl512bcpu->FA5 = 0;
+	RV32IMACFDV_zvl512bcpu->FA6 = 0;
+	RV32IMACFDV_zvl512bcpu->FA7 = 0;
+	RV32IMACFDV_zvl512bcpu->FS2 = 0;
+	RV32IMACFDV_zvl512bcpu->FS3 = 0;
+	RV32IMACFDV_zvl512bcpu->FS4 = 0;
+	RV32IMACFDV_zvl512bcpu->FS5 = 0;
+	RV32IMACFDV_zvl512bcpu->FS6 = 0;
+	RV32IMACFDV_zvl512bcpu->FS7 = 0;
+	RV32IMACFDV_zvl512bcpu->FS8 = 0;
+	RV32IMACFDV_zvl512bcpu->FS9 = 0;
+	RV32IMACFDV_zvl512bcpu->FS10 = 0;
+	RV32IMACFDV_zvl512bcpu->FS11 = 0;
+	RV32IMACFDV_zvl512bcpu->FT8 = 0;
+	RV32IMACFDV_zvl512bcpu->FT9 = 0;
+	RV32IMACFDV_zvl512bcpu->FT10 = 0;
+	RV32IMACFDV_zvl512bcpu->FT11 = 0;
+	RV32IMACFDV_zvl512bcpu->RES_ADDR = 0;
 
- 	RV32IMACFDV_zvl64bcpu->X[0] = &RV32IMACFDV_zvl64bcpu->ZERO;
- 	RV32IMACFDV_zvl64bcpu->X[1] = &RV32IMACFDV_zvl64bcpu->RA;
- 	RV32IMACFDV_zvl64bcpu->X[2] = &RV32IMACFDV_zvl64bcpu->SP;
- 	RV32IMACFDV_zvl64bcpu->X[3] = &RV32IMACFDV_zvl64bcpu->GP;
- 	RV32IMACFDV_zvl64bcpu->X[4] = &RV32IMACFDV_zvl64bcpu->TP;
- 	RV32IMACFDV_zvl64bcpu->X[5] = &RV32IMACFDV_zvl64bcpu->T0;
- 	RV32IMACFDV_zvl64bcpu->X[6] = &RV32IMACFDV_zvl64bcpu->T1;
- 	RV32IMACFDV_zvl64bcpu->X[7] = &RV32IMACFDV_zvl64bcpu->T2;
- 	RV32IMACFDV_zvl64bcpu->X[8] = &RV32IMACFDV_zvl64bcpu->S0;
- 	RV32IMACFDV_zvl64bcpu->X[9] = &RV32IMACFDV_zvl64bcpu->S1;
- 	RV32IMACFDV_zvl64bcpu->X[10] = &RV32IMACFDV_zvl64bcpu->A0;
- 	RV32IMACFDV_zvl64bcpu->X[11] = &RV32IMACFDV_zvl64bcpu->A1;
- 	RV32IMACFDV_zvl64bcpu->X[12] = &RV32IMACFDV_zvl64bcpu->A2;
- 	RV32IMACFDV_zvl64bcpu->X[13] = &RV32IMACFDV_zvl64bcpu->A3;
- 	RV32IMACFDV_zvl64bcpu->X[14] = &RV32IMACFDV_zvl64bcpu->A4;
- 	RV32IMACFDV_zvl64bcpu->X[15] = &RV32IMACFDV_zvl64bcpu->A5;
- 	RV32IMACFDV_zvl64bcpu->X[16] = &RV32IMACFDV_zvl64bcpu->A6;
- 	RV32IMACFDV_zvl64bcpu->X[17] = &RV32IMACFDV_zvl64bcpu->A7;
- 	RV32IMACFDV_zvl64bcpu->X[18] = &RV32IMACFDV_zvl64bcpu->S2;
- 	RV32IMACFDV_zvl64bcpu->X[19] = &RV32IMACFDV_zvl64bcpu->S3;
- 	RV32IMACFDV_zvl64bcpu->X[20] = &RV32IMACFDV_zvl64bcpu->S4;
- 	RV32IMACFDV_zvl64bcpu->X[21] = &RV32IMACFDV_zvl64bcpu->S5;
- 	RV32IMACFDV_zvl64bcpu->X[22] = &RV32IMACFDV_zvl64bcpu->S6;
- 	RV32IMACFDV_zvl64bcpu->X[23] = &RV32IMACFDV_zvl64bcpu->S7;
- 	RV32IMACFDV_zvl64bcpu->X[24] = &RV32IMACFDV_zvl64bcpu->S8;
- 	RV32IMACFDV_zvl64bcpu->X[25] = &RV32IMACFDV_zvl64bcpu->S9;
- 	RV32IMACFDV_zvl64bcpu->X[26] = &RV32IMACFDV_zvl64bcpu->S10;
- 	RV32IMACFDV_zvl64bcpu->X[27] = &RV32IMACFDV_zvl64bcpu->S11;
- 	RV32IMACFDV_zvl64bcpu->X[28] = &RV32IMACFDV_zvl64bcpu->T3;
- 	RV32IMACFDV_zvl64bcpu->X[29] = &RV32IMACFDV_zvl64bcpu->T4;
- 	RV32IMACFDV_zvl64bcpu->X[30] = &RV32IMACFDV_zvl64bcpu->T5;
- 	RV32IMACFDV_zvl64bcpu->X[31] = &RV32IMACFDV_zvl64bcpu->T6;
- 	RV32IMACFDV_zvl64bcpu->CSR[8] = &RV32IMACFDV_zvl64bcpu->VSTART_CSR;
- 	RV32IMACFDV_zvl64bcpu->CSR[9] = &RV32IMACFDV_zvl64bcpu->VXSAT_CSR;
- 	RV32IMACFDV_zvl64bcpu->CSR[10] = &RV32IMACFDV_zvl64bcpu->VXRM_CSR;
- 	RV32IMACFDV_zvl64bcpu->CSR[15] = &RV32IMACFDV_zvl64bcpu->VCSR_CSR;
- 	RV32IMACFDV_zvl64bcpu->CSR[3104] = &RV32IMACFDV_zvl64bcpu->VL_CSR;
- 	RV32IMACFDV_zvl64bcpu->CSR[3105] = &RV32IMACFDV_zvl64bcpu->VTYPE_CSR;
- 	RV32IMACFDV_zvl64bcpu->CSR[3106] = &RV32IMACFDV_zvl64bcpu->VLENB_CSR;
- 	RV32IMACFDV_zvl64bcpu->CSR[3] = &RV32IMACFDV_zvl64bcpu->FCSR;
- 	RV32IMACFDV_zvl64bcpu->CSR[1] = &RV32IMACFDV_zvl64bcpu->FFLAGS;
- 	RV32IMACFDV_zvl64bcpu->CSR[2] = &RV32IMACFDV_zvl64bcpu->FRM;
- 	RV32IMACFDV_zvl64bcpu->CSR[768] = &RV32IMACFDV_zvl64bcpu->MSTATUS;
- 	RV32IMACFDV_zvl64bcpu->CSR[772] = &RV32IMACFDV_zvl64bcpu->MIE;
- 	RV32IMACFDV_zvl64bcpu->CSR[836] = &RV32IMACFDV_zvl64bcpu->MIP;
- 	RV32IMACFDV_zvl64bcpu->CSR[3072] = &RV32IMACFDV_zvl64bcpu->CYCLE;
- 	RV32IMACFDV_zvl64bcpu->CSR[3200] = &RV32IMACFDV_zvl64bcpu->CYCLEH;
- 	RV32IMACFDV_zvl64bcpu->CSR[3073] = &RV32IMACFDV_zvl64bcpu->TIME;
- 	RV32IMACFDV_zvl64bcpu->CSR[3201] = &RV32IMACFDV_zvl64bcpu->TIMEH;
- 	RV32IMACFDV_zvl64bcpu->CSR[3074] = &RV32IMACFDV_zvl64bcpu->INSTRET;
- 	RV32IMACFDV_zvl64bcpu->CSR[3202] = &RV32IMACFDV_zvl64bcpu->INSTRETH;
- 	RV32IMACFDV_zvl64bcpu->CSR[3857] = &RV32IMACFDV_zvl64bcpu->MVENDORID;
- 	RV32IMACFDV_zvl64bcpu->CSR[3858] = &RV32IMACFDV_zvl64bcpu->MARCHID;
- 	RV32IMACFDV_zvl64bcpu->CSR[3859] = &RV32IMACFDV_zvl64bcpu->MIMPID;
- 	RV32IMACFDV_zvl64bcpu->CSR[3860] = &RV32IMACFDV_zvl64bcpu->MHARTID;
- 	RV32IMACFDV_zvl64bcpu->CSR[769] = &RV32IMACFDV_zvl64bcpu->MISA;
- 	RV32IMACFDV_zvl64bcpu->CSR[770] = &RV32IMACFDV_zvl64bcpu->MEDELEG;
- 	RV32IMACFDV_zvl64bcpu->CSR[771] = &RV32IMACFDV_zvl64bcpu->MIDELEG;
- 	RV32IMACFDV_zvl64bcpu->CSR[773] = &RV32IMACFDV_zvl64bcpu->MTVEC;
- 	RV32IMACFDV_zvl64bcpu->CSR[774] = &RV32IMACFDV_zvl64bcpu->MCOUNTEREN;
- 	RV32IMACFDV_zvl64bcpu->CSR[832] = &RV32IMACFDV_zvl64bcpu->MSCRATCH;
- 	RV32IMACFDV_zvl64bcpu->CSR[833] = &RV32IMACFDV_zvl64bcpu->MEPC;
- 	RV32IMACFDV_zvl64bcpu->CSR[834] = &RV32IMACFDV_zvl64bcpu->MCAUSE;
- 	RV32IMACFDV_zvl64bcpu->CSR[835] = &RV32IMACFDV_zvl64bcpu->MTVAL;
- 	RV32IMACFDV_zvl64bcpu->F[0] = &RV32IMACFDV_zvl64bcpu->FT0;
- 	RV32IMACFDV_zvl64bcpu->F[1] = &RV32IMACFDV_zvl64bcpu->FT1;
- 	RV32IMACFDV_zvl64bcpu->F[2] = &RV32IMACFDV_zvl64bcpu->FT2;
- 	RV32IMACFDV_zvl64bcpu->F[3] = &RV32IMACFDV_zvl64bcpu->FT3;
- 	RV32IMACFDV_zvl64bcpu->F[4] = &RV32IMACFDV_zvl64bcpu->FT4;
- 	RV32IMACFDV_zvl64bcpu->F[5] = &RV32IMACFDV_zvl64bcpu->FT5;
- 	RV32IMACFDV_zvl64bcpu->F[6] = &RV32IMACFDV_zvl64bcpu->FT6;
- 	RV32IMACFDV_zvl64bcpu->F[7] = &RV32IMACFDV_zvl64bcpu->FT7;
- 	RV32IMACFDV_zvl64bcpu->F[8] = &RV32IMACFDV_zvl64bcpu->FS0;
- 	RV32IMACFDV_zvl64bcpu->F[9] = &RV32IMACFDV_zvl64bcpu->FS1;
- 	RV32IMACFDV_zvl64bcpu->F[10] = &RV32IMACFDV_zvl64bcpu->FA0;
- 	RV32IMACFDV_zvl64bcpu->F[11] = &RV32IMACFDV_zvl64bcpu->FA1;
- 	RV32IMACFDV_zvl64bcpu->F[12] = &RV32IMACFDV_zvl64bcpu->FA2;
- 	RV32IMACFDV_zvl64bcpu->F[13] = &RV32IMACFDV_zvl64bcpu->FA3;
- 	RV32IMACFDV_zvl64bcpu->F[14] = &RV32IMACFDV_zvl64bcpu->FA4;
- 	RV32IMACFDV_zvl64bcpu->F[15] = &RV32IMACFDV_zvl64bcpu->FA5;
- 	RV32IMACFDV_zvl64bcpu->F[16] = &RV32IMACFDV_zvl64bcpu->FA6;
- 	RV32IMACFDV_zvl64bcpu->F[17] = &RV32IMACFDV_zvl64bcpu->FA7;
- 	RV32IMACFDV_zvl64bcpu->F[18] = &RV32IMACFDV_zvl64bcpu->FS2;
- 	RV32IMACFDV_zvl64bcpu->F[19] = &RV32IMACFDV_zvl64bcpu->FS3;
- 	RV32IMACFDV_zvl64bcpu->F[20] = &RV32IMACFDV_zvl64bcpu->FS4;
- 	RV32IMACFDV_zvl64bcpu->F[21] = &RV32IMACFDV_zvl64bcpu->FS5;
- 	RV32IMACFDV_zvl64bcpu->F[22] = &RV32IMACFDV_zvl64bcpu->FS6;
- 	RV32IMACFDV_zvl64bcpu->F[23] = &RV32IMACFDV_zvl64bcpu->FS7;
- 	RV32IMACFDV_zvl64bcpu->F[24] = &RV32IMACFDV_zvl64bcpu->FS8;
- 	RV32IMACFDV_zvl64bcpu->F[25] = &RV32IMACFDV_zvl64bcpu->FS9;
- 	RV32IMACFDV_zvl64bcpu->F[26] = &RV32IMACFDV_zvl64bcpu->FS10;
- 	RV32IMACFDV_zvl64bcpu->F[27] = &RV32IMACFDV_zvl64bcpu->FS11;
- 	RV32IMACFDV_zvl64bcpu->F[28] = &RV32IMACFDV_zvl64bcpu->FT8;
- 	RV32IMACFDV_zvl64bcpu->F[29] = &RV32IMACFDV_zvl64bcpu->FT9;
- 	RV32IMACFDV_zvl64bcpu->F[30] = &RV32IMACFDV_zvl64bcpu->FT10;
- 	RV32IMACFDV_zvl64bcpu->F[31] = &RV32IMACFDV_zvl64bcpu->FT11;
+ 	RV32IMACFDV_zvl512bcpu->X[0] = &RV32IMACFDV_zvl512bcpu->ZERO;
+ 	RV32IMACFDV_zvl512bcpu->X[1] = &RV32IMACFDV_zvl512bcpu->RA;
+ 	RV32IMACFDV_zvl512bcpu->X[2] = &RV32IMACFDV_zvl512bcpu->SP;
+ 	RV32IMACFDV_zvl512bcpu->X[3] = &RV32IMACFDV_zvl512bcpu->GP;
+ 	RV32IMACFDV_zvl512bcpu->X[4] = &RV32IMACFDV_zvl512bcpu->TP;
+ 	RV32IMACFDV_zvl512bcpu->X[5] = &RV32IMACFDV_zvl512bcpu->T0;
+ 	RV32IMACFDV_zvl512bcpu->X[6] = &RV32IMACFDV_zvl512bcpu->T1;
+ 	RV32IMACFDV_zvl512bcpu->X[7] = &RV32IMACFDV_zvl512bcpu->T2;
+ 	RV32IMACFDV_zvl512bcpu->X[8] = &RV32IMACFDV_zvl512bcpu->S0;
+ 	RV32IMACFDV_zvl512bcpu->X[9] = &RV32IMACFDV_zvl512bcpu->S1;
+ 	RV32IMACFDV_zvl512bcpu->X[10] = &RV32IMACFDV_zvl512bcpu->A0;
+ 	RV32IMACFDV_zvl512bcpu->X[11] = &RV32IMACFDV_zvl512bcpu->A1;
+ 	RV32IMACFDV_zvl512bcpu->X[12] = &RV32IMACFDV_zvl512bcpu->A2;
+ 	RV32IMACFDV_zvl512bcpu->X[13] = &RV32IMACFDV_zvl512bcpu->A3;
+ 	RV32IMACFDV_zvl512bcpu->X[14] = &RV32IMACFDV_zvl512bcpu->A4;
+ 	RV32IMACFDV_zvl512bcpu->X[15] = &RV32IMACFDV_zvl512bcpu->A5;
+ 	RV32IMACFDV_zvl512bcpu->X[16] = &RV32IMACFDV_zvl512bcpu->A6;
+ 	RV32IMACFDV_zvl512bcpu->X[17] = &RV32IMACFDV_zvl512bcpu->A7;
+ 	RV32IMACFDV_zvl512bcpu->X[18] = &RV32IMACFDV_zvl512bcpu->S2;
+ 	RV32IMACFDV_zvl512bcpu->X[19] = &RV32IMACFDV_zvl512bcpu->S3;
+ 	RV32IMACFDV_zvl512bcpu->X[20] = &RV32IMACFDV_zvl512bcpu->S4;
+ 	RV32IMACFDV_zvl512bcpu->X[21] = &RV32IMACFDV_zvl512bcpu->S5;
+ 	RV32IMACFDV_zvl512bcpu->X[22] = &RV32IMACFDV_zvl512bcpu->S6;
+ 	RV32IMACFDV_zvl512bcpu->X[23] = &RV32IMACFDV_zvl512bcpu->S7;
+ 	RV32IMACFDV_zvl512bcpu->X[24] = &RV32IMACFDV_zvl512bcpu->S8;
+ 	RV32IMACFDV_zvl512bcpu->X[25] = &RV32IMACFDV_zvl512bcpu->S9;
+ 	RV32IMACFDV_zvl512bcpu->X[26] = &RV32IMACFDV_zvl512bcpu->S10;
+ 	RV32IMACFDV_zvl512bcpu->X[27] = &RV32IMACFDV_zvl512bcpu->S11;
+ 	RV32IMACFDV_zvl512bcpu->X[28] = &RV32IMACFDV_zvl512bcpu->T3;
+ 	RV32IMACFDV_zvl512bcpu->X[29] = &RV32IMACFDV_zvl512bcpu->T4;
+ 	RV32IMACFDV_zvl512bcpu->X[30] = &RV32IMACFDV_zvl512bcpu->T5;
+ 	RV32IMACFDV_zvl512bcpu->X[31] = &RV32IMACFDV_zvl512bcpu->T6;
+ 	RV32IMACFDV_zvl512bcpu->CSR[8] = &RV32IMACFDV_zvl512bcpu->VSTART_CSR;
+ 	RV32IMACFDV_zvl512bcpu->CSR[9] = &RV32IMACFDV_zvl512bcpu->VXSAT_CSR;
+ 	RV32IMACFDV_zvl512bcpu->CSR[10] = &RV32IMACFDV_zvl512bcpu->VXRM_CSR;
+ 	RV32IMACFDV_zvl512bcpu->CSR[15] = &RV32IMACFDV_zvl512bcpu->VCSR_CSR;
+ 	RV32IMACFDV_zvl512bcpu->CSR[3104] = &RV32IMACFDV_zvl512bcpu->VL_CSR;
+ 	RV32IMACFDV_zvl512bcpu->CSR[3105] = &RV32IMACFDV_zvl512bcpu->VTYPE_CSR;
+ 	RV32IMACFDV_zvl512bcpu->CSR[3106] = &RV32IMACFDV_zvl512bcpu->VLENB_CSR;
+ 	RV32IMACFDV_zvl512bcpu->CSR[3] = &RV32IMACFDV_zvl512bcpu->FCSR;
+ 	RV32IMACFDV_zvl512bcpu->CSR[1] = &RV32IMACFDV_zvl512bcpu->FFLAGS;
+ 	RV32IMACFDV_zvl512bcpu->CSR[2] = &RV32IMACFDV_zvl512bcpu->FRM;
+ 	RV32IMACFDV_zvl512bcpu->CSR[768] = &RV32IMACFDV_zvl512bcpu->MSTATUS;
+ 	RV32IMACFDV_zvl512bcpu->CSR[772] = &RV32IMACFDV_zvl512bcpu->MIE;
+ 	RV32IMACFDV_zvl512bcpu->CSR[836] = &RV32IMACFDV_zvl512bcpu->MIP;
+ 	RV32IMACFDV_zvl512bcpu->CSR[3072] = &RV32IMACFDV_zvl512bcpu->CYCLE;
+ 	RV32IMACFDV_zvl512bcpu->CSR[3200] = &RV32IMACFDV_zvl512bcpu->CYCLEH;
+ 	RV32IMACFDV_zvl512bcpu->CSR[3073] = &RV32IMACFDV_zvl512bcpu->TIME;
+ 	RV32IMACFDV_zvl512bcpu->CSR[3201] = &RV32IMACFDV_zvl512bcpu->TIMEH;
+ 	RV32IMACFDV_zvl512bcpu->CSR[3074] = &RV32IMACFDV_zvl512bcpu->INSTRET;
+ 	RV32IMACFDV_zvl512bcpu->CSR[3202] = &RV32IMACFDV_zvl512bcpu->INSTRETH;
+ 	RV32IMACFDV_zvl512bcpu->CSR[3857] = &RV32IMACFDV_zvl512bcpu->MVENDORID;
+ 	RV32IMACFDV_zvl512bcpu->CSR[3858] = &RV32IMACFDV_zvl512bcpu->MARCHID;
+ 	RV32IMACFDV_zvl512bcpu->CSR[3859] = &RV32IMACFDV_zvl512bcpu->MIMPID;
+ 	RV32IMACFDV_zvl512bcpu->CSR[3860] = &RV32IMACFDV_zvl512bcpu->MHARTID;
+ 	RV32IMACFDV_zvl512bcpu->CSR[769] = &RV32IMACFDV_zvl512bcpu->MISA;
+ 	RV32IMACFDV_zvl512bcpu->CSR[770] = &RV32IMACFDV_zvl512bcpu->MEDELEG;
+ 	RV32IMACFDV_zvl512bcpu->CSR[771] = &RV32IMACFDV_zvl512bcpu->MIDELEG;
+ 	RV32IMACFDV_zvl512bcpu->CSR[773] = &RV32IMACFDV_zvl512bcpu->MTVEC;
+ 	RV32IMACFDV_zvl512bcpu->CSR[774] = &RV32IMACFDV_zvl512bcpu->MCOUNTEREN;
+ 	RV32IMACFDV_zvl512bcpu->CSR[832] = &RV32IMACFDV_zvl512bcpu->MSCRATCH;
+ 	RV32IMACFDV_zvl512bcpu->CSR[833] = &RV32IMACFDV_zvl512bcpu->MEPC;
+ 	RV32IMACFDV_zvl512bcpu->CSR[834] = &RV32IMACFDV_zvl512bcpu->MCAUSE;
+ 	RV32IMACFDV_zvl512bcpu->CSR[835] = &RV32IMACFDV_zvl512bcpu->MTVAL;
+ 	RV32IMACFDV_zvl512bcpu->F[0] = &RV32IMACFDV_zvl512bcpu->FT0;
+ 	RV32IMACFDV_zvl512bcpu->F[1] = &RV32IMACFDV_zvl512bcpu->FT1;
+ 	RV32IMACFDV_zvl512bcpu->F[2] = &RV32IMACFDV_zvl512bcpu->FT2;
+ 	RV32IMACFDV_zvl512bcpu->F[3] = &RV32IMACFDV_zvl512bcpu->FT3;
+ 	RV32IMACFDV_zvl512bcpu->F[4] = &RV32IMACFDV_zvl512bcpu->FT4;
+ 	RV32IMACFDV_zvl512bcpu->F[5] = &RV32IMACFDV_zvl512bcpu->FT5;
+ 	RV32IMACFDV_zvl512bcpu->F[6] = &RV32IMACFDV_zvl512bcpu->FT6;
+ 	RV32IMACFDV_zvl512bcpu->F[7] = &RV32IMACFDV_zvl512bcpu->FT7;
+ 	RV32IMACFDV_zvl512bcpu->F[8] = &RV32IMACFDV_zvl512bcpu->FS0;
+ 	RV32IMACFDV_zvl512bcpu->F[9] = &RV32IMACFDV_zvl512bcpu->FS1;
+ 	RV32IMACFDV_zvl512bcpu->F[10] = &RV32IMACFDV_zvl512bcpu->FA0;
+ 	RV32IMACFDV_zvl512bcpu->F[11] = &RV32IMACFDV_zvl512bcpu->FA1;
+ 	RV32IMACFDV_zvl512bcpu->F[12] = &RV32IMACFDV_zvl512bcpu->FA2;
+ 	RV32IMACFDV_zvl512bcpu->F[13] = &RV32IMACFDV_zvl512bcpu->FA3;
+ 	RV32IMACFDV_zvl512bcpu->F[14] = &RV32IMACFDV_zvl512bcpu->FA4;
+ 	RV32IMACFDV_zvl512bcpu->F[15] = &RV32IMACFDV_zvl512bcpu->FA5;
+ 	RV32IMACFDV_zvl512bcpu->F[16] = &RV32IMACFDV_zvl512bcpu->FA6;
+ 	RV32IMACFDV_zvl512bcpu->F[17] = &RV32IMACFDV_zvl512bcpu->FA7;
+ 	RV32IMACFDV_zvl512bcpu->F[18] = &RV32IMACFDV_zvl512bcpu->FS2;
+ 	RV32IMACFDV_zvl512bcpu->F[19] = &RV32IMACFDV_zvl512bcpu->FS3;
+ 	RV32IMACFDV_zvl512bcpu->F[20] = &RV32IMACFDV_zvl512bcpu->FS4;
+ 	RV32IMACFDV_zvl512bcpu->F[21] = &RV32IMACFDV_zvl512bcpu->FS5;
+ 	RV32IMACFDV_zvl512bcpu->F[22] = &RV32IMACFDV_zvl512bcpu->FS6;
+ 	RV32IMACFDV_zvl512bcpu->F[23] = &RV32IMACFDV_zvl512bcpu->FS7;
+ 	RV32IMACFDV_zvl512bcpu->F[24] = &RV32IMACFDV_zvl512bcpu->FS8;
+ 	RV32IMACFDV_zvl512bcpu->F[25] = &RV32IMACFDV_zvl512bcpu->FS9;
+ 	RV32IMACFDV_zvl512bcpu->F[26] = &RV32IMACFDV_zvl512bcpu->FS10;
+ 	RV32IMACFDV_zvl512bcpu->F[27] = &RV32IMACFDV_zvl512bcpu->FS11;
+ 	RV32IMACFDV_zvl512bcpu->F[28] = &RV32IMACFDV_zvl512bcpu->FT8;
+ 	RV32IMACFDV_zvl512bcpu->F[29] = &RV32IMACFDV_zvl512bcpu->FT9;
+ 	RV32IMACFDV_zvl512bcpu->F[30] = &RV32IMACFDV_zvl512bcpu->FT10;
+ 	RV32IMACFDV_zvl512bcpu->F[31] = &RV32IMACFDV_zvl512bcpu->FT11;
 
-   	RV32IMACFDV_zvl64bcpu->PRIV = 3ULL;
-   	RV32IMACFDV_zvl64bcpu->DPC = 0LL;
-  	*RV32IMACFDV_zvl64bcpu->CSR[0] = 11ULL;
- 	*RV32IMACFDV_zvl64bcpu->CSR[256] = 11ULL;
- 	*RV32IMACFDV_zvl64bcpu->CSR[768] = 1536ULL;
- 	*RV32IMACFDV_zvl64bcpu->CSR[769] = 1075056941ULL;
- 	*RV32IMACFDV_zvl64bcpu->CSR[3088] = 3ULL;
- 	*RV32IMACFDV_zvl64bcpu->CSR[772] = 4294966203ULL;
- 	*RV32IMACFDV_zvl64bcpu->CSR[260] = 4294964019ULL;
- 	*RV32IMACFDV_zvl64bcpu->CSR[4] = 4294963473ULL;
- 	*RV32IMACFDV_zvl64bcpu->CSR[3105] = 2147483648ULL;
- 	*RV32IMACFDV_zvl64bcpu->CSR[3104] = 0LL;
- 	*RV32IMACFDV_zvl64bcpu->CSR[3106] = N_VREG_BYTES;
-   	RV32IMACFDV_zvl64bcpu->RES_ADDR = -1LL;
+   	RV32IMACFDV_zvl512bcpu->PRIV = 3ULL;
+   	RV32IMACFDV_zvl512bcpu->DPC = 0LL;
+  	*RV32IMACFDV_zvl512bcpu->CSR[0] = 11ULL;
+ 	*RV32IMACFDV_zvl512bcpu->CSR[256] = 11ULL;
+ 	*RV32IMACFDV_zvl512bcpu->CSR[768] = 1536ULL;
+ 	*RV32IMACFDV_zvl512bcpu->CSR[769] = 1075056941ULL;
+ 	*RV32IMACFDV_zvl512bcpu->CSR[3088] = 3ULL;
+ 	*RV32IMACFDV_zvl512bcpu->CSR[772] = 4294966203ULL;
+ 	*RV32IMACFDV_zvl512bcpu->CSR[260] = 4294964019ULL;
+ 	*RV32IMACFDV_zvl512bcpu->CSR[4] = 4294963473ULL;
+ 	*RV32IMACFDV_zvl512bcpu->CSR[3105] = 2147483648ULL;
+ 	*RV32IMACFDV_zvl512bcpu->CSR[3104] = 0LL;
+ 	*RV32IMACFDV_zvl512bcpu->CSR[3106] = N_VREG_BYTES;
+   	RV32IMACFDV_zvl512bcpu->RES_ADDR = -1LL;
 
 }
 
-void RV32IMACFDV_zvl64bArch::deleteCPU(ETISS_CPU *cpu)
+void RV32IMACFDV_zvl512bArch::deleteCPU(ETISS_CPU *cpu)
 {
-	delete (RV32IMACFDV_zvl64b *) cpu ;
+	delete (RV32IMACFDV_zvl512b *) cpu ;
 }
 
 /**
 	@return 8 (jump instruction + instruction of delay slot)
 */
-unsigned RV32IMACFDV_zvl64bArch::getMaximumInstructionSizeInBytes()
+unsigned RV32IMACFDV_zvl512bArch::getMaximumInstructionSizeInBytes()
 {
 	return 8;
 }
@@ -326,29 +326,29 @@ unsigned RV32IMACFDV_zvl64bArch::getMaximumInstructionSizeInBytes()
 /**
 	@return 2
 */
-unsigned RV32IMACFDV_zvl64bArch::getInstructionSizeInBytes()
+unsigned RV32IMACFDV_zvl512bArch::getInstructionSizeInBytes()
 {
 	return 2;
 }
 
 /**
-	@brief required headers (RV32IMACFDV_zvl64b.h)
+	@brief required headers (RV32IMACFDV_zvl512b.h)
 */
-const std::set<std::string> & RV32IMACFDV_zvl64bArch::getHeaders() const
+const std::set<std::string> & RV32IMACFDV_zvl512bArch::getHeaders() const
 {
 	return headers_ ;
 }
 
-void RV32IMACFDV_zvl64bArch::initCodeBlock(etiss::CodeBlock & cb) const
+void RV32IMACFDV_zvl512bArch::initCodeBlock(etiss::CodeBlock & cb) const
 {
-	cb.fileglobalCode().insert("#include \"Arch/RV32IMACFDV_zvl64b/RV32IMACFDV_zvl64b.h\"\n");
-	cb.fileglobalCode().insert("#include \"Arch/RV32IMACFDV_zvl64b/RV32IMACFDV_zvl64bFuncs.h\"\n");
+	cb.fileglobalCode().insert("#include \"Arch/RV32IMACFDV_zvl512b/RV32IMACFDV_zvl512b.h\"\n");
+	cb.fileglobalCode().insert("#include \"Arch/RV32IMACFDV_zvl512b/RV32IMACFDV_zvl512bFuncs.h\"\n");
 	cb.functionglobalCode().insert("cpu->exception = 0;\n");
 	cb.functionglobalCode().insert("cpu->return_pending = 0;\n");
 	cb.functionglobalCode().insert("etiss_uint32 mem_ret_code = 0;\n");
 }
 
-etiss::plugin::gdb::GDBCore & RV32IMACFDV_zvl64bArch::getGDBCore()
+etiss::plugin::gdb::GDBCore & RV32IMACFDV_zvl512bArch::getGDBCore()
 {
 	return gdbcore_;
 }
@@ -389,9 +389,9 @@ const char * const reg_name[] =
 	"X31",
 };
 
-etiss::instr::InstructionGroup ISA16_RV32IMACFDV_zvl64b("ISA16_RV32IMACFDV_zvl64b", 16);
-etiss::instr::InstructionClass ISA16_RV32IMACFDV_zvl64bClass(1, "ISA16_RV32IMACFDV_zvl64b", 16, ISA16_RV32IMACFDV_zvl64b);
-etiss::instr::InstructionGroup ISA32_RV32IMACFDV_zvl64b("ISA32_RV32IMACFDV_zvl64b", 32);
-etiss::instr::InstructionClass ISA32_RV32IMACFDV_zvl64bClass(1, "ISA32_RV32IMACFDV_zvl64b", 32, ISA32_RV32IMACFDV_zvl64b);
+etiss::instr::InstructionGroup ISA16_RV32IMACFDV_zvl512b("ISA16_RV32IMACFDV_zvl512b", 16);
+etiss::instr::InstructionClass ISA16_RV32IMACFDV_zvl512bClass(1, "ISA16_RV32IMACFDV_zvl512b", 16, ISA16_RV32IMACFDV_zvl512b);
+etiss::instr::InstructionGroup ISA32_RV32IMACFDV_zvl512b("ISA32_RV32IMACFDV_zvl512b", 32);
+etiss::instr::InstructionClass ISA32_RV32IMACFDV_zvl512bClass(1, "ISA32_RV32IMACFDV_zvl512b", 32, ISA32_RV32IMACFDV_zvl512b);
 
-etiss::instr::InstructionCollection RV32IMACFDV_zvl64bISA("RV32IMACFDV_zvl64bISA", ISA16_RV32IMACFDV_zvl64bClass, ISA32_RV32IMACFDV_zvl64bClass);
+etiss::instr::InstructionCollection RV32IMACFDV_zvl512bISA("RV32IMACFDV_zvl512bISA", ISA16_RV32IMACFDV_zvl512bClass, ISA32_RV32IMACFDV_zvl512bClass);

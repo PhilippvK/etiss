@@ -1,31 +1,31 @@
 # Generated on Thu, 07 Aug 2025 14:17:26 +0000.
 #
-# This file contains the CMake build info for the RV32IMACFDV_zvl64b core architecture.
-PROJECT(RV32IMACFDV_zvl64b)
+# This file contains the CMake build info for the RV32IMACFDV_zvl512b core architecture.
+PROJECT(RV32IMACFDV_zvl512b)
 
 SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 SET(CMAKE_INSTALL_RPATH "\$ORIGIN/../../include/jit/etiss/jit")
 
 ADD_LIBRARY(${PROJECT_NAME} SHARED
-	RV32IMACFDV_zvl64bArch.cpp
-	RV32IMACFDV_zvl64bArchLib.cpp
-	RV32IMACFDV_zvl64bArchSpecificImp.cpp
-	RV32IMACFDV_zvl64bFuncs.c
-	RV32IMACFDV_zvl64bInstr.cpp
-	RV32IMACFDV_zvl64b_RV32IInstr.cpp
-	RV32IMACFDV_zvl64b_RV32ICInstr.cpp
-	RV32IMACFDV_zvl64b_RV32MInstr.cpp
-	RV32IMACFDV_zvl64b_RVZve32xInstr.cpp
-	RV32IMACFDV_zvl64b_RVZve64xInstr.cpp
-	RV32IMACFDV_zvl64b_RV32FInstr.cpp
-	RV32IMACFDV_zvl64b_RVZve32fInstr.cpp
-	RV32IMACFDV_zvl64b_RV32FCInstr.cpp
-	RV32IMACFDV_zvl64b_ZifenceiInstr.cpp
-	RV32IMACFDV_zvl64b_tum_csrInstr.cpp
-	RV32IMACFDV_zvl64b_tum_retInstr.cpp
-	RV32IMACFDV_zvl64b_RV32AInstr.cpp
-	RV32IMACFDV_zvl64b_tum_rvaInstr.cpp
-	RV32IMACFDV_zvl64b_tum_semihostingInstr.cpp
+	RV32IMACFDV_zvl512bArch.cpp
+	RV32IMACFDV_zvl512bArchLib.cpp
+	RV32IMACFDV_zvl512bArchSpecificImp.cpp
+	RV32IMACFDV_zvl512bFuncs.c
+	RV32IMACFDV_zvl512bInstr.cpp
+	RV32IMACFDV_zvl512b_RV32IInstr.cpp
+	RV32IMACFDV_zvl512b_RV32ICInstr.cpp
+	RV32IMACFDV_zvl512b_RV32MInstr.cpp
+	RV32IMACFDV_zvl512b_RVZve32xInstr.cpp
+	RV32IMACFDV_zvl512b_RVZve64xInstr.cpp
+	RV32IMACFDV_zvl512b_RV32FInstr.cpp
+	RV32IMACFDV_zvl512b_RVZve32fInstr.cpp
+	RV32IMACFDV_zvl512b_RV32FCInstr.cpp
+	RV32IMACFDV_zvl512b_ZifenceiInstr.cpp
+	RV32IMACFDV_zvl512b_tum_csrInstr.cpp
+	RV32IMACFDV_zvl512b_tum_retInstr.cpp
+	RV32IMACFDV_zvl512b_RV32AInstr.cpp
+	RV32IMACFDV_zvl512b_tum_rvaInstr.cpp
+	RV32IMACFDV_zvl512b_tum_semihostingInstr.cpp
 )
 
 add_custom_command(

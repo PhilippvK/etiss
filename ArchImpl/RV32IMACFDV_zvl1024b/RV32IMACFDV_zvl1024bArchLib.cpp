@@ -1,37 +1,37 @@
 /**
  * Generated on Thu, 07 Aug 2025 14:17:26 +0000.
  *
- * This file contains the library interface for the RV32IMACFDV_zvl64b core architecture.
+ * This file contains the library interface for the RV32IMACFDV_zvl1024b core architecture.
  */
 
 // define a name for this library. this will be used to avoid name clashes with other libraries. in this example the library is named "X".
 // IMPORTANT this name MUST match the library name: e.g. X -> libX.so
 
-#define ETISS_LIBNAME RV32IMACFDV_zvl64b
+#define ETISS_LIBNAME RV32IMACFDV_zvl1024b
 #include "etiss/helper/CPUArchLibrary.h" // defines the following functions
-#include "RV32IMACFDV_zvl64bArch.h"
+#include "RV32IMACFDV_zvl1024bArch.h"
 #include <string>
 extern "C" {
 
 	ETISS_LIBRARYIF_VERSION_FUNC_IMPL
 
-	ETISS_PLUGIN_EXPORT unsigned RV32IMACFDV_zvl64b_countCPUArch()
+	ETISS_PLUGIN_EXPORT unsigned RV32IMACFDV_zvl1024b_countCPUArch()
 	{
 //TODO
 		return 1; // number of cpu architectures provided
 	}
-	ETISS_PLUGIN_EXPORT const char * RV32IMACFDV_zvl64b_nameCPUArch(unsigned index)
+	ETISS_PLUGIN_EXPORT const char * RV32IMACFDV_zvl1024b_nameCPUArch(unsigned index)
 	{
 //TODO
 		switch (index)
 		{
 		case 0:
-			return "RV32IMACFDV_zvl64b";
+			return "RV32IMACFDV_zvl1024b";
 		default:
 			return "";
 		}
 	}
-	ETISS_PLUGIN_EXPORT etiss::CPUArch* RV32IMACFDV_zvl64b_createCPUArch(unsigned index,std::map<std::string,std::string> options)
+	ETISS_PLUGIN_EXPORT etiss::CPUArch* RV32IMACFDV_zvl1024b_createCPUArch(unsigned index,std::map<std::string,std::string> options)
 	{
 //TODO
 		switch (index)
@@ -45,13 +45,13 @@ extern "C" {
 				else
 					etiss::log(etiss::WARNING, "no core number provided for core, using 0");
 
-				return new RV32IMACFDV_zvl64bArch(coreno);
+				return new RV32IMACFDV_zvl1024bArch(coreno);
 			}
 		default:
 			return 0;
 		}
 	}
-	ETISS_PLUGIN_EXPORT void RV32IMACFDV_zvl64b_deleteCPUArch(etiss::CPUArch* arch)
+	ETISS_PLUGIN_EXPORT void RV32IMACFDV_zvl1024b_deleteCPUArch(etiss::CPUArch* arch)
 	{
 		delete arch;
 	}
