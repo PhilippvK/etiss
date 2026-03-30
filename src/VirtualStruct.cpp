@@ -184,7 +184,7 @@ bool VirtualStruct::Field::_applyAction(const etiss::fault::Fault &f, const etis
     if (a.getType() == +etiss::fault::Action::type_t::MASK)
     {
         uint64_t mask_value = a.getMaskValue();
-        uint64_t val = read(), errval;
+        uint64_t val = read(0), errval;
         switch (a.getMaskOp())
         {
         case etiss::fault::Action::mask_op_t::AND:
@@ -206,7 +206,7 @@ bool VirtualStruct::Field::_applyAction(const etiss::fault::Fault &f, const etis
             errval = val;
             break;
         }
-        write(errval);
+        write(errval, 0);
         std::stringstream ss;
         ss << "Injected mask fault in " << name_ << " 0x" << std::hex << val << " " << a.getMaskOp() << " 0x"
            << mask_value << "->0x" << errval << std::dec;
@@ -620,7 +620,7 @@ void copy(VirtualStruct &dst, VirtualStruct &src, std::list<std::shared_ptr<Virt
             }
 
             if (!pretend)
-                dstf->write(srcf->read()); // copy value
+                dstf->write(srcf->read(0), 0); // copy value
         });
 
     dst.foreachField(
