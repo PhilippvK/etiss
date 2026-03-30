@@ -1,5 +1,5 @@
 /**
- * Generated on Mon, 15 Apr 2024 16:50:50 +0200.
+ * Generated on Mon, 10 Nov 2025 11:27:24 +0000.
  *
  * This file contains the architecture specific header for the RV64IMACFD
  * core architecture.
@@ -11,72 +11,192 @@
 #ifndef ETISS_RV64IMACFDArch_RV64IMACFDARCHSPECIFICIMP_H_
 #define ETISS_RV64IMACFDArch_RV64IMACFDARCHSPECIFICIMP_H_
 
-/**
-	@brief VirtualStruct for RV64IMACFD architecture to faciliate register acess
+#include <cstdint>
+#include "etiss/Instruction.h"
+#include "etiss/VirtualStruct.h"
+#include "etiss/jit/CPU.h"
+#include "RV64IMACFD.h"
 
-	@details VirtualStruct enables user to access certain register via their name without knowning ETISS hierarchy of a core.
-				Further fiels might be needed to enable gdbserver etc.
+/**
+    @brief VirtualStruct for RV64IMACFD architecture to faciliate register acess
+
+    @details VirtualStruct enables user to access certain register via their name without knowning ETISS hierarchy of a
+    core. Further fiels might be needed to enable gdbserver etc.
 
 */
-class RegField_RV64IMACFD : public etiss::VirtualStruct::Field{
-private:
-	const unsigned gprid_;
-public:
-	RegField_RV64IMACFD(etiss::VirtualStruct & parent,unsigned gprid)
-		: Field(parent,
-			std::string("X")+etiss::toString(gprid),
-			std::string("X")+etiss::toString(gprid),
-			R|W,
-			8
-		),
-		gprid_(gprid)
-	{}
+class RegField_RV64IMACFD : public etiss::VirtualStruct::Field
+{
+  private:
+    const unsigned gprid_;
 
-	RegField_RV64IMACFD(etiss::VirtualStruct & parent, std::string name, unsigned gprid)
-		: Field(parent,
-			name,
-			name,
-			R|W,
-			8
-		),
-		gprid_(gprid)
-	{}
+  public:
+    RegField_RV64IMACFD(etiss::VirtualStruct &parent, unsigned gprid)
+        // clang-format off
+        : Field(
+            parent,
+            std::string("X") + etiss::toString(gprid),
+            std::string("X") + etiss::toString(gprid),
+            R|W,
+            8
+        ),
+        // clang-format on
+        gprid_(gprid)
+    {
+    }
 
-	virtual ~RegField_RV64IMACFD(){}
+    RegField_RV64IMACFD(etiss::VirtualStruct &parent, std::string name, unsigned gprid)
+        // clang-format off
+        : Field(
+            parent,
+            name,
+            name,
+            R|W,
+            8
+        ),
+        // clang-format on
+        gprid_(gprid)
+    {
+    }
 
-protected:
-	virtual uint64_t _read() const {
-		return (uint64_t) *((RV64IMACFD*)parent_.structure_)->X[gprid_];
-	}
+    virtual ~RegField_RV64IMACFD() {}
 
-	virtual void _write(uint64_t val) {
-		etiss::log(etiss::VERBOSE, "write to ETISS cpu state", name_, val);
-		*((RV64IMACFD*)parent_.structure_)->X[gprid_] = (etiss_uint64) val;
-	}
+  protected:
+    virtual uint64_t _read() const
+    {
+        // clang-format off
+        return (uint64_t) *((RV64IMACFD*)parent_.structure_)->X[gprid_];
+        // clang-format on
+    }
+
+    virtual void _write(uint64_t val)
+    {
+        // clang-format off
+        etiss::log(etiss::VERBOSE, "write to ETISS cpu state", name_, val);
+        *((RV64IMACFD*)parent_.structure_)->X[gprid_] = (etiss_uint64) val;
+        // clang-format on
+    }
 };
 
-class pcField_RV64IMACFD : public etiss::VirtualStruct::Field{
-public:
-	pcField_RV64IMACFD(etiss::VirtualStruct & parent)
-		: Field(parent,
-			"instructionPointer",
-			"instructionPointer",
-			R|W,
-			8
-		)
-	{}
+class FloatRegField_RV64IMACFD : public etiss::VirtualStruct::Field
+{
+  private:
+    const unsigned gprid_;
+  public:
+    FloatRegField_RV64IMACFD(etiss::VirtualStruct & parent,unsigned gprid)
+        // clang-format off
+            : Field(parent,
+              std::string("F")+etiss::toString(gprid),
+              std::string("F")+etiss::toString(gprid),
+              R|W,
+              8
+            ),
+            gprid_(gprid)
+        // clang-format on
+        {
+        }
 
-	virtual ~pcField_RV64IMACFD(){}
+    FloatRegField_RV64IMACFD(etiss::VirtualStruct & parent, std::string name, unsigned gprid)
+        // clang-format off
+        : Field(parent,
+              name,
+              name,
+              R|W,
+              8
+            ),
+            gprid_(gprid)
+        // clang-format on
+        {
+        }
+
+    virtual ~FloatRegField_RV64IMACFD(){}
+
+  protected:
+    virtual uint64_t _read() const {
+      return (uint64_t) *((RV64IMACFD*)parent_.structure_)->F[gprid_];
+    }
+
+    virtual void _write(uint64_t val) {
+      etiss::log(etiss::VERBOSE, "write to ETISS cpu state", name_, val);
+      *((RV64IMACFD*)parent_.structure_)->F[gprid_] = (etiss_uint64) val;
+    }
+  };
+
+
+class CSRField_RV64IMACFD : public etiss::VirtualStruct::Field
+{
+  private:
+    const unsigned gprid_;
+  public:
+    CSRField_RV64IMACFD(etiss::VirtualStruct & parent,unsigned gprid)
+        // clang-format off
+        : Field(parent,
+            std::string("CSR")+etiss::toString(gprid),
+            std::string("CSR")+etiss::toString(gprid),
+            R|W,
+            8
+        ),
+        gprid_(gprid)
+    // clang-format on
+    {
+    }
+
+  CSRField_RV64IMACFD(etiss::VirtualStruct & parent, std::string name, unsigned gprid)
+    : Field(parent,
+      name,
+      name,
+      R|W,
+      8
+    ),
+    gprid_(gprid)
+  {}
+
+  virtual ~CSRField_RV64IMACFD(){}
 
 protected:
-	virtual uint64_t _read() const {
-		return (uint64_t) ((ETISS_CPU *)parent_.structure_)->instructionPointer;
-	}
+  virtual uint64_t _read() const {
+    return (uint64_t) RV64IMACFD_csr_read((ETISS_CPU*)parent_.structure_, nullptr, nullptr, (etiss_uint64) gprid_);
+  }
 
-	virtual void _write(uint64_t val) {
-		etiss::log(etiss::VERBOSE, "write to ETISS cpu state", name_, val);
-		((ETISS_CPU *)parent_.structure_)->instructionPointer = (etiss_uint64) val;
-	}
+  virtual void _write(uint64_t val) {
+    etiss::log(etiss::VERBOSE, "write to ETISS cpu state", name_, val);
+    RV64IMACFD_csr_write((ETISS_CPU*)parent_.structure_, nullptr, nullptr, gprid_, (etiss_uint64) val);
+  }
+};
+
+
+class pcField_RV64IMACFD : public etiss::VirtualStruct::Field
+{
+  public:
+    pcField_RV64IMACFD(etiss::VirtualStruct &parent)
+        // clang-format off
+        : Field(
+            parent,
+            "instructionPointer",
+            "instructionPointer",
+            R|W,
+            8
+        )
+    // clang-format on
+    {
+    }
+
+    virtual ~pcField_RV64IMACFD() {}
+
+  protected:
+    virtual uint64_t _read() const
+    {
+        // clang-format off
+        return (uint64_t) ((ETISS_CPU *)parent_.structure_)->instructionPointer;
+        // clang-format on
+    }
+
+    virtual void _write(uint64_t val)
+    {
+        // clang-format off
+        etiss::log(etiss::VERBOSE, "write to ETISS cpu state", name_, val);
+        ((ETISS_CPU *)parent_.structure_)->instructionPointer = (etiss_uint64) val;
+        // clang-format on
+    }
 };
 
 #endif

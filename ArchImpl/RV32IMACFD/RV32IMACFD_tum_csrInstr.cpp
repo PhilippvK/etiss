@@ -1,5 +1,6 @@
+// clang-format off
 /**
- * Generated on Tue, 25 Apr 2023 11:23:36 +0200.
+ * Generated on Mon, 10 Nov 2025 11:27:12 +0000.
  *
  * This file contains the instruction behavior models of the tum_csr
  * instruction set for the RV32IMACFD core architecture.
@@ -12,7 +13,6 @@
 
 using namespace etiss;
 using namespace etiss::instr;
-
 
 // CSRRW -----------------------------------------------------------------------
 static InstructionDefinition csrrw_rd_rs1_csr (
@@ -28,6 +28,7 @@ static InstructionDefinition csrrw_rd_rs1_csr (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -38,6 +39,7 @@ etiss_uint16 csr = 0;
 static BitArrayRange R_csr_0(31, 20);
 csr += R_csr_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -100,6 +102,7 @@ static InstructionDefinition csrrs_rd_rs1_csr (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -110,6 +113,7 @@ etiss_uint16 csr = 0;
 static BitArrayRange R_csr_0(31, 20);
 csr += R_csr_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -172,6 +176,7 @@ static InstructionDefinition csrrc_rd_rs1_csr (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -182,6 +187,7 @@ etiss_uint16 csr = 0;
 static BitArrayRange R_csr_0(31, 20);
 csr += R_csr_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -244,6 +250,7 @@ static InstructionDefinition csrrwi_rd_zimm_csr (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -254,6 +261,7 @@ etiss_uint16 csr = 0;
 static BitArrayRange R_csr_0(31, 20);
 csr += R_csr_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -312,6 +320,7 @@ static InstructionDefinition csrrsi_rd_zimm_csr (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -322,6 +331,7 @@ etiss_uint16 csr = 0;
 static BitArrayRange R_csr_0(31, 20);
 csr += R_csr_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -382,6 +392,7 @@ static InstructionDefinition csrrci_rd_zimm_csr (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -392,6 +403,7 @@ etiss_uint16 csr = 0;
 static BitArrayRange R_csr_0(31, 20);
 csr += R_csr_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -437,3 +449,4 @@ ss << "csrrci" << " # " << ba << (" [rd=" + std::to_string(rd) + " | zimm=" + st
 		return ss.str();
 	}
 );
+// clang-format on

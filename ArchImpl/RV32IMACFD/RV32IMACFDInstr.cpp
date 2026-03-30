@@ -1,5 +1,6 @@
+// clang-format off
 /**
- * Generated on Tue, 25 Apr 2023 11:23:36 +0200.
+ * Generated on Mon, 10 Nov 2025 11:27:12 +0000.
  *
  * This file contains the instruction behavior models of the default
  * instruction set for the RV32IMACFD core architecture.
@@ -12,4 +13,4 @@
 
 using namespace etiss;
 using namespace etiss::instr;
-
+// clang-format on

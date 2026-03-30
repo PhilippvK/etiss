@@ -1,46 +1,8 @@
-/**
-
-        @copyright
-
-        <pre>
-
-        Copyright 2018 Infineon Technologies AG
-
-        This file is part of ETISS tool, see <https://github.com/tum-ei-eda/etiss>.
-
-        The initial version of this software has been created with the funding support by the German Federal
-        Ministry of Education and Research (BMBF) in the project EffektiV under grant 01IS13022.
-
-        Redistribution and use in source and binary forms, with or without modification, are permitted
-        provided that the following conditions are met:
-
-        1. Redistributions of source code must retain the above copyright notice, this list of conditions and
-        the following disclaimer.
-
-        2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions
-        and the following disclaimer in the documentation and/or other materials provided with the distribution.
-
-        3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse
-        or promote products derived from this software without specific prior written permission.
-
-        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
-        WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-        PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
-        DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-        PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-        HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-        NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-        POSSIBILITY OF SUCH DAMAGE.
-
-        </pre>
-
-        @author Marc Greim <marc.greim@mytum.de>, Chair of Electronic Design Automation, TUM
-
-        @date July 29, 2014
-
-        @version 0.1
-
-*/
+// SPDX-License-Identifier: BSD-3-Clause
+//
+// This file is part of ETISS. It is licensed under the BSD 3-Clause License; you may not use this file except in
+// compliance with the License. You should have received a copy of the license along with this project. If not, see the
+// LICENSE file.
 /**
         @file
 
@@ -50,10 +12,14 @@
 
 */
 #include "etiss/IntegratedLibrary/gdb/GDBServer.h"
+#include "etiss/IntegratedLibrary/gdb/GDBCore.h"
+#include "etiss/Instruction.h"
 #include "etiss/CPUCore.h"
+#include "etiss/CPUArch.h"
 #include "etiss/IntegratedLibrary/gdb/Hex.h"
 #include "etiss/IntegratedLibrary/gdb/UnixTCPGDBConnection.h"
 #include "etiss/jit/types.h"
+#include "etiss/jit/ReturnCode.h"
 #include <chrono>
 #include <cstring>
 #include <thread>
@@ -74,7 +40,7 @@ void BreakpointDB::set(etiss::uint64 addr, etiss::uint32 val)
         instrbrkpt_ = new etiss::uint32 ***[1 << 16];
         memset(instrbrkpt_, 0, sizeof(etiss::uint32 * **[1 << 16]));
     }
-    unsigned a1 = (addr)&0xFFFF;
+    unsigned a1 = (addr) & 0xFFFF;
     if (instrbrkpt_[a1] == 0)
     {
         if (val == 0)
@@ -249,29 +215,32 @@ static void Server_finalizeInstrSet(etiss::instr::InstructionSet *set, std::stri
 {
     if (set == nullptr)
         return;
-    set->foreach ([pcode](etiss::instr::Instruction &instr) {
-        instr.addCallback(
-            [pcode](etiss::instr::BitArray &, etiss::CodeSet &cs, etiss::instr::InstructionContext &) {
-                etiss::CodePart &cp = cs.prepend(etiss::CodePart::PREINITIALDEBUGRETURNING);
-                cp.code() = std::string("{\n"
-                                        "\tetiss_int32 _gdb_exception = gdb_pre_instruction(cpu,system,") +
-                            pcode +
-                            ");\n"
-                            "\tif (_gdb_exception != 0)\n\t return _gdb_exception==-16?0:_gdb_exception;\n"
-                            "}";
-                return true;
-            },
-            0);
-        /// TODO? ensure instruction pointer update
-    });
+    set->foreach (
+        [pcode](etiss::instr::Instruction &instr)
+        {
+            instr.addCallback(
+                [pcode](etiss::instr::BitArray &, etiss::CodeSet &cs, etiss::instr::InstructionContext &)
+                {
+                    etiss::CodePart &cp = cs.prepend(etiss::CodePart::PREINITIALDEBUGRETURNING);
+                    cp.code() = std::string("{\n"
+                                            "\tetiss_int32 _gdb_exception = gdb_pre_instruction(cpu,system,") +
+                                pcode +
+                                ");\n"
+                                "\tif (_gdb_exception != 0)\n\t return _gdb_exception==-16?0:_gdb_exception;\n"
+                                "}";
+                    return true;
+                },
+                0);
+            /// TODO? ensure instruction pointer update
+        });
 }
 
 void Server::finalizeInstrSet(etiss::instr::ModedInstructionSet &mis) const
 {
     std::string pcode = getPointerCode();
-    mis.foreach ([pcode](etiss::instr::VariableInstructionSet &vis) {
-        vis.foreach ([pcode](etiss::instr::InstructionSet &set) { Server_finalizeInstrSet(&set, pcode); });
-    });
+    mis.foreach (
+        [pcode](etiss::instr::VariableInstructionSet &vis)
+        { vis.foreach ([pcode](etiss::instr::InstructionSet &set) { Server_finalizeInstrSet(&set, pcode); }); });
 }
 
 void Server::finalizeCodeBlock(etiss::CodeBlock &cb) const
@@ -400,8 +369,7 @@ void Server::handlePacket(bool block)
             break;
             case 'P': // write a register
             {
-                std::cout << "write reg" << std::endl;
-                size_t off = 1;
+                const size_t off = 1;
                 unsigned regIndex = 0;
                 std::string valToWrite;
                 if (command.length() > 1)
@@ -453,7 +421,7 @@ void Server::handlePacket(bool block)
                     answer = "EFF";
                     etiss::log(etiss::ERROR, "GDB P: Invalid write length");
                 }
-                off += f->width_ * 2;
+                // off += f->width_ * 2;
             }
             std::cout << "write_done" << std::endl;
             break;
@@ -791,9 +759,6 @@ void Server::handlePacket(bool block)
             {
                 if (command.substr(1, 9) == "Supported")
                 {
-                    // answer = "";
-                    // answer = "PacketSize=800";
-                    // answer = "PacketSize=8000;qXfer:features:read+;qXfer:auxv:read+;qXfer:exec-file:read+;multiprocess+";
                     answer = "PacketSize=8000;qXfer:features:read+;";
                 }
                 else if (command.substr(1, 8) == "Attached")
@@ -822,285 +787,21 @@ void Server::handlePacket(bool block)
                 }
                 else if (command.substr(1, 4) == "Xfer")
                 {
-                    std::cout << "TRIGGER" << std::endl;
-                    std::string temp =
-"<?xml version=\"1.0\"?>"
-"<!DOCTYPE target SYSTEM \"gdb-target.dtd\">"
-"<target>"
-"  <architecture>riscv</architecture>"
-"<feature name=\"org.gnu.gdb.riscv.cpu\">"
-"  <reg name=\"zero\" bitsize=\"32\" type=\"int\" regnum=\"0\"/>"
-"  <reg name=\"ra\" bitsize=\"32\" type=\"code_ptr\"/>"
-"  <reg name=\"sp\" bitsize=\"32\" type=\"data_ptr\"/>"
-"  <reg name=\"gp\" bitsize=\"32\" type=\"data_ptr\"/>"
-"  <reg name=\"tp\" bitsize=\"32\" type=\"data_ptr\"/>"
-"  <reg name=\"t0\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"t1\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"t2\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"fp\" bitsize=\"32\" type=\"data_ptr\"/>"
-"  <reg name=\"s1\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"a0\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"a1\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"a2\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"a3\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"a4\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"a5\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"a6\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"a7\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"s2\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"s3\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"s4\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"s5\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"s6\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"s7\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"s8\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"s9\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"s10\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"s11\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"t3\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"t4\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"t5\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"t6\" bitsize=\"32\" type=\"int\"/>"
-"  <reg name=\"pc\" bitsize=\"32\" type=\"code_ptr\"/>"
-"</feature>"
-// "<feature name=\"org.gnu.gdb.riscv.fpu\">"
-// "  <reg name=\"ft0\" bitsize=\"32\" type=\"ieee_single\" regnum=\"33\"/>"
-// "  <reg name=\"ft1\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"ft2\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"ft3\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"ft4\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"ft5\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"ft6\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"ft7\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fs0\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fs1\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fa0\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fa1\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fa2\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fa3\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fa4\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fa5\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fa6\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fa7\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fs2\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fs3\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fs4\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fs5\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fs6\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fs7\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fs8\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fs9\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fs10\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fs11\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"ft8\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"ft9\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"ft10\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"ft11\" bitsize=\"32\" type=\"ieee_single\"/>"
-// "  <reg name=\"fcsr\" bitsize=\"32\" type=\"int\" regnum=\"68\"/>"
-// "</feature>"
-"<feature name=\"org.gnu.gdb.riscv.fpu\">"
-"  <union id=\"riscv_double\">"
-"    <field name=\"float\" type=\"ieee_single\"/>"
-"    <field name=\"double\" type=\"ieee_double\"/>"
-"  </union>"
-"  <reg name=\"ft0\" bitsize=\"64\" type=\"riscv_double\" regnum=\"33\"/>"
-"  <reg name=\"ft1\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"ft2\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"ft3\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"ft4\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"ft5\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"ft6\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"ft7\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fs0\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fs1\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fa0\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fa1\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fa2\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fa3\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fa4\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fa5\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fa6\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fa7\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fs2\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fs3\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fs4\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fs5\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fs6\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fs7\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fs8\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fs9\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fs10\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fs11\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"ft8\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"ft9\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"ft10\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"ft11\" bitsize=\"64\" type=\"riscv_double\"/>"
-"  <reg name=\"fflags\" bitsize=\"32\" type=\"int\" regnum=\"66\"/>"
-"  <reg name=\"frm\" bitsize=\"32\" type=\"int\" regnum=\"67\"/>"
-"  <reg name=\"fcsr\" bitsize=\"32\" type=\"int\" regnum=\"68\"/>"
-"</feature>"
-"  <feature name=\"org.gnu.gdb.riscv.csr\">"
-"    <reg name=\"cycle\" bitsize=\"32\" regnum=\"1000\"/>"
-"    <reg name=\"cycleh\" bitsize=\"32\" regnum=\"1001\"/>"
-"    <reg name=\"time\" bitsize=\"32\" regnum=\"1002\"/>"
-"    <reg name=\"timeh\" bitsize=\"32\" regnum=\"1003\"/>"
-"    <reg name=\"instret\" bitsize=\"32\" regnum=\"1004\"/>"
-"    <reg name=\"instreth\" bitsize=\"32\" regnum=\"1005\"/>"
-"    <reg name=\"mvendorid\" bitsize=\"32\" regnum=\"1006\"/>"
-"    <reg name=\"marchid\" bitsize=\"32\" regnum=\"1007\"/>"
-"    <reg name=\"mimpid\" bitsize=\"32\" regnum=\"1008\"/>"
-"    <reg name=\"mhartid\" bitsize=\"32\" regnum=\"1009\"/>"
-"    <reg name=\"mstatus\" bitsize=\"32\" regnum=\"1010\"/>"
-"    <reg name=\"misa\" bitsize=\"32\" regnum=\"1011\"/>"
-"    <reg name=\"medeleg\" bitsize=\"32\" regnum=\"1012\"/>"
-"    <reg name=\"mideleg\" bitsize=\"32\" regnum=\"1013\"/>"
-"    <reg name=\"mie\" bitsize=\"32\" regnum=\"1014\"/>"
-"    <reg name=\"mtvec\" bitsize=\"32\" regnum=\"1015\"/>"
-"    <reg name=\"mcounteren\" bitsize=\"32\" regnum=\"1016\"/>"
-"    <reg name=\"mscratch\" bitsize=\"32\" regnum=\"1017\"/>"
-"    <reg name=\"mepc\" bitsize=\"32\" regnum=\"1018\"/>"
-"    <reg name=\"mcause\" bitsize=\"32\" regnum=\"1019\"/>"
-"    <reg name=\"mtval\" bitsize=\"32\" regnum=\"1020\"/>"
-"    <reg name=\"mip\" bitsize=\"32\" regnum=\"1021\"/>"
-
-"    <reg name=\"vstart\" bitsize=\"32\" regnum=\"2032\" type=\"int\" group=\"vector\"/>"
-"    <reg name=\"vxsat\" bitsize=\"32\" regnum=\"2033\" type=\"int\" group=\"vector\"/>"
-"    <reg name=\"vxrm\" bitsize=\"32\" regnum=\"2034\" type=\"int\" group=\"vector\"/>"
-"    <reg name=\"vcsr\" bitsize=\"32\" regnum=\"2035\" type=\"int\" group=\"vector\"/>"
-"    <reg name=\"vl\" bitsize=\"32\" regnum=\"2036\" type=\"int\" group=\"vector\"/>"
-"    <reg name=\"vtype\" bitsize=\"32\" regnum=\"2037\" type=\"int\" group=\"vector\"/>"
-"    <reg name=\"vlenb\" bitsize=\"32\" regnum=\"2038\" type=\"int\" group=\"vector\"/>"
-
-"  </feature>"
-"  <feature name=\"org.gnu.gdb.riscv.vector\">"
-"    <vector id=\"bytes\" type=\"uint8\" count=\"128\"/>"
-"    <vector id=\"shorts\" type=\"uint16\" count=\"64\"/>"
-"    <vector id=\"words\" type=\"uint32\" count=\"32\"/>"
-"    <vector id=\"longs\" type=\"uint64\" count=\"16\"/>"
-"    <vector id=\"quads\" type=\"uint128\" count=\"8\"/>"
-"    <union id=\"riscv_vector\">"
-"      <field name=\"b\" type=\"bytes\"/>"
-"      <field name=\"s\" type=\"shorts\"/>"
-"      <field name=\"w\" type=\"words\"/>"
-"      <field name=\"l\" type=\"longs\"/>"
-"      <field name=\"q\" type=\"quads\"/>"
-"    </union>"
-"    <reg name=\"v0\" bitsize=\"1024\" regnum=\"2000\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v1\" bitsize=\"1024\" regnum=\"2001\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v2\" bitsize=\"1024\" regnum=\"2002\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v3\" bitsize=\"1024\" regnum=\"2003\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v4\" bitsize=\"1024\" regnum=\"2004\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v5\" bitsize=\"1024\" regnum=\"2005\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v6\" bitsize=\"1024\" regnum=\"2006\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v7\" bitsize=\"1024\" regnum=\"2007\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v8\" bitsize=\"1024\" regnum=\"2008\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v9\" bitsize=\"1024\" regnum=\"2009\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v10\" bitsize=\"1024\" regnum=\"2010\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v11\" bitsize=\"1024\" regnum=\"2011\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v12\" bitsize=\"1024\" regnum=\"2012\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v13\" bitsize=\"1024\" regnum=\"2013\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v14\" bitsize=\"1024\" regnum=\"2014\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v15\" bitsize=\"1024\" regnum=\"2015\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v16\" bitsize=\"1024\" regnum=\"2016\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v17\" bitsize=\"1024\" regnum=\"2017\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v18\" bitsize=\"1024\" regnum=\"2018\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v19\" bitsize=\"1024\" regnum=\"2019\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v20\" bitsize=\"1024\" regnum=\"2020\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v21\" bitsize=\"1024\" regnum=\"2021\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v22\" bitsize=\"1024\" regnum=\"2022\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v23\" bitsize=\"1024\" regnum=\"2023\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v24\" bitsize=\"1024\" regnum=\"2024\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v25\" bitsize=\"1024\" regnum=\"2025\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v26\" bitsize=\"1024\" regnum=\"2026\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v27\" bitsize=\"1024\" regnum=\"2027\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v28\" bitsize=\"1024\" regnum=\"2028\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v29\" bitsize=\"1024\" regnum=\"2029\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v30\" bitsize=\"1024\" regnum=\"2030\" type=\"riscv_vector\" group=\"vector\"/>"
-"    <reg name=\"v31\" bitsize=\"1024\" regnum=\"2031\" type=\"riscv_vector\" group=\"vector\"/>"
-"  </feature>"
-"</target>";
+                    char fname_buf[256];
+                    std::string target_reqxml_fname;
                     uint32_t target_reqxml_addr;
                     uint32_t target_reqxml_len;
-                    uint32_t xml_len = temp.length();
-                    sscanf(command.c_str(), "qXfer:features:read:target.xml:%x,%x", &target_reqxml_addr, &target_reqxml_len);
-                    std::cout << "addr=" << target_reqxml_addr << std::endl;
-                    std::cout << "len=" << target_reqxml_len << std::endl;
-                    std::cout << "xml_len=" << xml_len << std::endl;
+                    sscanf(command.c_str(), "qXfer:features:read:%255[^:]:%x,%x", fname_buf, &target_reqxml_addr, &target_reqxml_len);
+                    target_reqxml_fname = fname_buf;
+                    std::string xml_contents = arch_->getGDBCore().getXMLContents(cpu_, arch_->getArchName(), target_reqxml_fname);
+                    uint32_t xml_len = xml_contents.length();
                     if (target_reqxml_len >= (xml_len - target_reqxml_addr)) {
                         answer = "l";
-                        answer += temp.substr(target_reqxml_addr, xml_len - target_reqxml_addr);
+                        answer += xml_contents.substr(target_reqxml_addr, xml_len - target_reqxml_addr);
                     } else {
                         answer = "m";
-                        answer += temp.substr(target_reqxml_addr, target_reqxml_len);
+                        answer += xml_contents.substr(target_reqxml_addr, target_reqxml_len);
                     }
-/*
-<?xml version=\"1.0\"?>
-<!DOCTYPE target SYSTEM \"gdb-target.dtd\">
-<target version=\"1.0\">
-  <architecture>riscv:rv32</architecture>
-  <feature name=\"org.gnu.gdb.riscv.csr\">
-    <reg name=\"csr100\" bitsize=\"32\" regnum=\"110"\">
-  </feature>
-
-  <feature name=\"org.gnu.gdb.riscv.vector\">
-    <vector id=\"bytes\" type=\"uint8\" count=\"16\"/>
-    <vector id=\"shorts\" type=\"uint16\" count=\"8\"/>
-    <vector id=\"words\" type=\"uint32\" count=\"4\"/>
-    <vector id=\"longs\" type=\"uint64\" count=\"2\"/>
-    <vector id=\"quads\" type=\"uint128\" count=\"1\"/>
-    <union id=\"riscv_vector\">
-      <field name=\"b\" type=\"bytes\"/>
-      <field name=\"s\" type=\"shorts\"/>
-      <field name=\"w\" type=\"words\"/>
-      <field name=\"l\" type=\"longs\"/>
-      <field name=\"q\" type=\"quads\"/>
-    </union>
-
-    <reg name=\"v0\" bitsize=\"128\" regnum=\"2000\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v1\" bitsize=\"128\" regnum=\"2001\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v2\" bitsize=\"128\" regnum=\"2002\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v3\" bitsize=\"128\" regnum=\"2003\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v4\" bitsize=\"128\" regnum=\"2004\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v5\" bitsize=\"128\" regnum=\"2005\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v6\" bitsize=\"128\" regnum=\"2006\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v7\" bitsize=\"128\" regnum=\"2007\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v8\" bitsize=\"128\" regnum=\"2008\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v9\" bitsize=\"128\" regnum=\"2009\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v10\" bitsize=\"128\" regnum=\"2010\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v11\" bitsize=\"128\" regnum=\"2011\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v12\" bitsize=\"128\" regnum=\"2012\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v13\" bitsize=\"128\" regnum=\"2013\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v14\" bitsize=\"128\" regnum=\"2014\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v15\" bitsize=\"128\" regnum=\"2015\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v16\" bitsize=\"128\" regnum=\"2016\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v17\" bitsize=\"128\" regnum=\"2017\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v18\" bitsize=\"128\" regnum=\"2018\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v19\" bitsize=\"128\" regnum=\"2019\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v20\" bitsize=\"128\" regnum=\"2020\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v21\" bitsize=\"128\" regnum=\"2021\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v22\" bitsize=\"128\" regnum=\"2022\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v23\" bitsize=\"128\" regnum=\"2023\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v24\" bitsize=\"128\" regnum=\"2024\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v25\" bitsize=\"128\" regnum=\"2025\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v26\" bitsize=\"128\" regnum=\"2026\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v27\" bitsize=\"128\" regnum=\"2027\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v28\" bitsize=\"128\" regnum=\"2028\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v29\" bitsize=\"128\" regnum=\"2029\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v30\" bitsize=\"128\" regnum=\"2030\" type=\"riscv_vector\" group=\"vector\"/>
-    <reg name=\"v31\" bitsize=\"128\" regnum=\"2031\" type=\"riscv_vector\" group=\"vector\"/>
-
-
-    <reg name=\"vstart\" bitsize=\"32\" regnum=\"2032\" type=\"int\" group=\"vector\"/>
-    <reg name=\"vxsat\" bitsize=\"32\" regnum=\"2033\" type=\"int\" group=\"vector\"/>
-    <reg name=\"vxrm\" bitsize=\"32\" regnum=\"2034\" type=\"int\" group=\"vector\"/>
-    <reg name=\"vcsr\" bitsize=\"32\" regnum=\"2035\" type=\"int\" group=\"vector\"/>
-    <reg name=\"vl\" bitsize=\"32\" regnum=\"2036\" type=\"int\" group=\"vector\"/>
-    <reg name=\"vtype\" bitsize=\"32\" regnum=\"0327\" type=\"int\" group=\"vector\"/>
-    <reg name=\"vlenb\" bitsize=\"32\" regnum=\"2038\" type=\"int\" group=\"vector\"/>
-
-  </feature>
-</target>
-*/
                 }
             }
             break;

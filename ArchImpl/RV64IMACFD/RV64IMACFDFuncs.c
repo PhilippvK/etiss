@@ -1,10 +1,11 @@
 /**
- * Generated on Mon, 15 Apr 2024 16:50:50 +0200.
+ * Generated on Mon, 10 Nov 2025 11:27:24 +0000.
  *
  * This file contains the function implementations for the RV64IMACFD core architecture.
  */
 
 #include "RV64IMACFDFuncs.h"
+// clang-format off
 
 etiss_uint8 RV64IMACFD_extension_enabled(ETISS_CPU * const cpu, ETISS_System * const system, void * const * const plugin_pointers, etiss_int8 extension)
 {
@@ -25,7 +26,7 @@ etiss_coverage_count(1, 277);
 etiss_coverage_count(1, 258);
 if (rm == 7ULL) { // conditional
 etiss_coverage_count(3, 261, 259, 260);
-rm = ((((((RV64IMACFD*)cpu)->FCSR) >> (5ULL)) & 7ULL)) & 0x7;
+rm = ((((((RV64IMACFD*)cpu)->FCSR) >> (5ULL)) & 0x7ULL)) & 0x7ULL;
 etiss_coverage_count(6, 267, 262, 266, 263, 264, 265);
 } // conditional
 etiss_coverage_count(1, 268);
@@ -171,7 +172,7 @@ etiss_coverage_count(1, 459);
 if (csr == 769LL) { // conditional
 etiss_coverage_count(2, 462, 460);
 etiss_coverage_count(1, 478);
-return (((2ULL) << 62) | ((((*((RV64IMACFD*)cpu)->CSR[769LL]) >> (0LL)) & 4611686018427387903ULL)));
+return (((2ULL) << 62) | (((*((RV64IMACFD*)cpu)->CSR[769LL]) & 0x3fffffffffffffffULL)));
 etiss_coverage_count(4, 477, 476, 471, 475);
 } // conditional
 etiss_coverage_count(1, 482);
@@ -392,7 +393,7 @@ s = RV64IMACFD_set_field(s, 2LL, 0LL);
 etiss_coverage_count(5, 839, 834, 838, 835, 837);
 RV64IMACFD_csr_write(cpu, system, plugin_pointers, 256LL, s);
 etiss_coverage_count(2, 842, 841);
-((RV64IMACFD*)cpu)->PRIV = (1LL) & 0x7;
+((RV64IMACFD*)cpu)->PRIV = (1LL) & 0x7ULL;
 etiss_coverage_count(2, 845, 843);
 } // block
 } // conditional
@@ -417,7 +418,7 @@ s = RV64IMACFD_set_field(s, 8LL, 0LL);
 etiss_coverage_count(5, 908, 903, 907, 904, 906);
 RV64IMACFD_csr_write(cpu, system, plugin_pointers, 768LL, s);
 etiss_coverage_count(2, 911, 910);
-((RV64IMACFD*)cpu)->PRIV = (3LL) & 0x7;
+((RV64IMACFD*)cpu)->PRIV = (3LL) & 0x7ULL;
 etiss_coverage_count(2, 914, 912);
 } // block
 } // conditional
@@ -651,3 +652,4 @@ return (etiss_uint64)((res >> 64ULL));
 etiss_coverage_count(4, 6939, 6936, 6934, 6937);
 } // block
 }
+// clang-format on

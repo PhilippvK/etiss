@@ -1,4 +1,4 @@
-# Generated on Tue, 25 Apr 2023 11:23:36 +0200.
+# Generated on Mon, 10 Nov 2025 11:27:12 +0000.
 #
 # This file contains the CMake build info for the RV32IMACFD core architecture.
 
@@ -28,5 +28,18 @@ ADD_LIBRARY(${PROJECT_NAME} SHARED
 
 FILE(COPY "${CMAKE_CURRENT_LIST_DIR}/${PROJECT_NAME}Funcs.h" DESTINATION "${ETISS_BINARY_DIR}/include/jit/Arch/${PROJECT_NAME}")
 INSTALL(FILES "${CMAKE_CURRENT_LIST_DIR}/${PROJECT_NAME}Funcs.h" DESTINATION "include/jit/Arch/${PROJECT_NAME}")
+
+# handle gdbserver xml files
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/xml")
+	add_custom_target(copy_${PROJECT_NAME}_xml ALL
+		COMMAND ${CMAKE_COMMAND} -E make_directory
+			"${CMAKE_CURRENT_LIST_DIR}/xml"
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+			"${CMAKE_CURRENT_LIST_DIR}/xml"
+			"${ETISS_BINARY_DIR}/xml/${PROJECT_NAME}"
+	)
+	add_dependencies(${PROJECT_NAME} copy_${PROJECT_NAME}_xml)
+	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/xml/ DESTINATION xml/${PROJECT_NAME})
+endif()
 
 ETISSPluginArch(${PROJECT_NAME})

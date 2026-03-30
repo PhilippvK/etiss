@@ -1,5 +1,5 @@
 /**
- * Generated on Tue, 25 Apr 2023 11:23:36 +0200.
+ * Generated on Mon, 10 Nov 2025 11:27:12 +0000.
  *
  * This file contains the function macros for the RV32IMACFD core architecture.
  */
@@ -7,12 +7,39 @@
 #ifndef __RV32IMACFD_FUNCS_H
 #define __RV32IMACFD_FUNCS_H
 
-#ifndef ETISS_ARCH_STATIC_FN_ONLY
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include "RV32IMACFD.h"
 #include "etiss/jit/CPU.h"
 #include "etiss/jit/System.h"
 #include "etiss/jit/ReturnCode.h"
-#endif
+#include "etiss/jit/Coverage.h"
+    // clang-format off
+
+void leave(etiss_int32 priv_lvl);
+
+void wait(etiss_int32 flag);
+
+etiss_uint8 RV32IMACFD_extension_enabled(ETISS_CPU * const cpu, ETISS_System * const system, void * const * const plugin_pointers, etiss_int8 extension);
+
+etiss_uint32 fadd_s(etiss_uint32, etiss_uint32, etiss_uint8);
+
+etiss_uint32 fsub_s(etiss_uint32, etiss_uint32, etiss_uint8);
+
+etiss_uint32 fmul_s(etiss_uint32, etiss_uint32, etiss_uint8);
+
+etiss_uint32 fdiv_s(etiss_uint32, etiss_uint32, etiss_uint8);
+
+etiss_uint32 fmadd_s(etiss_uint32, etiss_uint32, etiss_uint32, etiss_uint32, etiss_uint8);
+
+etiss_uint32 fsel_s(etiss_uint32, etiss_uint32, etiss_uint32);
+
+etiss_uint32 fsqrt_s(etiss_uint32, etiss_uint8);
+
+etiss_uint32 fcmp_s(etiss_uint32, etiss_uint32, etiss_uint32);
 
 #ifdef __cplusplus
 extern "C" {
@@ -227,6 +254,8 @@ if (csr == 1) {
 }
 }
 #endif
+
+    // clang-format on
 
 #ifdef __cplusplus
 }

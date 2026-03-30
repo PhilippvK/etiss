@@ -1,5 +1,6 @@
+// clang-format off
 /**
- * Generated on Tue, 25 Apr 2023 11:23:36 +0200.
+ * Generated on Mon, 10 Nov 2025 11:27:12 +0000.
  *
  * This file contains the instruction behavior models of the RV32A
  * instruction set for the RV32IMACFD core architecture.
@@ -12,7 +13,6 @@
 
 using namespace etiss;
 using namespace etiss::instr;
-
 
 // AMOSWAPW --------------------------------------------------------------------
 static InstructionDefinition amoswapw_rd_rs1_rs2_rl_aq (
@@ -28,6 +28,7 @@ static InstructionDefinition amoswapw_rd_rs1_rs2_rl_aq (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -44,6 +45,7 @@ etiss_uint8 aq = 0;
 static BitArrayRange R_aq_0(26, 26);
 aq += R_aq_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -51,17 +53,7 @@ aq += R_aq_0.read(ba) << 0;
 		partInit.code() = std::string("//AMOSWAPW\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 offs = *((RV32IMACFD*)cpu)->X[" + std::to_string(rs1 % 32U) + "];\n";
-if ((rd % 32U) != 0U) {
-partInit.code() += "etiss_uint32 mem_val_0;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dread))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 4);\n";
-partInit.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd % 32) + "] = (etiss_int32)(((etiss_int32)(mem_val_0)));\n";
-}
-partInit.code() += "etiss_uint32 mem_val_1 = (etiss_int32)(*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2 % 32U) + "]);\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dwrite))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_1, 4);\n";
-
-partInit.code() += "if (((RV32IMACFD*)cpu)->exception) return ((RV32IMACFD*)cpu)->exception;\n";
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getRegisterDependencies().add(reg_name[rs1 % 32U], 32);
@@ -115,6 +107,7 @@ static InstructionDefinition amoaddw_rd_rs1_rs2_rl_aq (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -131,6 +124,7 @@ etiss_uint8 aq = 0;
 static BitArrayRange R_aq_0(26, 26);
 aq += R_aq_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -138,19 +132,7 @@ aq += R_aq_0.read(ba) << 0;
 		partInit.code() = std::string("//AMOADDW\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 offs = *((RV32IMACFD*)cpu)->X[" + std::to_string(rs1 % 32U) + "];\n";
-partInit.code() += "etiss_uint32 mem_val_0;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dread))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 4);\n";
-partInit.code() += "etiss_int32 res1 = mem_val_0;\n";
-if ((rd % 32U) != 0U) {
-partInit.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd % 32) + "] = res1;\n";
-}
-partInit.code() += "etiss_uint32 res2 = res1 + *((RV32IMACFD*)cpu)->X[" + std::to_string(rs2 % 32U) + "];\n";
-partInit.code() += "etiss_uint32 mem_val_1 = res2;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dwrite))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_1, 4);\n";
-
-partInit.code() += "if (((RV32IMACFD*)cpu)->exception) return ((RV32IMACFD*)cpu)->exception;\n";
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getRegisterDependencies().add(reg_name[rs1 % 32U], 32);
@@ -204,6 +186,7 @@ static InstructionDefinition amoxorw_rd_rs1_rs2_rl_aq (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -220,6 +203,7 @@ etiss_uint8 aq = 0;
 static BitArrayRange R_aq_0(26, 26);
 aq += R_aq_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -227,19 +211,7 @@ aq += R_aq_0.read(ba) << 0;
 		partInit.code() = std::string("//AMOXORW\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 offs = *((RV32IMACFD*)cpu)->X[" + std::to_string(rs1 % 32U) + "];\n";
-partInit.code() += "etiss_uint32 mem_val_0;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dread))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 4);\n";
-partInit.code() += "etiss_int32 res1 = mem_val_0;\n";
-if ((rd % 32U) != 0U) {
-partInit.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd % 32) + "] = res1;\n";
-}
-partInit.code() += "etiss_uint32 res2 = res1 ^ *((RV32IMACFD*)cpu)->X[" + std::to_string(rs2 % 32U) + "];\n";
-partInit.code() += "etiss_uint32 mem_val_1 = res2;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dwrite))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_1, 4);\n";
-
-partInit.code() += "if (((RV32IMACFD*)cpu)->exception) return ((RV32IMACFD*)cpu)->exception;\n";
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getRegisterDependencies().add(reg_name[rs1 % 32U], 32);
@@ -293,6 +265,7 @@ static InstructionDefinition amoandw_rd_rs1_rs2_rl_aq (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -309,6 +282,7 @@ etiss_uint8 aq = 0;
 static BitArrayRange R_aq_0(26, 26);
 aq += R_aq_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -316,19 +290,7 @@ aq += R_aq_0.read(ba) << 0;
 		partInit.code() = std::string("//AMOANDW\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 offs = *((RV32IMACFD*)cpu)->X[" + std::to_string(rs1 % 32U) + "];\n";
-partInit.code() += "etiss_uint32 mem_val_0;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dread))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 4);\n";
-partInit.code() += "etiss_int32 res1 = mem_val_0;\n";
-if ((rd % 32U) != 0U) {
-partInit.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd % 32) + "] = res1;\n";
-}
-partInit.code() += "etiss_uint32 res2 = res1 & *((RV32IMACFD*)cpu)->X[" + std::to_string(rs2 % 32U) + "];\n";
-partInit.code() += "etiss_uint32 mem_val_1 = res2;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dwrite))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_1, 4);\n";
-
-partInit.code() += "if (((RV32IMACFD*)cpu)->exception) return ((RV32IMACFD*)cpu)->exception;\n";
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getRegisterDependencies().add(reg_name[rs1 % 32U], 32);
@@ -382,6 +344,7 @@ static InstructionDefinition amoorw_rd_rs1_rs2_rl_aq (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -398,6 +361,7 @@ etiss_uint8 aq = 0;
 static BitArrayRange R_aq_0(26, 26);
 aq += R_aq_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -405,19 +369,7 @@ aq += R_aq_0.read(ba) << 0;
 		partInit.code() = std::string("//AMOORW\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 offs = *((RV32IMACFD*)cpu)->X[" + std::to_string(rs1 % 32U) + "];\n";
-partInit.code() += "etiss_uint32 mem_val_0;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dread))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 4);\n";
-partInit.code() += "etiss_int32 res1 = mem_val_0;\n";
-if ((rd % 32U) != 0U) {
-partInit.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd % 32) + "] = res1;\n";
-}
-partInit.code() += "etiss_uint32 res2 = res1 | *((RV32IMACFD*)cpu)->X[" + std::to_string(rs2 % 32U) + "];\n";
-partInit.code() += "etiss_uint32 mem_val_1 = res2;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dwrite))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_1, 4);\n";
-
-partInit.code() += "if (((RV32IMACFD*)cpu)->exception) return ((RV32IMACFD*)cpu)->exception;\n";
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getRegisterDependencies().add(reg_name[rs1 % 32U], 32);
@@ -471,6 +423,7 @@ static InstructionDefinition amominw_rd_rs1_rs2_rl_aq (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -487,6 +440,7 @@ etiss_uint8 aq = 0;
 static BitArrayRange R_aq_0(26, 26);
 aq += R_aq_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -494,19 +448,7 @@ aq += R_aq_0.read(ba) << 0;
 		partInit.code() = std::string("//AMOMINW\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 offs = *((RV32IMACFD*)cpu)->X[" + std::to_string(rs1 % 32U) + "];\n";
-partInit.code() += "etiss_uint32 mem_val_0;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dread))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 4);\n";
-partInit.code() += "etiss_int32 res1 = mem_val_0;\n";
-if ((rd % 32U) != 0U) {
-partInit.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd % 32) + "] = res1;\n";
-}
-partInit.code() += "etiss_uint32 res2 = (res1 > (etiss_int32)(*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2 % 32U) + "])) ? (*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2 % 32U) + "]) : (res1);\n";
-partInit.code() += "etiss_uint32 mem_val_1 = res2;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dwrite))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_1, 4);\n";
-
-partInit.code() += "if (((RV32IMACFD*)cpu)->exception) return ((RV32IMACFD*)cpu)->exception;\n";
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getRegisterDependencies().add(reg_name[rs1 % 32U], 32);
@@ -560,6 +502,7 @@ static InstructionDefinition amomaxw_rd_rs1_rs2_rl_aq (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -576,6 +519,7 @@ etiss_uint8 aq = 0;
 static BitArrayRange R_aq_0(26, 26);
 aq += R_aq_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -583,19 +527,7 @@ aq += R_aq_0.read(ba) << 0;
 		partInit.code() = std::string("//AMOMAXW\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 offs = *((RV32IMACFD*)cpu)->X[" + std::to_string(rs1 % 32U) + "];\n";
-partInit.code() += "etiss_uint32 mem_val_0;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dread))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 4);\n";
-partInit.code() += "etiss_int32 res1 = mem_val_0;\n";
-if ((rd % 32U) != 0U) {
-partInit.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd % 32) + "] = res1;\n";
-}
-partInit.code() += "etiss_uint32 res2 = (res1 < (etiss_int32)(*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2 % 32U) + "])) ? (*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2 % 32U) + "]) : (res1);\n";
-partInit.code() += "etiss_uint32 mem_val_1 = res2;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dwrite))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_1, 4);\n";
-
-partInit.code() += "if (((RV32IMACFD*)cpu)->exception) return ((RV32IMACFD*)cpu)->exception;\n";
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getRegisterDependencies().add(reg_name[rs1 % 32U], 32);
@@ -649,6 +581,7 @@ static InstructionDefinition amominuw_rd_rs1_rs2_rl_aq (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -665,6 +598,7 @@ etiss_uint8 aq = 0;
 static BitArrayRange R_aq_0(26, 26);
 aq += R_aq_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -672,19 +606,7 @@ aq += R_aq_0.read(ba) << 0;
 		partInit.code() = std::string("//AMOMINUW\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 offs = *((RV32IMACFD*)cpu)->X[" + std::to_string(rs1 % 32U) + "];\n";
-partInit.code() += "etiss_uint32 mem_val_0;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dread))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 4);\n";
-partInit.code() += "etiss_uint32 res1 = mem_val_0;\n";
-if ((rd % 32U) != 0U) {
-partInit.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd % 32) + "] = (etiss_int32)(res1);\n";
-}
-partInit.code() += "etiss_uint32 res2 = (res1 > *((RV32IMACFD*)cpu)->X[" + std::to_string(rs2 % 32U) + "]) ? (*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2 % 32U) + "]) : (res1);\n";
-partInit.code() += "etiss_uint32 mem_val_1 = res2;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dwrite))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_1, 4);\n";
-
-partInit.code() += "if (((RV32IMACFD*)cpu)->exception) return ((RV32IMACFD*)cpu)->exception;\n";
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getRegisterDependencies().add(reg_name[rs1 % 32U], 32);
@@ -738,6 +660,7 @@ static InstructionDefinition amomaxuw_rd_rs1_rs2_rl_aq (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -754,6 +677,7 @@ etiss_uint8 aq = 0;
 static BitArrayRange R_aq_0(26, 26);
 aq += R_aq_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
@@ -761,19 +685,7 @@ aq += R_aq_0.read(ba) << 0;
 		partInit.code() = std::string("//AMOMAXUW\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "etiss_uint32 offs = *((RV32IMACFD*)cpu)->X[" + std::to_string(rs1 % 32U) + "];\n";
-partInit.code() += "etiss_uint32 mem_val_0;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dread))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 4);\n";
-partInit.code() += "etiss_uint32 res1 = mem_val_0;\n";
-if ((rd % 32U) != 0U) {
-partInit.code() += "*((RV32IMACFD*)cpu)->X[" + std::to_string(rd % 32) + "] = (etiss_int32)(res1);\n";
-}
-partInit.code() += "etiss_uint32 res2 = (res1 < *((RV32IMACFD*)cpu)->X[" + std::to_string(rs2 % 32U) + "]) ? (*((RV32IMACFD*)cpu)->X[" + std::to_string(rs2 % 32U) + "]) : (res1);\n";
-partInit.code() += "etiss_uint32 mem_val_1 = res2;\n";
-partInit.code() += "((RV32IMACFD*)cpu)->exception |= (*(system->dwrite))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_1, 4);\n";
-
-partInit.code() += "if (((RV32IMACFD*)cpu)->exception) return ((RV32IMACFD*)cpu)->exception;\n";
+cp.code() += "if (cpu->return_pending || cpu->exception) return cpu->exception;\n";
 // -----------------------------------------------------------------------------
 
 		partInit.getRegisterDependencies().add(reg_name[rs1 % 32U], 32);
@@ -812,3 +724,4 @@ ss << "amomaxuw" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + s
 		return ss.str();
 	}
 );
+// clang-format on

@@ -1,5 +1,5 @@
 /**
- * Generated on Tue, 25 Apr 2023 11:23:36 +0200.
+ * Generated on Mon, 10 Nov 2025 11:27:12 +0000.
  *
  * This file contains the GDBCore adapter for the RV32IMACFD core architecture.
  *
@@ -14,116 +14,116 @@
 #include <sstream>
 
 /**
-	@brief This class is the brige between RV32IMACFD architecture and gdbserver
+    @brief This class is the brige between RV32IMACFD architecture and gdbserver
 
-	@details Gdbserver integrated in ETISS calls GDBCore to read/write registers via virtualStrruct
-				The index in mapRegister() should strictly follow the RV32IMACFD gdb tool defined register
-				order. Because gdbserver will send raw register data sequentially in strict order over
-				RSP ->TCP/IP ->RSP protocal
+    @details Gdbserver integrated in ETISS calls GDBCore to read/write registers via virtualStrruct
+                The index in mapRegister() should strictly follow the RV32IMACFD gdb tool defined register
+                order. Because gdbserver will send raw register data sequentially in strict order over
+                RSP ->TCP/IP ->RSP protocal
 
-				Check the order with gdb command:
-				$(gdb) info all-registers
-				which lists all registers supported and its order.
+                Check the order with gdb command:
+                $(gdb) info all-registers
+                which lists all registers supported and its order.
 
-				By default only general purpose register and instruction pointer are supported. Further
-				Special Function Register/Control and Status Register could be added manually. Meanwhile
-				virtualStruct in RV32IMACFDArch.cpp should be modified as well as well
+                By default only general purpose register and instruction pointer are supported. Further
+                Special Function Register/Control and Status Register could be added manually. Meanwhile
+                virtualStruct in RV32IMACFDArch.cpp should be modified as well as well
 
 */
-class RV32IMACFDGDBCore : public etiss::plugin::gdb::GDBCore {
-public:
-	std::string mapRegister(unsigned index){
-		if (index < 32){
-			std::stringstream ss;
-			ss << "X" << index;
-			return ss.str();
-		}
+class RV32IMACFDGDBCore : public etiss::plugin::gdb::GDBCore
+{
+  public:
+    std::string mapRegister(unsigned index)
+    {
+        switch (index){
+        case 0: return "X0";
+        case 1: return "X1";
+        case 2: return "X2";
+        case 3: return "X3";
+        case 4: return "X4";
+        case 5: return "X5";
+        case 6: return "X6";
+        case 7: return "X7";
+        case 8: return "X8";
+        case 9: return "X9";
+        case 10: return "X10";
+        case 11: return "X11";
+        case 12: return "X12";
+        case 13: return "X13";
+        case 14: return "X14";
+        case 15: return "X15";
+        case 16: return "X16";
+        case 17: return "X17";
+        case 18: return "X18";
+        case 19: return "X19";
+        case 20: return "X20";
+        case 21: return "X21";
+        case 22: return "X22";
+        case 23: return "X23";
+        case 24: return "X24";
+        case 25: return "X25";
+        case 26: return "X26";
+        case 27: return "X27";
+        case 28: return "X28";
+        case 29: return "X29";
+        case 30: return "X30";
+        case 31: return "X31";
+        case 32: return "instructionPointer";
+        case 33: return "F0";
+        case 34: return "F1";
+        case 35: return "F2";
+        case 36: return "F3";
+        case 37: return "F4";
+        case 38: return "F5";
+        case 39: return "F6";
+        case 40: return "F7";
+        case 41: return "F8";
+        case 42: return "F9";
+        case 43: return "F10";
+        case 44: return "F11";
+        case 45: return "F12";
+        case 46: return "F13";
+        case 47: return "F14";
+        case 48: return "F15";
+        case 49: return "F16";
+        case 50: return "F17";
+        case 51: return "F18";
+        case 52: return "F19";
+        case 53: return "F20";
+        case 54: return "F21";
+        case 55: return "F22";
+        case 56: return "F23";
+        case 57: return "F24";
+        case 58: return "F25";
+        case 59: return "F26";
+        case 60: return "F27";
+        case 61: return "F28";
+        case 62: return "F29";
+        case 63: return "F30";
+        case 64: return "F31";
+        case 68: return "CSR3";
+        /**************************************************************************
+        *   Further register should be added here to send data over gdbserver	  *
+        ***************************************************************************/
+        }
+        return "";
+  }
 
-		if ((32 < index) and (index < 65)){
-			std::stringstream ss;
-			ss << "F" << (index - 33);
-			return ss.str();
-		}
+    unsigned mapRegister(std::string name) { return INVALIDMAPPING; }
 
-		if ((64 < index) and (index < 69)){
-			std::stringstream ss;
-			ss << "CSR" << (index - 65);
-			return ss.str();
-		}
-		
-		switch (index){
-		case 32:
-			return "instructionPointer";
-		/**************************************************************************
-		*   Further register should be added here to send data over gdbserver	  *
-		***************************************************************************/
-		// 
-                case 1000:
-                        return "CSR3072";
-                case 1001:
-                        return "CSR3200";
-                case 1002:
-                        return "CSR3073";
-                case 1003:
-                        return "CSR3201";
-                case 1004:
-                        return "CSR3074";
-                case 1005:
-                        return "CSR3202";
-                // M CSR
-                case 1006:
-                        return "CSR3857";
-                case 1007:
-                        return "CSR3858";
-                case 1008:
-                        return "CSR3859";
-                case 1009:
-                        return "CSR3860";
-                case 1010:
-                        return "CSR768";
-                case 1011:
-                        return "CSR769";
-                case 1012:
-                        return "CSR770";
-                case 1013:
-                        return "CSR771";
-                case 1014:
-                        return "CSR772";
-                case 1015:
-                        return "CSR773";
-                case 1016:
-                        return "CSR774";
-                case 1017:
-                        return "CSR832";
-                case 1018:
-                        return "CSR833";
-                case 1019:
-                        return "CSR834";
-                case 1020:
-                        return "CSR835";
-                case 1021:
-                        return "CSR836";
-		}
-		return "";
-	}
+    unsigned mappedRegisterCount()
+    {
+        // Modify according to sent register number
+        return 33;
+    }
 
-	unsigned mapRegister(std::string name){
-		return INVALIDMAPPING;
-	}
+    etiss::uint64 getInstructionPointer(ETISS_CPU *cpu) { return cpu->instructionPointer; }
 
-	unsigned mappedRegisterCount(){
-		// Modify according to sent register number
-		return 108;
-	}
-
-	etiss::uint64 getInstructionPointer(ETISS_CPU * cpu){
-		return cpu->instructionPointer;
-	}
-
-	bool isLittleEndian(){
-		// Modify according to RV32IMACFD manual
-		return true;
-	}
+    bool isLittleEndian()
+    {
+        // Modify according to RV32IMACFD manual
+        return true;
+    }
 };
 
 #endif
