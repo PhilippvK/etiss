@@ -16,6 +16,7 @@
 #include "etiss/VirtualStruct.h"
 #include "etiss/jit/CPU.h"
 #include "RV32IMACFDV_zvl64b.h"
+#include "RV32IMACFDV_zvl64bFuncs.h"
 
 /**
 	@brief VirtualStruct for RV32IMACFDV_zvl64b architecture to faciliate register acess

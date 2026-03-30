@@ -16,6 +16,7 @@
 #include "etiss/VirtualStruct.h"
 #include "etiss/jit/CPU.h"
 #include "RV64IMACFD.h"
+#include "RV64IMACFDFuncs.h"
 
 /**
     @brief VirtualStruct for RV64IMACFD architecture to faciliate register acess

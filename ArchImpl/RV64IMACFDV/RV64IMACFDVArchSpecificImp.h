@@ -11,6 +11,11 @@
 #ifndef ETISS_RV64IMACFDVArch_RV64IMACFDVARCHSPECIFICIMP_H_
 #define ETISS_RV64IMACFDVArch_RV64IMACFDVARCHSPECIFICIMP_H_
 
+#include <cstdint>
+#include "etiss/Instruction.h"
+#include "etiss/VirtualStruct.h"
+#include "etiss/jit/CPU.h"
+#include "RV64IMACFDV.h"
 #include "RV64IMACFDVFuncs.h"
 
 /**
