@@ -1,5 +1,6 @@
+// clang-format off
 /**
- * Generated on Tue, 05 Aug 2025 11:41:33 +0000.
+ * Generated on Mon, 30 Mar 2026 14:43:05 +0200.
  *
  * This file contains the instruction behavior models of the RV32DC
  * instruction set for the RV32IMACFDV core architecture.
@@ -10,7 +11,6 @@
 
 using namespace etiss;
 using namespace etiss::instr;
-
 
 // CFLD ------------------------------------------------------------------------
 static InstructionDefinition cfld_rd_uimm_rs1 (
@@ -26,6 +26,7 @@ static InstructionDefinition cfld_rd_uimm_rs1 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(4, 2);
 rd += R_rd_0.read(ba) << 0;
@@ -38,6 +39,7 @@ rs1 += R_rs1_0.read(ba) << 0;
 static BitArrayRange R_uimm_3(12, 10);
 uimm += R_uimm_3.read(ba) << 3;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -46,14 +48,19 @@ uimm += R_uimm_3.read(ba) << 3;
 		cp.code() = std::string("//CFLD\n");
 
 // -----------------------------------------------------------------------------
+cp.code() += "etiss_coverage_count(1, 557);\n";
 { // block
+cp.code() += "etiss_coverage_count(1, 1519);\n";
 cp.code() += "{ // block\n";
 cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 2) + "ULL;\n";
+cp.code() += "etiss_coverage_count(5, 1518, 1514, 1517, 1515, 1516);\n";
 cp.code() += "} // block\n";
 } // block
 { // block
+cp.code() += "etiss_coverage_count(1, 31621);\n";
 cp.code() += "{ // block\n";
 cp.code() += "etiss_uint32 offs = *((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1 + 8ULL) + "ULL] + " + std::to_string(uimm) + "ULL;\n";
+cp.code() += "etiss_coverage_count(7, 31588, 31587, 31585, 31584, 31582, 31583, 31586);\n";
 cp.code() += "etiss_uint64 mem_val_0;\n";
 cp.code() += "cpu->exception |= (*(system->dread))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 8);\n";
 cp.code() += "if (cpu->exception) { // conditional\n";
@@ -65,7 +72,9 @@ cp.code() += "} // procedure\n";
 } // procedure
 cp.code() += "} // conditional\n";
 cp.code() += "etiss_uint64 res = (etiss_uint64)(mem_val_0);\n";
+cp.code() += "etiss_coverage_count(4, 31595, 31594, 31592, 31591);\n";
 cp.code() += "*((RV32IMACFDV*)cpu)->F[" + std::to_string(rd + 8ULL) + "ULL] = res;\n";
+cp.code() += "etiss_coverage_count(6, 31606, 31604, 31603, 31601, 31602, 31605);\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
@@ -125,6 +134,7 @@ static InstructionDefinition cfsd_rs2_uimm_rs1 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rs2 = 0;
 static BitArrayRange R_rs2_0(4, 2);
 rs2 += R_rs2_0.read(ba) << 0;
@@ -137,6 +147,7 @@ rs1 += R_rs1_0.read(ba) << 0;
 static BitArrayRange R_uimm_3(12, 10);
 uimm += R_uimm_3.read(ba) << 3;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -145,16 +156,22 @@ uimm += R_uimm_3.read(ba) << 3;
 		cp.code() = std::string("//CFSD\n");
 
 // -----------------------------------------------------------------------------
+cp.code() += "etiss_coverage_count(1, 558);\n";
 { // block
+cp.code() += "etiss_coverage_count(1, 1519);\n";
 cp.code() += "{ // block\n";
 cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 2) + "ULL;\n";
+cp.code() += "etiss_coverage_count(5, 1518, 1514, 1517, 1515, 1516);\n";
 cp.code() += "} // block\n";
 } // block
 { // block
+cp.code() += "etiss_coverage_count(1, 31642);\n";
 cp.code() += "{ // block\n";
 cp.code() += "etiss_uint32 offs = *((RV32IMACFDV*)cpu)->X[" + std::to_string(rs1 + 8ULL) + "ULL] + " + std::to_string(uimm) + "ULL;\n";
+cp.code() += "etiss_coverage_count(7, 31630, 31629, 31627, 31626, 31624, 31625, 31628);\n";
 cp.code() += "etiss_uint64 mem_val_0;\n";
 cp.code() += "mem_val_0 = (etiss_uint64)(*((RV32IMACFDV*)cpu)->F[" + std::to_string(rs2 + 8ULL) + "ULL]);\n";
+cp.code() += "etiss_coverage_count(8, 31641, 31633, 31632, 31640, 31638, 31637, 31635, 31636);\n";
 cp.code() += "cpu->exception |= (*(system->dwrite))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 8);\n";
 cp.code() += "if (cpu->exception) { // conditional\n";
 { // procedure
@@ -223,6 +240,7 @@ static InstructionDefinition cfldsp_uimm_rd (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint16 uimm = 0;
 static BitArrayRange R_uimm_6(4, 2);
 uimm += R_uimm_6.read(ba) << 6;
@@ -234,6 +252,7 @@ rd += R_rd_0.read(ba) << 0;
 static BitArrayRange R_uimm_5(12, 12);
 uimm += R_uimm_5.read(ba) << 5;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -242,14 +261,19 @@ uimm += R_uimm_5.read(ba) << 5;
 		cp.code() = std::string("//CFLDSP\n");
 
 // -----------------------------------------------------------------------------
+cp.code() += "etiss_coverage_count(1, 559);\n";
 { // block
+cp.code() += "etiss_coverage_count(1, 1519);\n";
 cp.code() += "{ // block\n";
 cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 2) + "ULL;\n";
+cp.code() += "etiss_coverage_count(5, 1518, 1514, 1517, 1515, 1516);\n";
 cp.code() += "} // block\n";
 } // block
 { // block
+cp.code() += "etiss_coverage_count(1, 31678);\n";
 cp.code() += "{ // block\n";
 cp.code() += "etiss_uint32 offs = *((RV32IMACFDV*)cpu)->X[2ULL] + " + std::to_string(uimm) + "ULL;\n";
+cp.code() += "etiss_coverage_count(5, 31649, 31648, 31646, 31645, 31647);\n";
 cp.code() += "etiss_uint64 mem_val_0;\n";
 cp.code() += "cpu->exception |= (*(system->dread))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 8);\n";
 cp.code() += "if (cpu->exception) { // conditional\n";
@@ -261,7 +285,9 @@ cp.code() += "} // procedure\n";
 } // procedure
 cp.code() += "} // conditional\n";
 cp.code() += "etiss_uint64 res = (etiss_uint64)(mem_val_0);\n";
+cp.code() += "etiss_coverage_count(4, 31656, 31655, 31653, 31652);\n";
 cp.code() += "*((RV32IMACFDV*)cpu)->F[" + std::to_string(rd) + "ULL] = res;\n";
+cp.code() += "etiss_coverage_count(4, 31665, 31663, 31662, 31664);\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
@@ -320,6 +346,7 @@ static InstructionDefinition cfsdsp_rs2_uimm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rs2 = 0;
 static BitArrayRange R_rs2_0(6, 2);
 rs2 += R_rs2_0.read(ba) << 0;
@@ -329,6 +356,7 @@ uimm += R_uimm_6.read(ba) << 6;
 static BitArrayRange R_uimm_3(12, 10);
 uimm += R_uimm_3.read(ba) << 3;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -337,16 +365,22 @@ uimm += R_uimm_3.read(ba) << 3;
 		cp.code() = std::string("//CFSDSP\n");
 
 // -----------------------------------------------------------------------------
+cp.code() += "etiss_coverage_count(1, 560);\n";
 { // block
+cp.code() += "etiss_coverage_count(1, 1519);\n";
 cp.code() += "{ // block\n";
 cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 2) + "ULL;\n";
+cp.code() += "etiss_coverage_count(5, 1518, 1514, 1517, 1515, 1516);\n";
 cp.code() += "} // block\n";
 } // block
 { // block
+cp.code() += "etiss_coverage_count(1, 31695);\n";
 cp.code() += "{ // block\n";
 cp.code() += "etiss_uint32 offs = *((RV32IMACFDV*)cpu)->X[2ULL] + " + std::to_string(uimm) + "ULL;\n";
+cp.code() += "etiss_coverage_count(5, 31685, 31684, 31682, 31681, 31683);\n";
 cp.code() += "etiss_uint64 mem_val_0;\n";
 cp.code() += "mem_val_0 = (etiss_uint64)(*((RV32IMACFDV*)cpu)->F[" + std::to_string(rs2) + "ULL]);\n";
+cp.code() += "etiss_coverage_count(6, 31694, 31688, 31687, 31693, 31691, 31690);\n";
 cp.code() += "cpu->exception |= (*(system->dwrite))(system->handle, cpu, offs, (etiss_uint8*)&mem_val_0, 8);\n";
 cp.code() += "if (cpu->exception) { // conditional\n";
 { // procedure
@@ -397,3 +431,4 @@ ss << "cfsdsp" << " # " << ba << (" [rs2=" + std::to_string(rs2) + " | uimm=" + 
 		return ss.str();
 	}
 );
+// clang-format on

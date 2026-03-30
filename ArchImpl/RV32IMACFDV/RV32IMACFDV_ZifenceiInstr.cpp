@@ -1,5 +1,6 @@
+// clang-format off
 /**
- * Generated on Tue, 05 Aug 2025 11:41:33 +0000.
+ * Generated on Mon, 30 Mar 2026 14:43:05 +0200.
  *
  * This file contains the instruction behavior models of the Zifencei
  * instruction set for the RV32IMACFDV core architecture.
@@ -10,7 +11,6 @@
 
 using namespace etiss;
 using namespace etiss::instr;
-
 
 // FENCE_I ---------------------------------------------------------------------
 static InstructionDefinition fence_i_rd_rs1_imm (
@@ -26,6 +26,7 @@ static InstructionDefinition fence_i_rd_rs1_imm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -36,6 +37,7 @@ etiss_uint16 imm = 0;
 static BitArrayRange R_imm_0(31, 20);
 imm += R_imm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -45,12 +47,16 @@ imm += R_imm_0.read(ba) << 0;
 
 // -----------------------------------------------------------------------------
 cp.code() += "cpu->exception = ETISS_RETURNCODE_RELOADBLOCKS;\n";
+cp.code() += "etiss_coverage_count(1, 561);\n";
 { // block
+cp.code() += "etiss_coverage_count(1, 1519);\n";
 cp.code() += "{ // block\n";
 cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "etiss_coverage_count(5, 1518, 1514, 1517, 1515, 1516);\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "((RV32IMACFDV*)cpu)->FENCE[1ULL] = " + std::to_string(imm) + "ULL;\n";
+cp.code() += "etiss_coverage_count(3, 31700, 31698, 31699);\n";
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
@@ -91,3 +97,4 @@ ss << "fence_i" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + st
 		return ss.str();
 	}
 );
+// clang-format on

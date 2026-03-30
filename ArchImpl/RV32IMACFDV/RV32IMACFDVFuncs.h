@@ -1,5 +1,5 @@
 /**
- * Generated on Wed, 19 Jun 2024 07:44:30 +0200.
+ * Generated on Mon, 30 Mar 2026 14:43:05 +0200.
  *
  * This file contains the function prototypes for the RV32IMACFDV core architecture.
  */
@@ -8,7 +8,8 @@
 #define __RV32IMACFDV_FUNCS_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "RV32IMACFDV.h"
@@ -16,7 +17,7 @@ extern "C" {
 #include "etiss/jit/System.h"
 #include "etiss/jit/ReturnCode.h"
 #include "etiss/jit/Coverage.h"
-
+    // clang-format off
 
 void leave(etiss_int32 priv_lvl);
 
@@ -266,6 +267,8 @@ void RV32IMACFDV_check_irq(ETISS_CPU * const cpu, ETISS_System * const system, v
 etiss_uint8 etiss_semihost_enabled();
 
 etiss_int64 etiss_semihost(ETISS_CPU * const cpu, ETISS_System * const system, void * const * const plugin_pointers, etiss_uint32 XLEN, etiss_uint64 operation, etiss_uint64 parameter);
+
+    // clang-format on
 
 #ifdef __cplusplus
 }
