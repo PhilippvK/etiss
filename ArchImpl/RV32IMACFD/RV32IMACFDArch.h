@@ -1,5 +1,5 @@
 /**
- * Generated on Mon, 10 Nov 2025 11:27:12 +0000.
+ * Generated on Mon, 30 Mar 2026 13:40:21 +0200.
  *
  * This file contains the architecture class for the RV32IMACFD core architecture.
  */
@@ -10,6 +10,7 @@
 #include "etiss/CPUArch.h"
 #include "etiss/Instruction.h"
 #include "etiss/InterruptVector.h"
+#include "etiss/InterruptEnable.h"
 #include "RV32IMACFD.h"
 #include "RV32IMACFDGDBCore.h"
 

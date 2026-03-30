@@ -1,6 +1,6 @@
 // clang-format off
 /**
- * Generated on Mon, 10 Nov 2025 11:27:24 +0000.
+ * Generated on Mon, 30 Mar 2026 13:40:21 +0200.
  *
  * This file contains the instruction behavior models of the Zifencei
  * instruction set for the RV64IMACFD core architecture.
@@ -49,14 +49,14 @@ imm += R_imm_0.read(ba) << 0;
 cp.code() += "cpu->exception = ETISS_RETURNCODE_RELOADBLOCKS;\n";
 cp.code() += "etiss_coverage_count(1, 148);\n";
 { // block
-cp.code() += "etiss_coverage_count(1, 1169);\n";
+cp.code() += "etiss_coverage_count(1, 1166);\n";
 cp.code() += "{ // block\n";
 cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "etiss_coverage_count(5, 1168, 1164, 1167, 1165, 1166);\n";
+cp.code() += "etiss_coverage_count(5, 1165, 1161, 1164, 1162, 1163);\n";
 cp.code() += "} // block\n";
 } // block
 cp.code() += "((RV64IMACFD*)cpu)->FENCE[1ULL] = " + std::to_string(imm) + "ULL;\n";
-cp.code() += "etiss_coverage_count(3, 6360, 6358, 6359);\n";
+cp.code() += "etiss_coverage_count(3, 6357, 6355, 6356);\n";
 cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
 cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------

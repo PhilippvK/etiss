@@ -3,18 +3,18 @@
  * Generated on Mon, 30 Mar 2026 13:40:21 +0200.
  *
  * This file contains the instruction behavior models of the tum_semihosting
- * instruction set for the RV64IMACFD core architecture.
+ * instruction set for the RV32IMACFD core architecture.
  */
 
-#include "RV64IMACFDArch.h"
-#include "RV64IMACFDFuncs.h"
+#include "RV32IMACFDArch.h"
+#include "RV32IMACFDFuncs.h"
 
 using namespace etiss;
 using namespace etiss::instr;
 
 // EBREAK ----------------------------------------------------------------------
 static InstructionDefinition ebreak_ (
-	ISA32_RV64IMACFD,
+	ISA32_RV32IMACFD,
 	"ebreak",
 	(uint32_t) 0x100073,
 	(uint32_t) 0xffffffff,
@@ -59,7 +59,7 @@ cp.code() += "cpu->exception |= (*(system->dread))(system->handle, cpu, " + std:
 cp.code() += "if (cpu->exception) { // conditional\n";
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV64IMACFD_translate_exc_code(cpu, system, plugin_pointers, cpu->exception);\n";
+cp.code() += "RV32IMACFD_translate_exc_code(cpu, system, plugin_pointers, cpu->exception);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
@@ -71,7 +71,7 @@ cp.code() += "cpu->exception |= (*(system->dread))(system->handle, cpu, " + std:
 cp.code() += "if (cpu->exception) { // conditional\n";
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV64IMACFD_translate_exc_code(cpu, system, plugin_pointers, cpu->exception);\n";
+cp.code() += "RV32IMACFD_translate_exc_code(cpu, system, plugin_pointers, cpu->exception);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
@@ -83,7 +83,7 @@ cp.code() += "cpu->exception |= (*(system->dread))(system->handle, cpu, " + std:
 cp.code() += "if (cpu->exception) { // conditional\n";
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV64IMACFD_translate_exc_code(cpu, system, plugin_pointers, cpu->exception);\n";
+cp.code() += "RV32IMACFD_translate_exc_code(cpu, system, plugin_pointers, cpu->exception);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
 } // procedure
@@ -96,11 +96,11 @@ cp.code() += "etiss_coverage_count(11, 2229, 2225, 2221, 2219, 2220, 2224, 2222,
 { // block
 cp.code() += "etiss_coverage_count(1, 2250);\n";
 cp.code() += "{ // block\n";
-cp.code() += "etiss_uint64 operation = *((RV64IMACFD*)cpu)->X[10ULL];\n";
+cp.code() += "etiss_uint32 operation = *((RV32IMACFD*)cpu)->X[10ULL];\n";
 cp.code() += "etiss_coverage_count(3, 2234, 2233, 2232);\n";
-cp.code() += "etiss_uint64 parameter = *((RV64IMACFD*)cpu)->X[11ULL];\n";
+cp.code() += "etiss_uint32 parameter = *((RV32IMACFD*)cpu)->X[11ULL];\n";
 cp.code() += "etiss_coverage_count(3, 2239, 2238, 2237);\n";
-cp.code() += "*((RV64IMACFD*)cpu)->X[10ULL] = (etiss_int64)(etiss_semihost(cpu, system, plugin_pointers, 64ULL, operation, parameter));\n";
+cp.code() += "*((RV32IMACFD*)cpu)->X[10ULL] = (etiss_int32)(etiss_semihost(cpu, system, plugin_pointers, 32ULL, operation, parameter));\n";
 cp.code() += "etiss_coverage_count(7, 2249, 2242, 2241, 2248, 2246, 2244, 2245);\n";
 cp.code() += "} // block\n";
 } // block
@@ -111,7 +111,7 @@ cp.code() += "etiss_coverage_count(1, 2254);\n";
 cp.code() += "{ // block\n";
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV64IMACFD_raise(cpu, system, plugin_pointers, 0LL, 3LL);\n";
+cp.code() += "RV32IMACFD_raise(cpu, system, plugin_pointers, 0LL, 3LL);\n";
 cp.code() += "etiss_coverage_count(2, 2253, 2251);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";
@@ -128,7 +128,7 @@ cp.code() += "etiss_coverage_count(1, 2259);\n";
 cp.code() += "{ // block\n";
 { // procedure
 cp.code() += "{ // procedure\n";
-cp.code() += "RV64IMACFD_raise(cpu, system, plugin_pointers, 0LL, 3LL);\n";
+cp.code() += "RV32IMACFD_raise(cpu, system, plugin_pointers, 0LL, 3LL);\n";
 cp.code() += "etiss_coverage_count(2, 2258, 2256);\n";
 cp.code() += "goto instr_exit_" + std::to_string(ic.current_address_) + ";\n";
 cp.code() += "} // procedure\n";

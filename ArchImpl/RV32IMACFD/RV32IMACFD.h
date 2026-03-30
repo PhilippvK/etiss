@@ -1,5 +1,5 @@
 /**
- * Generated on Mon, 10 Nov 2025 11:27:12 +0000.
+ * Generated on Mon, 30 Mar 2026 13:40:21 +0200.
  *
  * This file contains the registers for the RV32IMACFD core architecture.
  */
@@ -61,7 +61,25 @@ extern "C"
         etiss_uint32 FRM;
         etiss_uint32 MSTATUS;
         etiss_uint32 MIE;
-        etiss_uint32 MIP;
+        etiss_uint32 CYCLE;
+        etiss_uint32 CYCLEH;
+        etiss_uint32 TIME;
+        etiss_uint32 TIMEH;
+        etiss_uint32 INSTRET;
+        etiss_uint32 INSTRETH;
+        etiss_uint32 MVENDIRID;
+        etiss_uint32 MARCHID;
+        etiss_uint32 MIMPID;
+        etiss_uint32 MHARTID;
+        etiss_uint32 MISA;
+        etiss_uint32 MEDELEG;
+        etiss_uint32 MIDELEG;
+        etiss_uint32 MTVEC;
+        etiss_uint32 MCOUNTEREN;
+        etiss_uint32 MSCRATCH;
+        etiss_uint32 MEPC;
+        etiss_uint32 MCAUSE;
+        etiss_uint32 MTVAL;
         etiss_uint32 *CSR[4096];
         etiss_uint32 ins_CSR[4096];
         etiss_uint64 FT0;

@@ -1,4 +1,4 @@
-# Generated on Mon, 10 Nov 2025 11:27:12 +0000.
+# Generated on Mon, 30 Mar 2026 13:40:21 +0200.
 #
 # This file contains the CMake build info for the RV32IMACFD core architecture.
 
@@ -11,6 +11,7 @@ ADD_LIBRARY(${PROJECT_NAME} SHARED
 	RV32IMACFDArch.cpp
 	RV32IMACFDArchLib.cpp
 	RV32IMACFDArchSpecificImp.cpp
+	RV32IMACFDFuncs.c
 	RV32IMACFDInstr.cpp
 	RV32IMACFD_RV32IInstr.cpp
 	RV32IMACFD_RV32ICInstr.cpp
@@ -24,9 +25,15 @@ ADD_LIBRARY(${PROJECT_NAME} SHARED
 	RV32IMACFD_tum_retInstr.cpp
 	RV32IMACFD_RV32AInstr.cpp
 	RV32IMACFD_tum_rvaInstr.cpp
+	RV32IMACFD_tum_semihostingInstr.cpp
 )
 
-FILE(COPY "${CMAKE_CURRENT_LIST_DIR}/${PROJECT_NAME}Funcs.h" DESTINATION "${ETISS_BINARY_DIR}/include/jit/Arch/${PROJECT_NAME}")
+add_custom_command(
+	TARGET ${PROJECT_NAME} POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy
+		"${CMAKE_CURRENT_LIST_DIR}/${PROJECT_NAME}Funcs.h"
+		"${ETISS_BINARY_DIR}/include/jit/Arch/${PROJECT_NAME}"
+)
 INSTALL(FILES "${CMAKE_CURRENT_LIST_DIR}/${PROJECT_NAME}Funcs.h" DESTINATION "include/jit/Arch/${PROJECT_NAME}")
 
 # handle gdbserver xml files

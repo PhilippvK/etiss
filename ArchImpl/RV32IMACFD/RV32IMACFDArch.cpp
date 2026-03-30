@@ -1,5 +1,5 @@
 /**
- * Generated on Mon, 10 Nov 2025 11:27:12 +0000.
+ * Generated on Mon, 30 Mar 2026 13:40:21 +0200.
  *
  * This file contains the architecture class for the RV32IMACFD core architecture.
  */
@@ -35,8 +35,6 @@
  *********************************************************************************************************************************/
 
 #include "RV32IMACFDArch.h"
-
-#define ETISS_ARCH_STATIC_FN_ONLY
 #include "RV32IMACFDFuncs.h"
 
 #define RV32IMACFD_DEBUG_CALL 0
@@ -137,7 +135,25 @@ void RV32IMACFDArch::resetCPU(ETISS_CPU *cpu, etiss::uint64 *startpointer)
     rv32imacfdcpu->FRM = 0;
     rv32imacfdcpu->MSTATUS = 0;
     rv32imacfdcpu->MIE = 0;
-    rv32imacfdcpu->MIP = 0;
+    rv32imacfdcpu->CYCLE = 0;
+    rv32imacfdcpu->CYCLEH = 0;
+    rv32imacfdcpu->TIME = 0;
+    rv32imacfdcpu->TIMEH = 0;
+    rv32imacfdcpu->INSTRET = 0;
+    rv32imacfdcpu->INSTRETH = 0;
+    rv32imacfdcpu->MVENDIRID = 0;
+    rv32imacfdcpu->MARCHID = 0;
+    rv32imacfdcpu->MIMPID = 0;
+    rv32imacfdcpu->MHARTID = 0;
+    rv32imacfdcpu->MISA = 0;
+    rv32imacfdcpu->MEDELEG = 0;
+    rv32imacfdcpu->MIDELEG = 0;
+    rv32imacfdcpu->MTVEC = 0;
+    rv32imacfdcpu->MCOUNTEREN = 0;
+    rv32imacfdcpu->MSCRATCH = 0;
+    rv32imacfdcpu->MEPC = 0;
+    rv32imacfdcpu->MCAUSE = 0;
+    rv32imacfdcpu->MTVAL = 0;
     rv32imacfdcpu->FT0 = 0;
     rv32imacfdcpu->FT1 = 0;
     rv32imacfdcpu->FT2 = 0;
@@ -209,7 +225,25 @@ void RV32IMACFDArch::resetCPU(ETISS_CPU *cpu, etiss::uint64 *startpointer)
     rv32imacfdcpu->CSR[2] = &rv32imacfdcpu->FRM;
     rv32imacfdcpu->CSR[768] = &rv32imacfdcpu->MSTATUS;
     rv32imacfdcpu->CSR[772] = &rv32imacfdcpu->MIE;
-    rv32imacfdcpu->CSR[836] = &rv32imacfdcpu->MIP;
+    rv32imacfdcpu->CSR[3072] = &rv32imacfdcpu->CYCLE;
+    rv32imacfdcpu->CSR[3200] = &rv32imacfdcpu->CYCLEH;
+    rv32imacfdcpu->CSR[3073] = &rv32imacfdcpu->TIME;
+    rv32imacfdcpu->CSR[3201] = &rv32imacfdcpu->TIMEH;
+    rv32imacfdcpu->CSR[3074] = &rv32imacfdcpu->INSTRET;
+    rv32imacfdcpu->CSR[3202] = &rv32imacfdcpu->INSTRETH;
+    rv32imacfdcpu->CSR[3857] = &rv32imacfdcpu->MVENDIRID;
+    rv32imacfdcpu->CSR[3858] = &rv32imacfdcpu->MARCHID;
+    rv32imacfdcpu->CSR[3859] = &rv32imacfdcpu->MIMPID;
+    rv32imacfdcpu->CSR[3860] = &rv32imacfdcpu->MHARTID;
+    rv32imacfdcpu->CSR[769] = &rv32imacfdcpu->MISA;
+    rv32imacfdcpu->CSR[770] = &rv32imacfdcpu->MEDELEG;
+    rv32imacfdcpu->CSR[771] = &rv32imacfdcpu->MIDELEG;
+    rv32imacfdcpu->CSR[773] = &rv32imacfdcpu->MTVEC;
+    rv32imacfdcpu->CSR[774] = &rv32imacfdcpu->MCOUNTEREN;
+    rv32imacfdcpu->CSR[832] = &rv32imacfdcpu->MSCRATCH;
+    rv32imacfdcpu->CSR[833] = &rv32imacfdcpu->MEPC;
+    rv32imacfdcpu->CSR[834] = &rv32imacfdcpu->MCAUSE;
+    rv32imacfdcpu->CSR[835] = &rv32imacfdcpu->MTVAL;
     rv32imacfdcpu->F[0] = &rv32imacfdcpu->FT0;
     rv32imacfdcpu->F[1] = &rv32imacfdcpu->FT1;
     rv32imacfdcpu->F[2] = &rv32imacfdcpu->FT2;

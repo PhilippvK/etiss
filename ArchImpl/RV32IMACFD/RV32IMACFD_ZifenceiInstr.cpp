@@ -1,14 +1,12 @@
 // clang-format off
 /**
- * Generated on Mon, 10 Nov 2025 11:27:12 +0000.
+ * Generated on Mon, 30 Mar 2026 13:40:21 +0200.
  *
  * This file contains the instruction behavior models of the Zifencei
  * instruction set for the RV32IMACFD core architecture.
  */
 
 #include "RV32IMACFDArch.h"
-
-#define ETISS_ARCH_STATIC_FN_ONLY
 #include "RV32IMACFDFuncs.h"
 
 using namespace etiss;
@@ -42,18 +40,37 @@ imm += R_imm_0.read(ba) << 0;
 // NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
-		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
+	{
+		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
 
-		partInit.code() = std::string("//FENCE_I\n");
+		cp.code() = std::string("//FENCE_I\n");
 
 // -----------------------------------------------------------------------------
-partInit.code() += "((RV32IMACFD*)cpu)->exception = ETISS_RETURNCODE_RELOADBLOCKS;\n";
-partInit.code() += "cpu->instructionPointer = " + std::to_string(ic.current_address_ + 4U) + ";\n";
-partInit.code() += "((RV32IMACFD*)cpu)->FENCE[" + std::to_string(1) + "] = " + std::to_string(imm) + ";\n";
-partInit.code() += "return ((RV32IMACFD*)cpu)->exception;\n";
+cp.code() += "cpu->exception = ETISS_RETURNCODE_RELOADBLOCKS;\n";
+cp.code() += "etiss_coverage_count(1, 148);\n";
+{ // block
+cp.code() += "etiss_coverage_count(1, 1166);\n";
+cp.code() += "{ // block\n";
+cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "etiss_coverage_count(5, 1165, 1161, 1164, 1162, 1163);\n";
+cp.code() += "} // block\n";
+} // block
+cp.code() += "((RV32IMACFD*)cpu)->FENCE[1ULL] = " + std::to_string(imm) + "ULL;\n";
+cp.code() += "etiss_coverage_count(3, 6357, 6355, 6356);\n";
+cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
+cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
 // -----------------------------------------------------------------------------
+		cp.getAffectedRegisters().add("instructionPointer", 32);
+	}
+	{
+		CodePart & cp = cs.append(CodePart::APPENDEDRETURNINGREQUIRED);
 
-		partInit.getAffectedRegisters().add("instructionPointer", 32);
+		cp.code() = std::string("//FENCE_I\n");
+
+// -----------------------------------------------------------------------------
+cp.code() += "return cpu->exception;\n";
+// -----------------------------------------------------------------------------
+	}
 
 		return true;
 	},

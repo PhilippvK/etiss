@@ -1,5 +1,5 @@
 /**
- * Generated on Mon, 10 Nov 2025 11:27:24 +0000.
+ * Generated on Mon, 30 Mar 2026 13:40:21 +0200.
  *
  * This file contains the architecture class for the RV64IMACFD core architecture.
  */
@@ -135,7 +135,25 @@ void RV64IMACFDArch::resetCPU(ETISS_CPU *cpu, etiss::uint64 *startpointer)
     rv64imacfdcpu->FRM = 0;
     rv64imacfdcpu->MSTATUS = 0;
     rv64imacfdcpu->MIE = 0;
-    rv64imacfdcpu->MIP = 0;
+    rv64imacfdcpu->CYCLE = 0;
+    rv64imacfdcpu->CYCLEH = 0;
+    rv64imacfdcpu->TIME = 0;
+    rv64imacfdcpu->TIMEH = 0;
+    rv64imacfdcpu->INSTRET = 0;
+    rv64imacfdcpu->INSTRETH = 0;
+    rv64imacfdcpu->MVENDIRID = 0;
+    rv64imacfdcpu->MARCHID = 0;
+    rv64imacfdcpu->MIMPID = 0;
+    rv64imacfdcpu->MHARTID = 0;
+    rv64imacfdcpu->MISA = 0;
+    rv64imacfdcpu->MEDELEG = 0;
+    rv64imacfdcpu->MIDELEG = 0;
+    rv64imacfdcpu->MTVEC = 0;
+    rv64imacfdcpu->MCOUNTEREN = 0;
+    rv64imacfdcpu->MSCRATCH = 0;
+    rv64imacfdcpu->MEPC = 0;
+    rv64imacfdcpu->MCAUSE = 0;
+    rv64imacfdcpu->MTVAL = 0;
     rv64imacfdcpu->FT0 = 0;
     rv64imacfdcpu->FT1 = 0;
     rv64imacfdcpu->FT2 = 0;
@@ -207,7 +225,25 @@ void RV64IMACFDArch::resetCPU(ETISS_CPU *cpu, etiss::uint64 *startpointer)
     rv64imacfdcpu->CSR[2] = &rv64imacfdcpu->FRM;
     rv64imacfdcpu->CSR[768] = &rv64imacfdcpu->MSTATUS;
     rv64imacfdcpu->CSR[772] = &rv64imacfdcpu->MIE;
-    rv64imacfdcpu->CSR[836] = &rv64imacfdcpu->MIP;
+    rv64imacfdcpu->CSR[3072] = &rv64imacfdcpu->CYCLE;
+    rv64imacfdcpu->CSR[3200] = &rv64imacfdcpu->CYCLEH;
+    rv64imacfdcpu->CSR[3073] = &rv64imacfdcpu->TIME;
+    rv64imacfdcpu->CSR[3201] = &rv64imacfdcpu->TIMEH;
+    rv64imacfdcpu->CSR[3074] = &rv64imacfdcpu->INSTRET;
+    rv64imacfdcpu->CSR[3202] = &rv64imacfdcpu->INSTRETH;
+    rv64imacfdcpu->CSR[3857] = &rv64imacfdcpu->MVENDIRID;
+    rv64imacfdcpu->CSR[3858] = &rv64imacfdcpu->MARCHID;
+    rv64imacfdcpu->CSR[3859] = &rv64imacfdcpu->MIMPID;
+    rv64imacfdcpu->CSR[3860] = &rv64imacfdcpu->MHARTID;
+    rv64imacfdcpu->CSR[769] = &rv64imacfdcpu->MISA;
+    rv64imacfdcpu->CSR[770] = &rv64imacfdcpu->MEDELEG;
+    rv64imacfdcpu->CSR[771] = &rv64imacfdcpu->MIDELEG;
+    rv64imacfdcpu->CSR[773] = &rv64imacfdcpu->MTVEC;
+    rv64imacfdcpu->CSR[774] = &rv64imacfdcpu->MCOUNTEREN;
+    rv64imacfdcpu->CSR[832] = &rv64imacfdcpu->MSCRATCH;
+    rv64imacfdcpu->CSR[833] = &rv64imacfdcpu->MEPC;
+    rv64imacfdcpu->CSR[834] = &rv64imacfdcpu->MCAUSE;
+    rv64imacfdcpu->CSR[835] = &rv64imacfdcpu->MTVAL;
     rv64imacfdcpu->F[0] = &rv64imacfdcpu->FT0;
     rv64imacfdcpu->F[1] = &rv64imacfdcpu->FT1;
     rv64imacfdcpu->F[2] = &rv64imacfdcpu->FT2;
