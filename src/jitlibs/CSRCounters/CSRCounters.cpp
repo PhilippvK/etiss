@@ -33,5 +33,6 @@ extern "C" {
     {
         return cpu->cpuTime_ps / cpu->cpuCycleTime_ps;
     }
+#ifdef __cplusplus
 }
 #endif
