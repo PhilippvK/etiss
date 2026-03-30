@@ -135,6 +135,7 @@ void RV64IMACFDArch::resetCPU(ETISS_CPU *cpu, etiss::uint64 *startpointer)
     rv64imacfdcpu->FRM = 0;
     rv64imacfdcpu->MSTATUS = 0;
     rv64imacfdcpu->MIE = 0;
+    rv64imacfdcpu->MIP = 0;
     rv64imacfdcpu->CYCLE = 0;
     rv64imacfdcpu->CYCLEH = 0;
     rv64imacfdcpu->TIME = 0;
@@ -225,6 +226,7 @@ void RV64IMACFDArch::resetCPU(ETISS_CPU *cpu, etiss::uint64 *startpointer)
     rv64imacfdcpu->CSR[2] = &rv64imacfdcpu->FRM;
     rv64imacfdcpu->CSR[768] = &rv64imacfdcpu->MSTATUS;
     rv64imacfdcpu->CSR[772] = &rv64imacfdcpu->MIE;
+    rv64imacfdcpu->CSR[836] = &rv64imacfdcpu->MIP;
     rv64imacfdcpu->CSR[3072] = &rv64imacfdcpu->CYCLE;
     rv64imacfdcpu->CSR[3200] = &rv64imacfdcpu->CYCLEH;
     rv64imacfdcpu->CSR[3073] = &rv64imacfdcpu->TIME;

@@ -11,7 +11,11 @@
 #ifndef ETISS_RV32IMACFDV_zvl128b_caArch_RV32IMACFDV_zvl128b_caARCHSPECIFICIMP_H_
 #define ETISS_RV32IMACFDV_zvl128b_caArch_RV32IMACFDV_zvl128b_caARCHSPECIFICIMP_H_
 
-#include "RV32IMACFDV_zvl128b_caFuncs.h"
+#include <cstdint>
+#include "etiss/Instruction.h"
+#include "etiss/VirtualStruct.h"
+#include "etiss/jit/CPU.h"
+#include "RV32IMACFDV_zvl128b_ca.h"
 
 /**
 	@brief VirtualStruct for RV32IMACFDV_zvl128b_ca architecture to faciliate register acess

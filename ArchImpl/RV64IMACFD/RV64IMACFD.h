@@ -61,6 +61,7 @@ extern "C"
         etiss_uint64 FRM;
         etiss_uint64 MSTATUS;
         etiss_uint64 MIE;
+        etiss_uint64 MIP;
         etiss_uint64 CYCLE;
         etiss_uint64 CYCLEH;
         etiss_uint64 TIME;

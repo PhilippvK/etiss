@@ -11,7 +11,11 @@
 #ifndef ETISS_RV32IMACFDVArch_RV32IMACFDVARCHSPECIFICIMP_H_
 #define ETISS_RV32IMACFDVArch_RV32IMACFDVARCHSPECIFICIMP_H_
 
-#include "RV32IMACFDVFuncs.h"
+#include <cstdint>
+#include "etiss/Instruction.h"
+#include "etiss/VirtualStruct.h"
+#include "etiss/jit/CPU.h"
+#include "RV32IMACFDV.h"
 
 /**
 	@brief VirtualStruct for RV32IMACFDV architecture to faciliate register acess
