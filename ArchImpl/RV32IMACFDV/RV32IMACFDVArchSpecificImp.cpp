@@ -44,7 +44,25 @@ etiss::int32 RV32IMACFDVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu
     This function enables dynamic instruction length update in order to guarantee correct binary translation.
     Pseudo example:
     ```
-    vis->length_updater_ = [](VariableInstructionSet & ,InstructionContext &ic, BitArray &ba)
+    vis->length_updater_ = [](VariableInstructionSet & ,InstructionContext & ic, BitArray &
+    {
+        switch(ba.byteCount()) {
+            case 4:
+               if ( INSTRUCTION_LENTH_NOT_EQUAL(4)) {
+                       updateInstrLength(ic, ba);
+                       ic.is_not_default_width_ = true;
+                           .
+                           .
+                           .
+               }
+               break;
+        }
+    };
+    ```
+
+*/
+void RV32IMACFDVArch::initInstrSet(etiss::instr::ModedInstructionSet &mis) const
+{
     {
      /* Set default JIT Extensions. Read Parameters set from ETISS configuration and append with architecturally needed */
      std::string cfgPar = "";
@@ -61,10 +79,6 @@ etiss::int32 RV32IMACFDVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu
      etiss::cfg().set<std::string>("jit.external_lib_paths", cfgPar + "/etiss/jit");
 
     }
-
-*/
-void RV32IMACFDVArch::initInstrSet(etiss::instr::ModedInstructionSet &mis) const
-{
     if (false) {
         // Pre-compilation of instruction set to view instruction tree. Enable by setting 'true' above.
 
