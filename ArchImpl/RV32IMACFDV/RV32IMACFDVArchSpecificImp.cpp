@@ -15,17 +15,19 @@
 #include "RV32IMACFDVFuncs.h"
 
 /**
-	@brief This function will be called automatically in order to handling exceptions such as interrupt, system call, illegal instructions
+    @brief This function will be called automatically in order to handling exceptions such as interrupt, system call,
+    illegal instructions
 
-	@details Exception handling mechanism is implementation dependent for each cpu variant. Please add it to the following block if exception
-				handling is demanded.
-				Pesudo example:
-				switch(cause){
-						case etiss::RETURNCODE::INTERRUPT:
-							.
-							.
-							.
-						break;
+    @details Exception handling mechanism is implementation dependent for each cpu variant. Please add it to the
+    following block if exception handling is demanded. Pseudo example:
+    ```
+    switch(cause){
+            case etiss::RETURNCODE::INTERRUPT:
+                .
+                .
+                .
+            break;
+    ```
 
 */
 etiss::int32 RV32IMACFDVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
@@ -306,73 +308,49 @@ void RV32IMACFDVArch::compensateEndianess(ETISS_CPU *cpu, etiss::instr::BitArray
 
 std::shared_ptr<etiss::VirtualStruct> RV32IMACFDVArch::getVirtualStruct(ETISS_CPU *cpu)
 {
-	auto ret = etiss::VirtualStruct::allocate(
-		cpu,
-		[] (etiss::VirtualStruct::Field*f) {
-			delete f;
-		}
-	);
+	  auto ret = etiss::VirtualStruct::allocate(cpu, [](etiss::VirtualStruct::Field*f) { delete f; });
 
-	for (uint32_t i = 0; i < 32; ++i){
-		ret->addField(new RegField_RV32IMACFDV(*ret,i));
-	}
+	  for (uint32_t i = 0; i < 32; i += 1){
+	  	  ret->addField(new RegField_RV32IMACFDV(*ret, i));
+	  }
+	  for (uint32_t i = 0; i < 32; i += 1){
+	  	  ret->addField(new FloatRegField_RV32IMACFDV(*ret, i));
+	  }
+	  for (uint32_t i = 0; i < 32; i += 1){
+	  	  ret->addField(new VectorRegField_RV32IMACFDV(*ret, i));
+	  }
+	  for (uint32_t i = 1; i < 4; i += 1){
+	  	  ret->addField(new CSRField_RV32IMACFDV(*ret, i));
+	  }
+	  for (uint32_t i = 8; i < 11; i += 1){
+	  	  ret->addField(new CSRField_RV32IMACFDV(*ret, i));
+	  }
+	  ret->addField(new CSRField_RV32IMACFDV(*ret, 15));
+	  for (uint32_t i = 768; i < 775; i += 1){
+	  	  ret->addField(new CSRField_RV32IMACFDV(*ret, i));
+	  }
+	  for (uint32_t i = 832; i < 837; i += 1){
+	  	  ret->addField(new CSRField_RV32IMACFDV(*ret, i));
+	  }
+	  ret->addField(new CSRField_RV32IMACFDV(*ret, 2816));
+	  ret->addField(new CSRField_RV32IMACFDV(*ret, 2818));
+	  ret->addField(new CSRField_RV32IMACFDV(*ret, 2944));
+	  ret->addField(new CSRField_RV32IMACFDV(*ret, 2946));
+	  for (uint32_t i = 3072; i < 3075; i += 1){
+	  	  ret->addField(new CSRField_RV32IMACFDV(*ret, i));
+	  }
+	  for (uint32_t i = 3104; i < 3107; i += 1){
+	  	  ret->addField(new CSRField_RV32IMACFDV(*ret, i));
+	  }
+	  for (uint32_t i = 3200; i < 3203; i += 1){
+	  	  ret->addField(new CSRField_RV32IMACFDV(*ret, i));
+	  }
+	  for (uint32_t i = 3857; i < 3861; i += 1){
+	  	  ret->addField(new CSRField_RV32IMACFDV(*ret, i));
+	  }
+	  ret->addField(new pcField_RV32IMACFDV(*ret));
 
-	ret->addField(new pcField_RV32IMACFDV(*ret));
-
-	for (uint32_t i = 0; i < 32; ++i){
-		ret->addField(new FloatRegField_RV32IMACFDV(*ret,i));
-	}
-
-	//for (uint32_t i = 0; i < 4; ++i){
-	//	ret->addField(new CSRField_RV32IMACFDV(*ret,i));
-	//}
-
-	// FCSR
-	ret->addField(new CSRField_RV32IMACFDV(*ret,1));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,2));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,3));
-	// VCSR
-	ret->addField(new CSRField_RV32IMACFDV(*ret,8));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,9));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,10));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,15));
-	// M CSR
-	ret->addField(new CSRField_RV32IMACFDV(*ret,768));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,769));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,770));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,771));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,772));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,773));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,774));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,832));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,833));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,834));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,835));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,836));
-	//
-	ret->addField(new CSRField_RV32IMACFDV(*ret,3072));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,3073));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,3074));
-	// VCSR
-	ret->addField(new CSRField_RV32IMACFDV(*ret,3104));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,3105));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,3106));
-	//
-	ret->addField(new CSRField_RV32IMACFDV(*ret,3200));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,3201));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,3202));
-	// M CSR
-	ret->addField(new CSRField_RV32IMACFDV(*ret,3857));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,3858));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,3859));
-	ret->addField(new CSRField_RV32IMACFDV(*ret,3860));
-	// V0-V31
-	for (uint32_t i = 0; i < 32; ++i){
-		ret->addField(new VectorRegField_RV32IMACFDV(*ret,i));
-	}
-
-	printf("added all fields in ArchSpecImp.cpp");
- 	return ret;
+	  return ret;
 }
 
 /**

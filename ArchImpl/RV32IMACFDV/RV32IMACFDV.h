@@ -71,10 +71,14 @@ extern "C"
         etiss_uint32 MIP;
         etiss_uint32 CYCLE;
         etiss_uint32 CYCLEH;
+        etiss_uint32 MCYCLE;
+        etiss_uint32 MCYCLEH;
         etiss_uint32 TIME;
         etiss_uint32 TIMEH;
         etiss_uint32 INSTRET;
         etiss_uint32 INSTRETH;
+        etiss_uint32 MINSTRET;
+        etiss_uint32 MINSTRETH;
         etiss_uint32 MVENDIRID;
         etiss_uint32 MARCHID;
         etiss_uint32 MIMPID;
