@@ -132,7 +132,7 @@ public:
                        std::string("V")+etiss::toString(gprid),
                        R|W,
                        // 1
-                       8}  // ?
+                       8)}  // ?
                ),
                gprid_(gprid)
        {}
@@ -143,7 +143,7 @@ public:
                        name,
                        R|W,
                        // 1
-                       8}  // ?
+                       8)}  // ?
                ),
                gprid_(gprid)
        {}
