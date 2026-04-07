@@ -43,7 +43,7 @@ VirtualStruct::Field::Field(VirtualStruct &parent, const std::string &name, cons
 
 VirtualStruct::Field::~Field() {}
 
-uint64_t VirtualStruct::Field::read(size_t offset = 0) const
+uint64_t VirtualStruct::Field::read(size_t offset) const
 {
 
     if (!(flags_ & R))
@@ -79,7 +79,7 @@ uint64_t VirtualStruct::Field::read(size_t offset = 0) const
 
     return ret;
 }
-void VirtualStruct::Field::write(uint64_t val, size_t offset = 0)
+void VirtualStruct::Field::write(uint64_t val, size_t offset)
 {
 
     if (!(flags_ & W))
