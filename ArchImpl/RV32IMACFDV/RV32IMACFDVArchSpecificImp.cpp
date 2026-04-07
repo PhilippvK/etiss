@@ -44,18 +44,18 @@ etiss::int32 RV32IMACFDVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu
     This function enables dynamic instruction length update in order to guarantee correct binary translation.
     Pseudo example:
     ```
-    vis->length_updater_ = [](VariableInstructionSet & ,InstructionContext & ic, BitArray &
+    vis->length_updater_ = [](VariableInstructionSet & ,InstructionContext &ic, BitArray &ba)
     {
-        switch(ba.byteCount()) {
+        switch(ba.byteCount()){
             case 4:
-               if ( INSTRUCTION_LENTH_NOT_EQUAL(4)) {
-                       updateInstrLength(ic, ba);
-                       ic.is_not_default_width_ = true;
-                           .
-                           .
-                           .
-               }
-               break;
+                if ( INSTRUCTION_LENTH_NOT_EQUAL(4)){
+                    updateInstrLength(ic, ba);
+                    ic.is_not_default_width_ = true;
+                        .
+                        .
+                        .
+                }
+                break;
         }
     };
     ```
@@ -64,21 +64,21 @@ etiss::int32 RV32IMACFDVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu
 void RV32IMACFDVArch::initInstrSet(etiss::instr::ModedInstructionSet &mis) const
 {
     {
-     /* Set default JIT Extensions. Read Parameters set from ETISS configuration and append with architecturally needed */
-     std::string cfgPar = "";
-     cfgPar = etiss::cfg().get<std::string>("jit.external_headers", ";");
-     etiss::cfg().set<std::string>("jit.external_headers", cfgPar + "etiss/jit/libsoftfloat.h;etiss/jit/softvector.h;etiss/jit/libsoftvector.h");
+        /* Set default JIT Extensions. Read Parameters set from ETISS configuration and append with architecturally needed */
+        std::string cfgPar = "";
+        cfgPar = etiss::cfg().get<std::string>("jit.external_headers", ";");
+        etiss::cfg().set<std::string>("jit.external_headers", cfgPar + "etiss/jit/libsoftfloat.h;etiss/jit/libsoftvector.h;etiss/jit/softvector.h");
 
-     cfgPar = etiss::cfg().get<std::string>("jit.external_libs", ";");
-     etiss::cfg().set<std::string>("jit.external_libs", cfgPar + "softfloat;softvector;etiss_softvector");
+        cfgPar = etiss::cfg().get<std::string>("jit.external_libs", ";");
+        etiss::cfg().set<std::string>("jit.external_libs", cfgPar + "etiss_softvector;softfloat;softvector");
 
-     cfgPar = etiss::cfg().get<std::string>("jit.external_header_paths", ";");
-     etiss::cfg().set<std::string>("jit.external_header_paths", cfgPar + "/etiss/jit");
+        cfgPar = etiss::cfg().get<std::string>("jit.external_header_paths", ";");
+        etiss::cfg().set<std::string>("jit.external_header_paths", cfgPar + "etiss/jit");
 
-     cfgPar = etiss::cfg().get<std::string>("jit.external_lib_paths", ";");
-     etiss::cfg().set<std::string>("jit.external_lib_paths", cfgPar + "/etiss/jit");
-
+        cfgPar = etiss::cfg().get<std::string>("jit.external_lib_paths", ";");
+        etiss::cfg().set<std::string>("jit.external_lib_paths", cfgPar + "etiss/jit");
     }
+
     if (false) {
         // Pre-compilation of instruction set to view instruction tree. Enable by setting 'true' above.
 
@@ -196,8 +196,9 @@ cp.code() += "return cpu->exception;\n";
 
 		return true;
 	},
-	0
-	);
+    0
+    );
+
 
     vis->length_updater_ = [](VariableInstructionSet &, InstructionContext &ic, BitArray &ba) {
         std::function<void(InstructionContext & ic, etiss_uint32 opRd)> updateRV32IMACFDVInstrLength =

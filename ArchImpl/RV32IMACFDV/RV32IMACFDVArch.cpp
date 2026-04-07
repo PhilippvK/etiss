@@ -153,7 +153,7 @@ void RV32IMACFDVArch::resetCPU(ETISS_CPU *cpu, etiss::uint64 *startpointer)
     rv32imacfdvcpu->INSTRETH = 0;
     rv32imacfdvcpu->MINSTRET = 0;
     rv32imacfdvcpu->MINSTRETH = 0;
-    rv32imacfdvcpu->MVENDIRID = 0;
+    rv32imacfdvcpu->MVENDORID = 0;
     rv32imacfdvcpu->MARCHID = 0;
     rv32imacfdvcpu->MIMPID = 0;
     rv32imacfdvcpu->MHARTID = 0;
@@ -259,7 +259,7 @@ void RV32IMACFDVArch::resetCPU(ETISS_CPU *cpu, etiss::uint64 *startpointer)
     rv32imacfdvcpu->CSR[3202] = &rv32imacfdvcpu->INSTRETH;
     rv32imacfdvcpu->CSR[2818] = &rv32imacfdvcpu->MINSTRET;
     rv32imacfdvcpu->CSR[2946] = &rv32imacfdvcpu->MINSTRETH;
-    rv32imacfdvcpu->CSR[3857] = &rv32imacfdvcpu->MVENDIRID;
+    rv32imacfdvcpu->CSR[3857] = &rv32imacfdvcpu->MVENDORID;
     rv32imacfdvcpu->CSR[3858] = &rv32imacfdvcpu->MARCHID;
     rv32imacfdvcpu->CSR[3859] = &rv32imacfdvcpu->MIMPID;
     rv32imacfdvcpu->CSR[3860] = &rv32imacfdvcpu->MHARTID;

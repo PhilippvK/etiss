@@ -79,7 +79,7 @@ extern "C"
         etiss_uint32 INSTRETH;
         etiss_uint32 MINSTRET;
         etiss_uint32 MINSTRETH;
-        etiss_uint32 MVENDIRID;
+        etiss_uint32 MVENDORID;
         etiss_uint32 MARCHID;
         etiss_uint32 MIMPID;
         etiss_uint32 MHARTID;
