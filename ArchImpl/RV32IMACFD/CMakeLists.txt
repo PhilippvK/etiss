@@ -33,6 +33,7 @@ ADD_LIBRARY(${PROJECT_NAME} SHARED
 	RV32IMACFD_ZbsInstr.cpp
 	RV32IMACFD_ZcaInstr.cpp
 	RV32IMACFD_ZcbInstr.cpp
+	RV32IMACFD_ZcmtInstr.cpp
 )
 
 add_custom_command(
